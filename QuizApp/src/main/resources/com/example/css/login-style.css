@@ -5,7 +5,7 @@
 
 /* ===== LOGIN VIEW ===== */
 .login-view {
-    -fx-min-height: 100vh;
+    -fx-min-height: 100%;
 }
 
 .form-container {
