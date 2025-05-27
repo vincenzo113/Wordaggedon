@@ -1,0 +1,117 @@
+.root {
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+    -fx-font-size: 14px;
+}
+
+/* ===== LOGIN VIEW ===== */
+.login-view {
+    -fx-min-height: 100vh;
+}
+
+.form-container {
+    -fx-background-color: rgba(255, 255, 255, 0.95);
+    -fx-background-radius: 15px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 20, 0, 0, 5);
+}
+
+.title-label {
+    -fx-text-fill: #2c3e50;
+    -fx-font-weight: bold;
+}
+
+/* ===== INPUT FIELDS ===== */
+.input-field {
+    -fx-background-color: white;
+    -fx-background-radius: 8px;
+    -fx-border-color: #bdc3c7;
+    -fx-border-radius: 8px;
+    -fx-border-width: 1px;
+    -fx-padding: 12px 15px;
+    -fx-font-size: 14px;
+}
+
+.input-field:focused {
+    -fx-border-color: #3498db;
+    -fx-border-width: 2px;
+    -fx-effect: dropshadow(gaussian, rgba(52, 152, 219, 0.3), 5, 0, 0, 0);
+}
+
+/* ===== BUTTONS ===== */
+.primary-button {
+    -fx-text-fill: white;
+    -fx-background-radius: 8px;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 12px 20px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 2);
+}
+
+.primary-button:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 8, 0, 0, 3);
+}
+
+.primary-button:pressed {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 3, 0, 0, 1);
+}
+
+.primary-button:disabled {
+    -fx-background-color: #bdc3c7;
+    -fx-text-fill: #7f8c8d;
+    -fx-effect: none;
+    -fx-cursor: default;
+}
+
+.link-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #3498db;
+    -fx-underline: false;
+    -fx-cursor: hand;
+    -fx-font-size: 13px;
+}
+
+.link-button:hover {
+    -fx-text-fill: #2980b9;
+    -fx-underline: true;
+}
+
+/* ===== MESSAGES ===== */
+.message-label {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 12px;
+    -fx-background-radius: 5px;
+    -fx-wrap-text: true;
+}
+
+.success-message {
+    -fx-text-fill: #27ae60;
+    -fx-background-color: rgba(39, 174, 96, 0.1);
+    -fx-border-color: #27ae60;
+    -fx-border-radius: 5px;
+    -fx-border-width: 1px;
+}
+
+.error-message {
+    -fx-text-fill: #e74c3c;
+    -fx-background-color: rgba(231, 76, 60, 0.1);
+    -fx-border-color: #e74c3c;
+    -fx-border-radius: 5px;
+    -fx-border-width: 1px;
+}
+
+/* ===== ANIMATIONS ===== */
+.fade-transition {
+    -fx-opacity: 1.0;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+    .form-container {
+        -fx-max-width: 280px;
+    }
+
+    .input-field, .primary-button {
+        -fx-pref-width: 230px;
+    }
+}
