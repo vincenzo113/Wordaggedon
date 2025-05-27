@@ -1,14 +1,13 @@
 package com.example.dao;
 
 import com.example.models.User;
-import com.sun.xml.internal.ws.policy.EffectiveAlternativeSelector;
 
 import java.sql.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-public class UserUserDAOPostgres implements UserDAOPostgres<User> {
+public class UserDAOPostgresImp implements UserDAOPostgres<User> {
 
     private final String USER = "postgres";
     private final String PASS = "tw2024";
@@ -20,7 +19,7 @@ public class UserUserDAOPostgres implements UserDAOPostgres<User> {
 
 
     @Override
-    public boolean isLogged(User user) throws SQLException {
+    public boolean isRegistered(User user) throws SQLException {
         ResultSet rs = null;
         try(
                 Connection c = DriverManager.getConnection(URL, USER, PASS);
