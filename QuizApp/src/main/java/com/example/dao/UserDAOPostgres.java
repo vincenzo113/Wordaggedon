@@ -14,7 +14,7 @@ public interface UserDAOPostgres<T> {
     void insert(T t);
     //void update(T t);
     void delete(T t);
-    boolean isRegistered(User user) throws SQLException;
+    boolean login(User user) throws SQLException;
 
     boolean checkRegistered(User user) throws SQLException;
 }

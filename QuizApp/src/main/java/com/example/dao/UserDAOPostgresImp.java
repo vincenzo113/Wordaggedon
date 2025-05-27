@@ -35,7 +35,7 @@ public class UserDAOPostgresImp implements UserDAOPostgres<User> {
     }
 
     @Override
-    public boolean isRegistered(User user) throws SQLException {
+    public boolean login(User user) throws SQLException {
         ResultSet rs = null;
         try(
                 Connection c = DriverManager.getConnection(URL, USER, PASS);
@@ -63,8 +63,8 @@ public class UserDAOPostgresImp implements UserDAOPostgres<User> {
                 Connection c = DriverManager.getConnection(URL, USER, PASS);
                 Statement s = c.createStatement();
         ) {
-            String insert = String.format("SELECT * FROM public.user");
-            s.executeUpdate(insert);
+            String select = String.format("SELECT * FROM public.user");
+            s.executeUpdate(select);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -75,7 +75,7 @@ public class UserDAOPostgresImp implements UserDAOPostgres<User> {
             User user = new User(username, password, role);
             users.add(user);
         }
-        return users ; 
+        return users ;
     }
 
     @Override

@@ -13,7 +13,7 @@ public class LoginController {
 
     public void login(User user) {
         try {
-            if(udp.isRegistered(user)) {
+            if(udp.login(user)) {
                 //Va alla pagina principale
 
             }
