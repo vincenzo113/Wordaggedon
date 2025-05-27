@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class MainController {
     @FXML
@@ -19,7 +20,10 @@ public class MainController {
     @FXML
     public PasswordField loginPasswordField;
     @FXML
-    public TextField emailField;
+    public Button registerButton;
+    public PasswordField confirmRegisterPasswordField;
+    public PasswordField registerPasswordField;
+    public TextField registerUsernameField;
     @FXML
     private Label welcomeText;
 
@@ -72,7 +76,9 @@ public class MainController {
         loginController.login(userToLog);
     }
 
-    public void handleRegister(ActionEvent actionEvent) {
+    public void handleRegister(ActionEvent actionEvent) throws SQLException {
+        registerController.registerUser(registerUsernameField.getText(),
+                registerPasswordField.getText(), confirmRegisterPasswordField.getText());
     }
 
     public void backToRegister(ActionEvent actionEvent) {

@@ -35,21 +35,21 @@
         <!-- Campo Username -->
         <VBox spacing="5.0">
             <Label text="Username" styleClass="field-label" />
-            <TextField fx:id="usernameField" prefWidth="290.0" promptText="Scegli un username"
+            <TextField fx:id="registerUsernameField" prefWidth="290.0" promptText="Scegli un username"
                        styleClass="input-field" />
         </VBox>
 
         <!-- Campo Password -->
         <VBox spacing="5.0">
             <Label text="Password" styleClass="field-label" />
-            <PasswordField fx:id="passwordField" prefWidth="290.0" promptText="Crea una password sicura"
+            <PasswordField fx:id="registerPasswordField" prefWidth="290.0" promptText="Crea una password sicura"
                            styleClass="input-field" />
         </VBox>
 
         <!-- Campo Conferma Password -->
         <VBox spacing="5.0">
             <Label text="Conferma Password" styleClass="field-label" />
-            <PasswordField fx:id="confirmPasswordField" prefWidth="290.0" promptText="Ripeti la password"
+            <PasswordField fx:id="confirmRegisterPasswordField" prefWidth="290.0" promptText="Ripeti la password"
                            styleClass="input-field" />
         </VBox>
 
