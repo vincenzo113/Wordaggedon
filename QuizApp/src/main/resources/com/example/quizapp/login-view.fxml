@@ -35,9 +35,6 @@
     <TextField fx:id="emailField" prefWidth="250.0" promptText="Email" styleClass="input-field"
                visible="false" managed="false" />
 
-    <!-- Label per messaggi di errore/successo -->
-    <Label fx:id="messageLabel" styleClass="message-label" visible="false" wrapText="true" />
-
     <!-- Bottone Login -->
     <Button fx:id="loginButton" defaultButton="true" prefWidth="250.0" text="Accedi"
             styleClass="primary-button" onAction="#handleLogin" />
