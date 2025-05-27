@@ -1,13 +1,13 @@
 package com.example.controller;
 import com.example.alerts.Alert;
 import com.example.alerts.AlertList;
-import com.example.dao.UserDAOPostgresImp;
+import com.example.dao.UserDAOPostgres;
 import com.example.models.User;
 
 import java.sql.SQLException;
 
 public class LoginController {
-    UserDAOPostgresImp udp = new UserDAOPostgresImp();
+    UserDAOPostgres udp = new UserDAOPostgres();
 
 
     public boolean login(User user) {

@@ -30,7 +30,6 @@ public class MainController {
     private Label welcomeText;
 
     private LoginController loginController;
-    private RegisterController registerController;
 
 
 
@@ -40,19 +39,31 @@ public class MainController {
     /*Metodi privati*/
     private void initAuthControllers(){
         loginController = new LoginController();
-        registerController = new RegisterController();
     }
 
     //Metodo per creare un utente dai textfields
-    private User takeUser() throws CampiNonCompilatiException {
+    private User checkLogin() throws CampiNonCompilatiException {
         if (loginUsernameField.getText().trim().isEmpty() || loginPasswordField.getText().trim().isEmpty()) {
             throw new CampiNonCompilatiException("");
         }
 
-
         String username = loginUsernameField.getText();
         String password = loginPasswordField.getText();
-        return new User(username,password,null);
+        return new User(username,password,false);
+    }
+
+    private User checkRegister() throws CampiNonCompilatiException {
+        if (registerUsernameField.getText().trim().isEmpty() || registerPasswordField.getText().trim().isEmpty() || registerPasswordField.getText().trim().isEmpty()) {
+            throw new CampiNonCompilatiException("");
+        }
+
+        if(!registerPasswordField.getText().equals(confirmRegisterPasswordField.getText())){
+            throw new CampiNonCompilatiException(""); //sistemare con nuova eccezione
+        }
+
+        String username = registerUsernameField.getText();
+        String password = registerPasswordField.getText();
+        return new User(username,password,false);
     }
 
 
@@ -67,7 +78,7 @@ public class MainController {
     public void handleLogin() {
         User userToLog = null;
         try {
-             userToLog = takeUser();
+             userToLog = checkLogin();
         } catch (CampiNonCompilatiException e) {
             Alert.showAlert(AlertList.FIELDS_EMPTY);
             return; //Per prevenire il login
@@ -81,10 +92,15 @@ public class MainController {
     }
 
     public void handleRegister(ActionEvent actionEvent) throws SQLException {
-        boolean cond = registerController.registerUser(registerUsernameField.getText().trim(),
-                registerPasswordField.getText().trim(), confirmRegisterPasswordField.getText().trim());
+        User userToRegister = null;
+        try {
+            userToRegister = checkRegister();
+        } catch (CampiNonCompilatiException e) {
+            Alert.showAlert(AlertList.FIELDS_EMPTY);
+            return;
+        }
 
-        if(cond) backToLogin(actionEvent);
+        RegisterController.registerUser(userToRegister);
 
     }
 
