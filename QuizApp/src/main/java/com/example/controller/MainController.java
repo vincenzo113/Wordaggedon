@@ -1,5 +1,7 @@
 package com.example.controller;
 
+import com.example.alerts.Alert;
+import com.example.alerts.AlertList;
 import com.example.exceptions.CampiNonCompilatiException;
 import com.example.models.User;
 import com.example.utils.AlertPrompt;
@@ -68,7 +70,7 @@ public class MainController {
         try {
              userToLog = takeUser();
         } catch (CampiNonCompilatiException e) {
-            AlertPrompt.compilaCorrettamenteICampi();
+            Alert.showAlert(AlertList.FIELDS_EMPTY);
             return; //Per prevenire il login
         }
 
