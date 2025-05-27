@@ -15,7 +15,6 @@ public class LoginController {
         try {
             if(udp.login(user)) {
                 //Va alla pagina principale
-
             }
             else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);

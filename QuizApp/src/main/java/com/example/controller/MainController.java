@@ -40,9 +40,11 @@ public class MainController {
 
     //Metodo per creare un utente dai textfields
     private User takeUser() throws CampiNonCompilatiException {
-        if(loginUsernameField.getText().trim().equals("") || loginPasswordField.getText().trim().equals("")){
+        if(loginUsernameField.getText().trim().equals(" ") || loginPasswordField.getText().trim().equals(" ")){
             throw new CampiNonCompilatiException("Perfavore , compila correttamente i seguenti campi");
         }
+
+
         String username = loginUsernameField.getText();
         String password = loginPasswordField.getText();
         return new User(username,password,null);
@@ -73,7 +75,18 @@ public class MainController {
     public void handleRegister(ActionEvent actionEvent) {
     }
 
-    public void toggleMode(ActionEvent actionEvent) {
+    public void backToRegister(ActionEvent actionEvent) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/quizapp/registrazione-view.fxml"));
+            Parent root = fxmlLoader.load();
+
+
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void backToLogin(ActionEvent actionEvent) {
@@ -81,7 +94,7 @@ public class MainController {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/quizapp/login-view.fxml"));
             Parent root = fxmlLoader.load();
 
-            
+
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();

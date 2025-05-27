@@ -45,7 +45,7 @@
 
     <!-- Bottone per switch modalità -->
     <Button fx:id="switchModeButton" text="Non hai un account? Registrati"
-            styleClass="link-button" onAction="#toggleMode" />
+            styleClass="link-button" onAction="#backToRegister" />
 
   </VBox>
 </VBox>
