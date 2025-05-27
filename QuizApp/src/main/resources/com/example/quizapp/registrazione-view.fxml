@@ -6,7 +6,7 @@
 <?import javafx.scene.text.*?>
 
 <VBox xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.quizapp.MainController"
+      fx:controller="com.example.controller.MainController"
       stylesheets="@../css/login-style.css"
       alignment="CENTER" spacing="20.0" styleClass="register-view">
 

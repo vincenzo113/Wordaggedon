@@ -6,7 +6,7 @@
 <?import javafx.scene.text.*?>
 
 <?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.quizapp.MainController" stylesheets="@../css/login-style.css" styleClass="login-view">
+<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.controller.MainController" stylesheets="@../css/login-style.css" styleClass="login-view">
 
   <padding>
     <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
