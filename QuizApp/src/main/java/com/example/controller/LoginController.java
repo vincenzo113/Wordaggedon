@@ -15,7 +15,6 @@ public class LoginController {
         try {
             if(udp.isRegistered(user)) {
                 //Va alla pagina principale
-
             }
             else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
