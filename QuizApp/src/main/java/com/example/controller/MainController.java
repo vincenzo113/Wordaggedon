@@ -8,9 +8,9 @@ import javafx.scene.control.*;
 
 public class MainController {
     @FXML
-    public TextField usernameField;
+    public TextField loginUsernameField;
     @FXML
-    public PasswordField passwordField;
+    public PasswordField loginPasswordField;
     @FXML
     public TextField emailField;
     @FXML
@@ -33,11 +33,11 @@ public class MainController {
 
     //Metodo per creare un utente dai textfields
     private User takeUser() throws CampiNonCompilatiException {
-        if(usernameField.getText().trim().equals("") || passwordField.getText().trim().equals("")){
+        if(loginUsernameField.getText().trim().equals("") || loginPasswordField.getText().trim().equals("")){
             throw new CampiNonCompilatiException("Perfavore , compila correttamente i seguenti campi");
         }
-        String username = usernameField.getText();
-        String password = passwordField.getText();
+        String username = loginUsernameField.getText();
+        String password = loginPasswordField.getText();
         return new User(username,password,null);
     }
 
