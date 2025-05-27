@@ -76,8 +76,11 @@ public class MainController {
     }
 
     public void handleRegister(ActionEvent actionEvent) throws SQLException {
-        registerController.registerUser(registerUsernameField.getText().trim(),
+        boolean cond = registerController.registerUser(registerUsernameField.getText().trim(),
                 registerPasswordField.getText().trim(), confirmRegisterPasswordField.getText().trim());
+
+        if(cond) backToLogin(actionEvent);
+
     }
 
     public void backToRegister(ActionEvent actionEvent) {
