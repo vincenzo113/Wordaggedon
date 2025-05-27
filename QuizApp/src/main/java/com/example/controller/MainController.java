@@ -4,7 +4,6 @@ import com.example.alerts.Alert;
 import com.example.alerts.AlertList;
 import com.example.exceptions.CampiNonCompilatiException;
 import com.example.models.User;
-import com.example.utils.AlertPrompt;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
