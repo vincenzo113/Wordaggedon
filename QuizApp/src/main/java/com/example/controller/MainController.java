@@ -1,6 +1,6 @@
 package com.example.controller;
 
-import com.example.Exceptions.CampiNonCompilatiException;
+import com.example.exceptions.CampiNonCompilatiException;
 import com.example.models.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
