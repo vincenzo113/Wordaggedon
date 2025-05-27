@@ -1,8 +1,11 @@
 package com.example.controller;
 
+import com.example.alerts.Alert;
+import com.example.alerts.AlertList;
 import com.example.dao.UserDAOPostgres;
 import com.example.dao.UserDAOPostgresImp;
 import com.example.models.User;
+import com.example.utils.AlertPrompt;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -13,24 +16,24 @@ public class RegisterController {
     UserDAOPostgres userDAOPostgres ;
 
     public void registerUser(String username , String password, String confirmPassword) throws SQLException {
-        
+
         if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-            System.out.println("All fields are required.");
+            AlertPrompt.compilaCorrettamenteICampi();
             return;
         }
 
         if (!password.equals(confirmPassword)) {
-            System.out.println("Passwords do not match.");
+
             return;
         }
         User user = new User(username,password,"user");
         userDAOPostgres = new UserDAOPostgresImp();
-        boolean isRegistered = userDAOPostgres.isRegistered(user);
+        boolean isRegistered = userDAOPostgres.checkRegistered(user);
 
         if (!isRegistered) {
             System.out.println("User registered successfully.");
         } else {
-            System.out.println("Registration failed. Username may already exist.");
+            Alert.showAlert(AlertList.REGISTER_FAILURE);
         }
     }
 }
