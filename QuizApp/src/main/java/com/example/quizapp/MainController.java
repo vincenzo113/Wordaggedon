@@ -21,4 +21,7 @@ public class MainController {
 
     public void toggleMode(ActionEvent actionEvent) {
     }
+
+    public void backToLogin(ActionEvent actionEvent) {
+    }
 }
