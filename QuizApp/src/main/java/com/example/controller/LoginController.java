@@ -1,7 +1,8 @@
 package com.example.controller;
+import com.example.alerts.Alert;
+import com.example.alerts.AlertList;
 import com.example.dao.UserDAOPostgresImp;
 import com.example.models.User;
-import javafx.scene.control.Alert;
 
 import java.sql.SQLException;
 
@@ -17,11 +18,7 @@ public class LoginController {
                 //Va alla pagina principale
             }
             else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Login fallito");
-                alert.setHeaderText(null);
-                alert.setContentText("Username o password non validi.");
-                alert.showAndWait();
+                Alert.showAlert(AlertList.LOGIN_FAILURE);
             }
         } catch (SQLException e) {
             //Inserire un alert di default per ogni catch

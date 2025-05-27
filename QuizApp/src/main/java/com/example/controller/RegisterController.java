@@ -1,5 +1,7 @@
 package com.example.controller;
 
+import com.example.alerts.Alert;
+import com.example.alerts.AlertList;
 import com.example.dao.UserDAOPostgres;
 import com.example.dao.UserDAOPostgresImp;
 import com.example.models.User;
@@ -31,7 +33,7 @@ public class RegisterController {
         if (!isRegistered) {
             System.out.println("User registered successfully.");
         } else {
-            System.out.println("Registration failed. Username may already exist.");
+            Alert.showAlert(AlertList.REGISTER_FAILURE);
         }
     }
 }
