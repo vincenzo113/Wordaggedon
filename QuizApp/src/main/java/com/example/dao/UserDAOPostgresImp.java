@@ -41,7 +41,7 @@ public class UserDAOPostgresImp implements UserDAOPostgres<User> {
 
     @Override
     public List<User> selectAll() {
-
+        return Collections.emptyList();
     }
 
     @Override
