@@ -15,25 +15,31 @@ import java.sql.SQLException;
 public class RegisterController {
     UserDAOPostgres userDAOPostgres ;
 
-    public void registerUser(String username , String password, String confirmPassword) throws SQLException {
+    public boolean registerUser(String username , String password, String confirmPassword) throws SQLException {
 
         if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-            AlertPrompt.compilaCorrettamenteICampi();
-            return;
+            Alert.showAlert(AlertList.FIELDS_EMPTY);
+
+            return false;
         }
 
         if (!password.equals(confirmPassword)) {
+            Alert.showAlert(AlertList.PASSWORD_MISMATCH);
 
-            return;
+            return false;
         }
         User user = new User(username,password,"user");
         userDAOPostgres = new UserDAOPostgresImp();
         boolean isRegistered = userDAOPostgres.checkRegistered(user);
 
         if (!isRegistered) {
-            System.out.println("User registered successfully.");
+            Alert.showAlert(AlertList.REGISTER_SUCCESS);
+
+            return true ;
         } else {
             Alert.showAlert(AlertList.REGISTER_FAILURE);
+
+            return false;
         }
     }
 }
