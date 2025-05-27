@@ -10,9 +10,11 @@ public interface UserDAOPostgres<T> {
     public static final String URL = "jdbc:postgresql://localhost:5432/quiz";
 
     Optional<T> select(String username);
-    List<T> selectAll();
+    List<T> selectAll() throws SQLException;
     void insert(T t);
     //void update(T t);
     void delete(T t);
     boolean isRegistered(User user) throws SQLException;
+
+    boolean checkRegistered(User user) throws SQLException;
 }

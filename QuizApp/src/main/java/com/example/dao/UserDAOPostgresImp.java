@@ -3,6 +3,7 @@ package com.example.dao;
 import com.example.models.User;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +18,21 @@ public class UserDAOPostgresImp implements UserDAOPostgres<User> {
         return Optional.empty();
     }
 
+    public boolean checkRegistered(User user) throws SQLException {
+        ResultSet rs = null;
+        try(
+                Connection c = DriverManager.getConnection(URL, USER, PASS);
+                Statement s = c.createStatement();
+        ){
+            String query = String.format("select * from user where user.username = '%s' " , user.getUsername(), user.getPassword());
+            rs = s.executeQuery(query);
+
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+
+        return (rs.next()) ?  true :false;
+    }
 
     @Override
     public boolean isRegistered(User user) throws SQLException {
@@ -40,8 +56,26 @@ public class UserDAOPostgresImp implements UserDAOPostgres<User> {
 
 
     @Override
-    public List<User> selectAll() {
-        return Collections.emptyList();
+    public List<User> selectAll() throws SQLException {
+        ResultSet rs = null;
+        List<User> users = new ArrayList<>();
+        try(
+                Connection c = DriverManager.getConnection(URL, USER, PASS);
+                Statement s = c.createStatement();
+        ) {
+            String insert = String.format("SELECT * FROM public.user");
+            s.executeUpdate(insert);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        while (rs.next()) {
+            String username = rs.getString("username");
+            String password = rs.getString("password");
+            String role = rs.getString("role");
+            User user = new User(username, password, role);
+            users.add(user);
+        }
+        return users ; 
     }
 
     @Override

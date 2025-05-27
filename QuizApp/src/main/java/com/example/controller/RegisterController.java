@@ -13,7 +13,7 @@ public class RegisterController {
     UserDAOPostgres userDAOPostgres ;
 
     public void registerUser(String username , String password, String confirmPassword) throws SQLException {
-        
+
         if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
             System.out.println("All fields are required.");
             return;
@@ -25,7 +25,7 @@ public class RegisterController {
         }
         User user = new User(username,password,"user");
         userDAOPostgres = new UserDAOPostgresImp();
-        boolean isRegistered = userDAOPostgres.isRegistered(user);
+        boolean isRegistered = userDAOPostgres.checkRegistered(user);
 
         if (!isRegistered) {
             System.out.println("User registered successfully.");
