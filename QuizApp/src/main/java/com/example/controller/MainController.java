@@ -29,7 +29,6 @@ public class MainController {
 
     private LoginController loginController;
     private RegisterController registerController;
-    private User user;
 
 
 
@@ -44,8 +43,8 @@ public class MainController {
 
     //Metodo per creare un utente dai textfields
     private User takeUser() throws CampiNonCompilatiException {
-        if(loginUsernameField.getText().trim().equals(" ") || loginPasswordField.getText().trim().equals(" ")){
-            throw new CampiNonCompilatiException("Perfavore , compila correttamente i seguenti campi");
+        if (loginUsernameField.getText().trim().isEmpty() || loginPasswordField.getText().trim().isEmpty()) {
+            throw new CampiNonCompilatiException("Perfavore, compila correttamente i seguenti campi.");
         }
 
 
@@ -69,7 +68,9 @@ public class MainController {
              userToLog = takeUser();
         } catch (CampiNonCompilatiException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Errore");
             alert.setContentText(e.getMessage());
+            alert.showAndWait();
             return; //Per prevenire il login
         }
 
