@@ -5,7 +5,6 @@ import com.example.alerts.AlertList;
 import com.example.dao.UserDAOPostgres;
 import com.example.dao.UserDAOPostgresImp;
 import com.example.models.User;
-import com.example.utils.AlertPrompt;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;

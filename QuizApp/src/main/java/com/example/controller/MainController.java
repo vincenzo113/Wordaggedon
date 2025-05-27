@@ -73,7 +73,11 @@ public class MainController {
             return; //Per prevenire il login
         }
 
-        loginController.login(userToLog);
+        boolean cond = loginController.login(userToLog);
+
+        if(cond) { //VAI ALLA SCHERMATA
+            //
+        }
     }
 
     public void handleRegister(ActionEvent actionEvent) throws SQLException {
@@ -110,5 +114,9 @@ public class MainController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void goToRegister() {
+
     }
 }

@@ -10,19 +10,21 @@ public class LoginController {
     UserDAOPostgresImp udp = new UserDAOPostgresImp();
 
 
-
-
-    public void login(User user) {
+    public boolean login(User user) {
         try {
-            if(udp.login(user)) {
+            if (udp.login(user)) {
                 //Va alla pagina principale
-            }
-            else {
+
+                return true;
+            } else {
                 Alert.showAlert(AlertList.LOGIN_FAILURE);
+
+
             }
         } catch (SQLException e) {
             //Inserire un alert di default per ogni catch
         }
 
+        return false;
     }
 }
