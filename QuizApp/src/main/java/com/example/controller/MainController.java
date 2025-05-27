@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.example.exceptions.CampiNonCompilatiException;
 import com.example.models.User;
+import com.example.utils.AlertPrompt;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -44,7 +45,7 @@ public class MainController {
     //Metodo per creare un utente dai textfields
     private User takeUser() throws CampiNonCompilatiException {
         if (loginUsernameField.getText().trim().isEmpty() || loginPasswordField.getText().trim().isEmpty()) {
-            throw new CampiNonCompilatiException("Perfavore, compila correttamente i seguenti campi.");
+            throw new CampiNonCompilatiException("");
         }
 
 
@@ -67,10 +68,7 @@ public class MainController {
         try {
              userToLog = takeUser();
         } catch (CampiNonCompilatiException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Errore");
-            alert.setContentText(e.getMessage());
-            alert.showAndWait();
+            AlertPrompt.compilaCorrettamenteICampi();
             return; //Per prevenire il login
         }
 
@@ -78,8 +76,8 @@ public class MainController {
     }
 
     public void handleRegister(ActionEvent actionEvent) throws SQLException {
-        registerController.registerUser(registerUsernameField.getText(),
-                registerPasswordField.getText(), confirmRegisterPasswordField.getText());
+        registerController.registerUser(registerUsernameField.getText().trim(),
+                registerPasswordField.getText().trim(), confirmRegisterPasswordField.getText().trim());
     }
 
     public void backToRegister(ActionEvent actionEvent) {
