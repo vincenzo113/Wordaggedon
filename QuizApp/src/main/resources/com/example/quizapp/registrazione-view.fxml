@@ -8,7 +8,8 @@
 <VBox xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.controller.MainController"
       stylesheets="@../css/login-style.css"
-      alignment="CENTER" spacing="20.0" styleClass="register-view">
+      alignment="CENTER" spacing="20.0" styleClass="register-view"
+>
 
     <padding>
         <Insets bottom="30.0" left="50.0" right="50.0" top="30.0" />
