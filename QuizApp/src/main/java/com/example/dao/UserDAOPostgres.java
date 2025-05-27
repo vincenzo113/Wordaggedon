@@ -19,15 +19,17 @@ public class UserDAOPostgres implements UserDAO<User> {
 
     public boolean register(User user) throws SQLException {
         ResultSet rs = null;
+        System.out.println(URL);
         try(
                 Connection c = DriverManager.getConnection(URL, USER, PASS);
+
                 Statement s = c.createStatement();
         ){
-            String query = String.format("select * from public.user where username = '%s'" , user.getUsername());
+            String query = String.format("select * from public.users where username = '%s'" , user.getUsername());
             rs = s.executeQuery(query);
 
             if(!rs.next()) {
-                query = String.format("insert into public.user(username, password) values('%s','%s')", user.getUsername(), user.getPassword());
+                query = String.format("insert into public.users(username, password) values('%s','%s')", user.getUsername(), user.getPassword());
                 s.executeUpdate(query);
                 return true;
             }
@@ -43,20 +45,19 @@ public class UserDAOPostgres implements UserDAO<User> {
 
     @Override
     public boolean login(User user) throws SQLException {
-        ResultSet rs = null;
         try(
                 Connection c = DriverManager.getConnection(URL, USER, PASS);
                 Statement s = c.createStatement()
         ){
-        String query = String.format("select * from user where user.username = %s and user.password = %s ", user.getUsername(), user.getPassword());
-        rs = s.executeQuery(query);
+            String query = String.format("select * from users where username = '%s' and password = '%s' ", user.getUsername(), user.getPassword());
+            ResultSet rs = s.executeQuery(query);
+
+            return rs.next();
 
         }catch(Exception ex){
             ex.printStackTrace();
+            return false;
         }
-
-        return (rs.next()) ?  true :false;
-
     }
 
 
@@ -70,7 +71,7 @@ public class UserDAOPostgres implements UserDAO<User> {
                 Connection c = DriverManager.getConnection(URL, USER, PASS);
                 Statement s = c.createStatement();
         ) {
-            String select = String.format("SELECT * FROM public.user");
+            String select = String.format("SELECT * FROM public.users");
             s.executeUpdate(select);
         } catch (Exception e) {
             e.printStackTrace();
@@ -91,7 +92,7 @@ public class UserDAOPostgres implements UserDAO<User> {
                 Connection c = DriverManager.getConnection(URL, USER, PASS);
                 Statement s = c.createStatement();
         ) {
-            String insert = String.format("INSERT INTO public.user(username, password, role) VALUES ('%s', '%s', '%s')", user.getUsername(), user.getPassword(), user.isAdmin());
+            String insert = String.format("INSERT INTO public.users(username, password, role) VALUES ('%s', '%s', '%s')", user.getUsername(), user.getPassword(), user.isAdmin());
             s.executeUpdate(insert);
         } catch (Exception e) {
             e.printStackTrace();
@@ -104,7 +105,7 @@ public class UserDAOPostgres implements UserDAO<User> {
                 Connection c = DriverManager.getConnection(URL, USER, PASS);
                 Statement s = c.createStatement();
         ) {
-            String delete = String.format("DELETE FROM public.user WHERE username = '%s'", user.getUsername());
+            String delete = String.format("DELETE FROM public.users WHERE username = '%s'", user.getUsername());
             s.executeUpdate(delete);
         } catch (Exception e) {
             e.printStackTrace();

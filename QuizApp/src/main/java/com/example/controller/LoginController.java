@@ -9,22 +9,18 @@ import java.sql.SQLException;
 public class LoginController {
     UserDAOPostgres udp = new UserDAOPostgres();
 
-
-    public boolean login(User user) {
+    public boolean hasLoginSuccess(User user) {
         try {
-            if (udp.login(user)) {
-                //Va alla pagina principale
+            boolean result = udp.login(user);
 
+            if (result) {
                 return true;
             } else {
                 Alert.showAlert(AlertList.LOGIN_FAILURE);
-
-
+                return false;
             }
         } catch (SQLException e) {
-            //Inserire un alert di default per ogni catch
+            return false;
         }
-
-        return false;
     }
 }

@@ -3,6 +3,7 @@ package com.example.controller;
 import com.example.alerts.Alert;
 import com.example.alerts.AlertList;
 import com.example.exceptions.CampiNonCompilatiException;
+import com.example.exceptions.PasswordDiverseException;
 import com.example.models.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -52,13 +53,13 @@ public class MainController {
         return new User(username,password,false);
     }
 
-    private User checkRegister() throws CampiNonCompilatiException {
+    private User checkRegister() throws CampiNonCompilatiException  , PasswordDiverseException {
         if (registerUsernameField.getText().trim().isEmpty() || registerPasswordField.getText().trim().isEmpty() || registerPasswordField.getText().trim().isEmpty()) {
             throw new CampiNonCompilatiException("");
         }
 
         if(!registerPasswordField.getText().equals(confirmRegisterPasswordField.getText())){
-            throw new CampiNonCompilatiException(""); //sistemare con nuova eccezione
+            throw new PasswordDiverseException("");
         }
 
         String username = registerUsernameField.getText();
@@ -76,19 +77,21 @@ public class MainController {
     }
 
     public void handleLogin() {
+
         User userToLog = null;
         try {
-             userToLog = checkLogin();
+            userToLog = checkLogin();
         } catch (CampiNonCompilatiException e) {
             Alert.showAlert(AlertList.FIELDS_EMPTY);
-            return; //Per prevenire il login
+            return;
         }
 
-        boolean cond = loginController.login(userToLog);
+        boolean loginResult = loginController.hasLoginSuccess(userToLog);
 
-        if(cond) { //VAI ALLA SCHERMATA
-            //
-        }
+        if(loginResult) {
+            System.out.println("LOGIN");
+        } else {}
+
     }
 
     public void handleRegister(ActionEvent actionEvent) throws SQLException {
@@ -97,6 +100,10 @@ public class MainController {
             userToRegister = checkRegister();
         } catch (CampiNonCompilatiException e) {
             Alert.showAlert(AlertList.FIELDS_EMPTY);
+            return;
+        }
+        catch (PasswordDiverseException ex){
+            Alert.showAlert(AlertList.PASSWORD_MISMATCH);
             return;
         }
 
@@ -132,7 +139,5 @@ public class MainController {
         }
     }
 
-    private void goToRegister() {
 
-    }
 }

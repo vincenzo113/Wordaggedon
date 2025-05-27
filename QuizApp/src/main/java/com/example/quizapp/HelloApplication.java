@@ -1,6 +1,5 @@
 package com.example.quizapp;
 
-import com.example.database.DatabaseConnection;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -17,10 +16,9 @@ public class HelloApplication extends Application {
         Scene scene = new Scene(fxmlLoader.load(), 500, 500);
         stage.setMinHeight(400);
         stage.setMinWidth(400);
-        stage.setTitle("Hello!");
+        stage.setTitle("Wordageddon");
         stage.setScene(scene);
         stage.show();
-        DatabaseConnection.createTables();
 
     }
 
