@@ -1,10 +1,9 @@
 package com.example.dao;
 
 import com.example.models.User;
+import com.sun.xml.internal.ws.policy.EffectiveAlternativeSelector;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +17,28 @@ public class UserUserDAOPostgres implements UserDAOPostgres<User> {
     public Optional<User> select(String username) {
         return Optional.empty();
     }
+
+
+    @Override
+    public boolean isLogged(User user) throws SQLException {
+        ResultSet rs = null;
+        try(
+                Connection c = DriverManager.getConnection(URL, USER, PASS);
+                Statement s = c.createStatement();
+        ){
+        String query = String.format("select * from user where user.username = %s and user.password = %s ",user.getUsername(),user.getPassword() );
+        rs = s.executeQuery(query);
+
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+
+        return (rs.next()) ?  true :false;
+
+    }
+
+
+
 
     @Override
     public List<User> selectAll() {
