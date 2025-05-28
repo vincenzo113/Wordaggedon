@@ -88,6 +88,9 @@ public class MainController {
 
     public Label titleQuiz;
 
+    public Label usernameWelcomeLabel;
+    public VBox difficultyVBox;
+
     @FXML
     private Label welcomeText;
 
@@ -229,7 +232,10 @@ public class MainController {
         boolean loginResult = loginController.hasLoginSuccess(userToLog);
 
         if(loginResult) {
-            System.out.println("LOGIN");
+            loginVBox.setVisible(false);
+            difficultyVBox.setVisible(true);
+            difficultyVBox.setManaged(true);
+            StartGameController.aggiornaLabel(usernameWelcomeLabel , userToLog.getUsername());
         } else {}
 
     }
@@ -271,4 +277,6 @@ public class MainController {
     }
 
 
+    public void handleStartGame(ActionEvent actionEvent) {
+    }
 }
