@@ -16,5 +16,7 @@ public class QuizController {
             //QUERY PER PRENDERTI UN QUIZ DIFFICILE
         }
 
+        return null ; // Restituisce il quiz ottenuto dalla query
+
     }
 }

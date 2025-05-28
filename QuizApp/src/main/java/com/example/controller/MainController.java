@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import com.example.TimerService.TimerService;
 import com.example.alerts.Alert;
 import com.example.alerts.AlertList;
 import com.example.exceptions.CampiNonCompilatiException;
@@ -74,6 +75,7 @@ public class MainController {
 
     private int currentQuizId ;
 
+    private TimerService timerService;
 
 
 
@@ -100,6 +102,19 @@ public class MainController {
         getQuiz();
 
         //FAI PARTIRE TIMER!
+
+        timerService = new TimerService(
+                60,
+
+                () -> {
+                    showQuestionsAndAnswers(actionEvent);
+                    return;
+                }
+        );
+        timeProgressBar.progressProperty().bind(timerService.progressProperty());
+        timerService.start();
+
+
 
     }
 
