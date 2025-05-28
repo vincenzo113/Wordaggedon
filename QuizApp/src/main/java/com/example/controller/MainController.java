@@ -14,6 +14,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -67,6 +68,15 @@ public class MainController {
     public RadioButton[] q2Options;
     public RadioButton[] q3Options;
     public RadioButton[] q4Options;
+    public VBox registerVBox;
+    public Button switchModeButton;
+    public VBox loginVBox;
+    public VBox testoVBox;
+    public VBox domandaRispostaVBox;
+
+
+    public Label titleQuiz;
+
     @FXML
     private Label welcomeText;
 
@@ -77,29 +87,26 @@ public class MainController {
 
     private TimerService timerService;
 
-
+    Quiz currentQuiz;
 
     private void getQuiz(){
-
-        Quiz currentQuiz = QuizController.getQuiz("facile");
-
-
+         currentQuiz = QuizController.getQuiz("facile");
     }
     private void showQuizText(ActionEvent actionEvent) {
         // Mostra il testo del quiz
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/quizapp/testo-view.fxml"));
-            Parent root = fxmlLoader.load();
 
+        loginVBox.setVisible(false);
+        loginVBox.setManaged(false);
+        registerVBox.setVisible(false);
+        registerVBox.setManaged(false);
+        testoVBox.setVisible(true);
+        testoVBox.setManaged(true);
+        domandaRispostaVBox.setVisible(false);
+        domandaRispostaVBox.setManaged(false);
 
-            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        titleQuiz.setText(currentQuiz.getTitolo());
+        displayTextLabel.setText(currentQuiz.getTesto());
 
-        getQuiz();
 
         //FAI PARTIRE TIMER!
 
@@ -120,19 +127,14 @@ public class MainController {
 
     private void showQuestionsAndAnswers(ActionEvent actionEvent) {
         // Mostra le domande e le risposte del quiz
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/quizapp/domanda-risposta-view.fxml"));
-            Parent root = fxmlLoader.load();
-
-
-            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
+        loginVBox.setVisible(false);
+        loginVBox.setManaged(false);
+        registerVBox.setVisible(false);
+        registerVBox.setManaged(false);
+        testoVBox.setVisible(false);
+        testoVBox.setManaged(false);
+        domandaRispostaVBox.setVisible(true);
+        domandaRispostaVBox.setManaged(true);
     }
 
 
@@ -209,34 +211,25 @@ public class MainController {
 
         RegisterController.registerUser(userToRegister);
 
+        registerVBox.setVisible(false);
+        registerVBox.setManaged(false);
+        loginVBox.setVisible(true);
+        loginVBox.setManaged(true);
+
     }
 
     public void backToRegister(ActionEvent actionEvent) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/quizapp/registrazione-view.fxml"));
-            Parent root = fxmlLoader.load();
-
-
-            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        registerVBox.setVisible(true);
+        registerVBox.setManaged(true);
+        loginVBox.setVisible(false);
+        loginVBox.setManaged(false);
     }
 
     public void backToLogin(ActionEvent actionEvent) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/quizapp/login-view.fxml"));
-            Parent root = fxmlLoader.load();
-
-
-            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        registerVBox.setVisible(false);
+        registerVBox.setManaged(false);
+        loginVBox.setVisible(true);
+        loginVBox.setManaged(true);
     }
 
 

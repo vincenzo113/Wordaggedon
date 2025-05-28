@@ -23,7 +23,7 @@ public class TimerService extends Service<Void> {
 
     @Override
     protected Task<Void> createTask() {
-        return new Task<>() {
+        return new Task<Void>() {
             @Override
             protected Void call() {
                 currentSecond = 0;
