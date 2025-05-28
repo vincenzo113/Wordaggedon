@@ -1,5 +1,7 @@
 package com.example.models;
 
+import java.util.Random;
+
 public class Quiz {
     private String[] testi;
     private Domanda[] domande;
@@ -13,7 +15,7 @@ public class Quiz {
         this.difficolta = difficolta;
         setDomande();
     }
-    public String getTesti() {
+    public String[] getTesti() {
         return testi;
     }
     public void setTesti(String[] testi) {
@@ -49,15 +51,18 @@ public class Quiz {
 
             if (domande[i].getTesto().equals("Quante volte si ripete una parola")) {
                 String parolaDaCercare = null; //QUERY PER CERCARE UNA PAROLA A CASO NEL TESTO DEL QUIZ
-                domande[i].setTesto("Quante volte si ripete la parola " + parolaDaCercare + " nel testo del quiz " + i + "?");
+                Random random = new Random();
+                int indiceTesto = random.nextInt(testi.length);
+                domande[i].setTesto("Quante volte si ripete la parola " + parolaDaCercare + " nel testo del quiz " + random + 1 + "?");
                 domande[i].setRisposte(); // Imposta le risposte per questa domanda
                 //GLI DOVRESTI PASSARE LA MAPPAZIONE DELLE PAROLE E IL CONTEGGIO
             };
 
 
-            if (domande[i].getTesto().equals("Qual è la parola più frequente nel quiz" + i + "?")) {
-
-                domande[i].setTesto("Qual è la parola più frequente nel testo del quiz " + i + "?");
+            if (domande[i].getTesto().equals("Qual è la parola più frequente nel quiz ?")) {
+                Random random = new Random();
+                int indiceTesto = random.nextInt(testi.length);
+                domande[i].setTesto("Qual è la parola più frequente nel testo del quiz " + random + 1 + "?");
                 domande[i].setRisposte(); // Imposta le risposte per questa domanda
                 //PASSEREI ID TESTO A SET RISPOSTE PER PERMETTERGLI DI FARE UNA QUERY SULLA MAPPATURA DELLE PAROLE
             }
