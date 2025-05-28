@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserDAO<T> {
-    public static final String URL = "jdbc:postgresql://localhost:6060/quiz";
+    public static final String URL = "jdbc:postgresql://localhost:5432/quiz";
 
     Optional<T> select(String username);
     List<T> selectAll() throws SQLException;
