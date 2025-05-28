@@ -116,7 +116,8 @@ public class MainController {
         domandaRispostaVBox.setManaged(false);
 
         titleQuiz.setText(currentQuiz.getTitolo());
-        displayTextLabel.setText(currentQuiz.getTesto());
+
+        displayTextLabel.setText("...");
 
 
         //FAI PARTIRE TIMER!

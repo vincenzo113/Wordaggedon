@@ -30,7 +30,8 @@ public class QuizController {
     }
 
     public void setMappaturaQuiz(){
-        Stream<String> parole = Arrays.stream(quiz.getTesto().split(" "));
+        String stringa = "" ;
+        Stream<String> parole = Arrays.stream(stringa.split(" "));
         Map<String, Integer> conteggio = parole.collect(Collectors.groupingBy(String::toString,
                 Collectors.summingInt(p->1))); //per ogni stringa somma 1 al conteggio
 

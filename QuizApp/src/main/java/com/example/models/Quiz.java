@@ -1,33 +1,33 @@
 package com.example.models;
 
 public class Quiz {
-    private String testoQuiz;
+    private String[] testi;
     private Domanda[] domande;
     private String difficolta;/**/
-    private String testo;
+    private String titolo;
 
-    public Quiz(String titolo, String testo , Domanda[] domande, String difficolta ) {
-        this.testoQuiz = titolo;
-        this.testo = testo ;
+    public Quiz(String titolo, String[] testi , Domanda[] domande, String difficolta ) {
+        this.titolo = titolo;
+        this.testi = testi ;
         this.domande = domande;
         this.difficolta = difficolta;
         setDomande();
     }
-    public String getTesto() {
-        return testo;
+    public String getTesti() {
+        return testi;
     }
-    public void setTesto(String testo) {
-        this.testo = testo;
+    public void setTesti(String[] testi) {
+        this.testi = testi;
     }
     public String getDifficolta(){
         return difficolta;
     }
     public String getTitolo() {
-        return testoQuiz;
+        return titolo;
     }
 
     public void setTitolo(String titolo) {
-        this.testoQuiz = titolo;
+        this.titolo = titolo;
     }
 
     public Domanda[] getDomande() {
@@ -56,21 +56,24 @@ public class Quiz {
 
 
             if (domande[i].getTesto().equals("Qual è la parola più frequente nel quiz" + i + "?")) {
-                String parolaDaCercare = null; //QUERY PER CERCARE LA PAROLA PIU' FREQUENTE NEL TESTO DEL QUIZ
+
                 domande[i].setTesto("Qual è la parola più frequente nel testo del quiz " + i + "?");
                 domande[i].setRisposte(); // Imposta le risposte per questa domanda
+                //PASSEREI ID TESTO A SET RISPOSTE PER PERMETTERGLI DI FARE UNA QUERY SULLA MAPPATURA DELLE PAROLE
             }
 
             if (domande[i].getTesto().equals("Qual è la parola più frequente in tutti i documenti")) {
-                String parolaDaCercare = null; //QUERY PER CERCARE LA PAROLA PIU' FREQUENTE NEL TESTO DEL QUIZ
+
                 domande[i].setTesto("Qual è la parola più frequente in tutti i documenti ?");
                 domande[i].setRisposte(); // Imposta le risposte per questa domanda
+                //PASSEREI ID TESTO A SET RISPOSTE PER PERMETTERGLI DI FARE UNA QUERY SULLA MAPPATURA DELLE PAROLE
             }
 
             if (domande[i].getTesto().equals("Quale parola non appare mai in nessun documento")) {
-                String parolaDaCercare = null; //QUERY PER CERCARE LA PAROLA PIU' FREQUENTE NEL TESTO DEL QUIZ
+
                 domande[i].setTesto("Quale parola non appare mai in nessun documento?");
                 domande[i].setRisposte(); // Imposta le risposte per questa domanda
+                //PASSEREI ID TESTO A SET RISPOSTE PER PERMETTERGLI DI FARE UNA QUERY SULLA MAPPATURA DELLE PAROLE
             }
 
         }
