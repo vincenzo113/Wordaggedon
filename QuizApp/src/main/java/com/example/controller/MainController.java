@@ -159,15 +159,15 @@ public class MainController {
             q1opt.setText(domande[0].getRisposte()[i].getTesto());
         }
         i=0;
-        for(RadioButton q2opt : q1Options) {
+        for(RadioButton q2opt : q2Options) {
             q2opt.setText(domande[1].getRisposte()[i].getTesto());
         }
         i=0;
-        for(RadioButton q3opt : q1Options) {
+        for(RadioButton q3opt : q3Options) {
             q3opt.setText(domande[2].getRisposte()[i].getTesto());
         }
         i=0;
-        for(RadioButton q4opt : q1Options) {
+        for(RadioButton q4opt : q4Options) {
             q4opt.setText(domande[3].getRisposte()[i].getTesto());
         }
 
