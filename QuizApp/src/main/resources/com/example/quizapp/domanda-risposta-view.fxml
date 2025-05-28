@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="700.0" spacing="20.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Label text="Quiz di Valutazione">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+        </Label>
+
+        <ScrollPane fitToWidth="true" prefHeight="450.0" prefWidth="650.0">
+            <content>
+                <VBox spacing="25.0">
+                    <children>
+                        <!-- DOMANDA 1 -->
+                        <VBox spacing="10.0" style="-fx-background-color: #f8f9fa; -fx-padding: 15px; -fx-background-radius: 5px;">
+                            <children>
+                                <Label text="1. Quale è la capitale d'Italia?" textFill="#2c3e50">
+                                    <font>
+                                        <Font name="System Bold" size="16.0" />
+                                    </font>
+                                </Label>
+                                <RadioButton fx:id="q1opt1" text="Milano" />
+                                <RadioButton fx:id="q1opt2" text="Roma" />
+                                <RadioButton fx:id="q1opt3" text="Napoli" />
+                                <RadioButton fx:id="q1opt4" text="Torino" />
+                            </children>
+                        </VBox>
+
+                        <!-- DOMANDA 2 -->
+                        <VBox spacing="10.0" style="-fx-background-color: #f8f9fa; -fx-padding: 15px; -fx-background-radius: 5px;">
+                            <children>
+                                <Label text="2. Quanti continenti ci sono nel mondo?" textFill="#2c3e50">
+                                    <font>
+                                        <Font name="System Bold" size="16.0" />
+                                    </font>
+                                </Label>
+                                <RadioButton fx:id="q2opt1" text="5" />
+                                <RadioButton fx:id="q2opt2" text="6" />
+                                <RadioButton fx:id="q2opt3" text="7" />
+                                <RadioButton fx:id="q2opt4" text="8" />
+                            </children>
+                        </VBox>
+
+                        <!-- DOMANDA 3 -->
+                        <VBox spacing="10.0" style="-fx-background-color: #f8f9fa; -fx-padding: 15px; -fx-background-radius: 5px;">
+                            <children>
+                                <Label text="3. Quale pianeta è più vicino al Sole?" textFill="#2c3e50">
+                                    <font>
+                                        <Font name="System Bold" size="16.0" />
+                                    </font>
+                                </Label>
+                                <RadioButton fx:id="q3opt1" text="Venere" />
+                                <RadioButton fx:id="q3opt2" text="Mercurio" />
+                                <RadioButton fx:id="q3opt3" text="Terra" />
+                                <RadioButton fx:id="q3opt4" text="Marte" />
+                            </children>
+                        </VBox>
+
+                        <!-- DOMANDA 4 -->
+                        <VBox spacing="10.0" style="-fx-background-color: #f8f9fa; -fx-padding: 15px; -fx-background-radius: 5px;">
+                            <children>
+                                <Label text="4. Quale è l'oceano più grande?" textFill="#2c3e50">
+                                    <font>
+                                        <Font name="System Bold" size="16.0" />
+                                    </font>
+                                </Label>
+                                <RadioButton fx:id="q4opt1" text="Oceano Atlantico" />
+                                <RadioButton fx:id="q4opt2" text="Oceano Indiano" />
+                                <RadioButton fx:id="q4opt3" text="Oceano Pacifico" />
+                                <RadioButton fx:id="q4opt4" text="Oceano Artico" />
+                            </children>
+                        </VBox>
+                    </children>
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                    </padding>
+                </VBox>
+            </content>
+        </ScrollPane>
+
+        <HBox alignment="CENTER" spacing="20.0">
+            <children>
+                <Button fx:id="nextButton" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #007bff; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 5px;" text="Avanti" />
+                <Label fx:id="statusLabel" text="Completa tutte le domande" textFill="#6c757d">
+                    <font>
+                        <Font size="12.0" />
+                    </font>
+                </Label>
+            </children>
+        </HBox>
+    </children>
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+</VBox>

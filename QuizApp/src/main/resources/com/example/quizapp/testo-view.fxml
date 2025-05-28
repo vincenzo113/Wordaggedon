@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER" prefHeight="400.0" prefWidth="500.0" spacing="20.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="CENTER" prefHeight="400.0" prefWidth="500.0" spacing="20.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <!-- Titolo principale -->
-        <Label fx:id="titleLabel" text="Applicazione con Timer">
+        <Label fx:id="titleLabel" text="Titolo">
             <font>
                 <Font name="System Bold" size="24.0" />
             </font>
@@ -32,7 +33,7 @@
         </VBox>
 
         <!-- Area di visualizzazione testo -->
-        <Label fx:id="displayTextLabel" alignment="CENTER" maxWidth="400.0" minHeight="150.0" prefHeight="150.0" text="Il testo apparirà qui..." textAlignment="CENTER" wrapText="true" style="-fx-background-color: #f0f0f0; -fx-border-color: #cccccc; -fx-border-width: 1px; -fx-padding: 10px;">
+        <Label fx:id="displayTextLabel" alignment="CENTER" maxWidth="400.0" minHeight="150.0" prefHeight="150.0" style="-fx-background-color: #f0f0f0; -fx-border-color: #cccccc; -fx-border-width: 1px; -fx-padding: 10px;" text="Il testo apparirà qui..." textAlignment="CENTER" wrapText="true">
             <font>
                 <Font size="16.0" />
             </font>
