@@ -24,38 +24,43 @@ public class Domanda {
     public Risposta[] getRisposte() {
         return risposte;
     }
-    public void setRisposte() {
+    public void setRisposte(int[] idTesti , String parola , int random) {
 
-
-
-        for(int i=0;i<risposte.length;i++){
             if(testo.startsWith("Quante volte si ripete la parola")){
                 //CHIAMI UNA FUNZIONE SPECIFICA PER CALCOLARE RISPOSTA DI CALCOLATORE RISPOSTE
 
-                risposte = CalcolatoreRisposte.calcolaRispostePerConteggio();
+                risposte = CalcolatoreRisposte.calcolaRispostePerConteggio(idTesti,parola);
             }
 
-            if(testo.startsWith("Qual è la parola più frequente nel testo del quiz ")){
-                //CHIAMI UNA FUNZIONE SPECIFICA PER CALCOLARE RISPOSTA DI CALCOLATORE RISPOSTE
 
-                risposte = CalcolatoreRisposte.calcolaParolaPiuFrequente();
-            }
-            if(testo.startsWith("Quale parola non appare mai in nessun documento")){
-                //CHIAMI UNA FUNZIONE SPECIFICA PER CALCOLARE RISPOSTA DI CALCOLATORE RISPOSTE
 
-                risposte = CalcolatoreRisposte.calcolaParolaCheNonAppareMai();
-            }
-            if(testo.startsWith("Qual è la parola più frequente in tutti i documenti")){
-                //CHIAMI UNA FUNZIONE SPECIFICA PER CALCOLARE RISPOSTA DI CALCOLATORE RISPOSTE
+    }
+    public void setRisposte(int[] idTesti){
+        if(testo.startsWith("Quale parola non appare mai in nessun documento")){
+            //CHIAMI UNA FUNZIONE SPECIFICA PER CALCOLARE RISPOSTA DI CALCOLATORE RISPOSTE
 
-                risposte = CalcolatoreRisposte.calcolaParolaPiuFrequenteInTuttiIDocumenti();
-            }
-
+            risposte = CalcolatoreRisposte.calcolaParolaCheNonAppareMai(idTesti);
         }
+        if(testo.startsWith("Qual è la parola più frequente in tutti i documenti")){
+            //CHIAMI UNA FUNZIONE SPECIFICA PER CALCOLARE RISPOSTA DI CALCOLATORE RISPOSTE
 
+            risposte = CalcolatoreRisposte.calcolaParolaPiuFrequenteInTuttiIDocumenti(idTesti);
+        }
+    }
+
+    public void setRisposte(int[] idTesti,int random){
+        if(testo.startsWith("Qual è la parola più frequente nel testo del quiz ")){
+            //CHIAMI UNA FUNZIONE SPECIFICA PER CALCOLARE RISPOSTA DI CALCOLATORE RISPOSTE
+
+            risposte = CalcolatoreRisposte.calcolaParolaPiuFrequente(idTesti);
+        }
     }
 
 
 
-
 }
+
+
+
+
+

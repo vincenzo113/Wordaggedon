@@ -4,6 +4,7 @@ import java.util.Random;
 
 public class Quiz {
     private String[] testi;
+    private int[] idTesti;
     private Domanda[] domande;
     private String difficolta;/**/
     private String titolo;
@@ -54,7 +55,7 @@ public class Quiz {
                 Random random = new Random();
                 int indiceTesto = random.nextInt(testi.length);
                 domande[i].setTesto("Quante volte si ripete la parola " + parolaDaCercare + " nel testo del quiz " + random + 1 + "?");
-                domande[i].setRisposte(); // Imposta le risposte per questa domanda
+                domande[i].setRisposte(idTesti,parolaDaCercare,indiceTesto); // Imposta le risposte per questa domanda
                 //GLI DOVRESTI PASSARE LA MAPPAZIONE DELLE PAROLE E IL CONTEGGIO
             };
 
@@ -63,21 +64,21 @@ public class Quiz {
                 Random random = new Random();
                 int indiceTesto = random.nextInt(testi.length);
                 domande[i].setTesto("Qual è la parola più frequente nel testo del quiz " + random + 1 + "?");
-                domande[i].setRisposte(); // Imposta le risposte per questa domanda
+                domande[i].setRisposte(idTesti,indiceTesto); // Imposta le risposte per questa domanda
                 //PASSEREI ID TESTO A SET RISPOSTE PER PERMETTERGLI DI FARE UNA QUERY SULLA MAPPATURA DELLE PAROLE
             }
 
             if (domande[i].getTesto().equals("Qual è la parola più frequente in tutti i documenti")) {
 
                 domande[i].setTesto("Qual è la parola più frequente in tutti i documenti ?");
-                domande[i].setRisposte(); // Imposta le risposte per questa domanda
+                domande[i].setRisposte(idTesti); // Imposta le risposte per questa domanda
                 //PASSEREI ID TESTO A SET RISPOSTE PER PERMETTERGLI DI FARE UNA QUERY SULLA MAPPATURA DELLE PAROLE
             }
 
             if (domande[i].getTesto().equals("Quale parola non appare mai in nessun documento")) {
 
                 domande[i].setTesto("Quale parola non appare mai in nessun documento?");
-                domande[i].setRisposte(); // Imposta le risposte per questa domanda
+                domande[i].setRisposte(idTesti); // Imposta le risposte per questa domanda
                 //PASSEREI ID TESTO A SET RISPOSTE PER PERMETTERGLI DI FARE UNA QUERY SULLA MAPPATURA DELLE PAROLE
             }
 
