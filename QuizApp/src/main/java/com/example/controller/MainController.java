@@ -5,21 +5,12 @@ import com.example.alerts.Alert;
 import com.example.alerts.AlertList;
 import com.example.exceptions.CampiNonCompilatiException;
 import com.example.exceptions.PasswordDiverseException;
-import com.example.models.Domanda;
-import com.example.models.Quiz;
-import com.example.models.Risposta;
 import com.example.models.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.sql.SQLException;
 
 public class MainController {
@@ -95,94 +86,19 @@ public class MainController {
     private Label welcomeText;
 
     private LoginController loginController;
-    private QuizController QuizController;
 
     private int currentQuizId ;
 
     private TimerService timerService;
 
-    Quiz currentQuiz;
-
-    private void getQuiz(){
-         currentQuiz = QuizController.getQuiz("facile");
-    }
-    private void showQuizText(ActionEvent actionEvent) {
-        // Mostra il testo del quiz
-
-        loginVBox.setVisible(false);
-        loginVBox.setManaged(false);
-        registerVBox.setVisible(false);
-        registerVBox.setManaged(false);
-        testoVBox.setVisible(true);
-        testoVBox.setManaged(true);
-        domandaRispostaVBox.setVisible(false);
-        domandaRispostaVBox.setManaged(false);
-
-        titleQuiz.setText(currentQuiz.getTitolo());
-
-        displayTextLabel.setText("...");
 
 
-        //FAI PARTIRE TIMER!
-
-        timerService = new TimerService(
-                60,
-
-                () -> {
-                    showQuestionsAndAnswers(actionEvent);
-                    return;
-                }
-        );
-        timeProgressBar.progressProperty().bind(timerService.progressProperty());
-        timerService.start();
-
-
-
-    }
-
-    private void showQuestionsAndAnswers(ActionEvent actionEvent) {
-        // Mostra le domande e le risposte del quiz
-        loginVBox.setVisible(false);
-        loginVBox.setManaged(false);
-        registerVBox.setVisible(false);
-        registerVBox.setManaged(false);
-        testoVBox.setVisible(false);
-        testoVBox.setManaged(false);
-        domandaRispostaVBox.setVisible(true);
-        domandaRispostaVBox.setManaged(true);
-
-        Domanda [] domande = currentQuiz.getDomande();
-
-        q1.setText(domande[0].getTesto());
-        q2.setText(domande[1].getTesto());
-        q3.setText(domande[2].getTesto());
-        q4.setText(domande[3].getTesto());
-
-        int i = 0;
-        for(RadioButton q1opt : q1Options) {
-            q1opt.setText(domande[0].getRisposte()[i].getTesto());
-        }
-        i=0;
-        for(RadioButton q2opt : q2Options) {
-            q2opt.setText(domande[1].getRisposte()[i].getTesto());
-        }
-        i=0;
-        for(RadioButton q3opt : q3Options) {
-            q3opt.setText(domande[2].getRisposte()[i].getTesto());
-        }
-        i=0;
-        for(RadioButton q4opt : q4Options) {
-            q4opt.setText(domande[3].getRisposte()[i].getTesto());
-        }
-
-
-    }
 
 
     /*Metodi privati*/
     private void initAuthControllers(){
         loginController = new LoginController();
-        QuizController = new QuizController();
+
     }
 
     //Metodo per creare un utente dai textfields
