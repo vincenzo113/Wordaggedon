@@ -195,16 +195,13 @@
                 </font>
             </Button>
 
-
-
         </VBox>
     </VBox>
 
 
 
 
-
-
+    <!-- VBox originale per la visualizzazione del testo durante il gioco -->
     <VBox fx:id="testoVBox" alignment="CENTER" prefHeight="400.0" prefWidth="500.0" spacing="20.0" xmlns="http://javafx.com/javafx/8" visible="false" managed="false" >
         <children>
             <!-- Titolo principale -->
@@ -217,17 +214,13 @@
             <!-- Timer visuale basato sul tempo -->
             <VBox alignment="CENTER" spacing="10.0">
                 <children>
-                    <Label fx:id="timeLabel" text="00:00" textFill="#333333">
+                    <Label fx:id="timeLabel" text="" textFill="#333333">
                         <font>
                             <Font name="Courier New Bold" size="20.0" />
                         </font>
                     </Label>
                     <ProgressBar fx:id="timeProgressBar" prefHeight="20.0" prefWidth="300.0" progress="0.0" style="-fx-accent: #2196F3;" />
-                    <Label fx:id="timeInfoLabel" text="Timer in corso..." textFill="#666666">
-                        <font>
-                            <Font size="12.0" />
-                        </font>
-                    </Label>
+
                 </children>
             </VBox>
 
@@ -239,11 +232,7 @@
             </Label>
 
             <!-- Label per informazioni aggiuntive -->
-            <Label fx:id="statusLabel" text="In attesa del prossimo messaggio..." textFill="#666666">
-                <font>
-                    <Font size="12.0" />
-                </font>
-            </Label>
+
         </children>
         <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

@@ -6,6 +6,7 @@ import com.example.alerts.AlertList;
 import com.example.exceptions.CampiNonCompilatiException;
 import com.example.exceptions.PasswordDiverseException;
 import com.example.models.User;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -14,82 +15,38 @@ import javafx.scene.layout.VBox;
 import java.sql.SQLException;
 
 public class MainController {
-    @FXML
+    //LOGIN
     public TextField loginUsernameField;
-    @FXML
     public PasswordField loginPasswordField;
-    @FXML
+    private LoginController loginController;
+    public VBox loginVBox;
+    //***********
+    //REGISTRAZIONE
     public Button registerButton;
     public PasswordField confirmRegisterPasswordField;
     public PasswordField registerPasswordField;
     public TextField registerUsernameField;
-
-
-    public Label timeLabel;
-    public Label timeInfoLabel;
-    public ProgressBar timeProgressBar;
-    public Label displayTextLabel;
-    public Label statusLabel;
-    public Label titleLabel;
-
-    public Label q1 ;
-    public Label q2 ;
-    public Label q3 ;
-    public Label q4 ;
-
-    public RadioButton q1opt1;
-    public RadioButton q1opt2;
-    public RadioButton q1opt3;
-    public RadioButton q1opt4;
-
-    public RadioButton q2opt1;
-    public RadioButton q2opt2;
-    public RadioButton q2opt3;
-    public RadioButton q2opt4;
-
-    public RadioButton q3opt1;
-    public RadioButton q3opt2;
-    public RadioButton q3opt3;
-    public RadioButton q3opt4;
-
-    public RadioButton q4opt1;
-    public RadioButton q4opt2;
-    public RadioButton q4opt3;
-    public RadioButton q4opt4;
-
-    public RadioButton[] q1Options = {
-            q1opt1, q1opt2, q1opt3, q1opt4
-    };
-    public RadioButton[] q2Options = {
-            q2opt1, q2opt2, q2opt3, q2opt4
-    };
-    public RadioButton[] q3Options = {
-            q3opt1, q3opt2, q3opt3, q3opt4
-    };
-    public RadioButton[] q4Options = {
-            q4opt1, q4opt2, q4opt3, q4opt4
-    };
-
     public VBox registerVBox;
-    public Button switchModeButton;
-    public VBox loginVBox;
-    public VBox testoVBox;
-    public VBox domandaRispostaVBox;
+    //**********
 
-
-    public Label titleQuiz;
-
+    //SCELTA DELLA DIFFICOLTA'
     public Label usernameWelcomeLabel;
     public VBox difficultyVBox;
+    //*******
 
-    @FXML
-    private Label welcomeText;
 
-    private LoginController loginController;
+    //Schermata in cui si mostrano il / i testo/i a seconda della difficoltà
+    public VBox testoVBox;
+    public Label titleQuiz;
+    public Label timeLabel;
+    public ProgressBar timeProgressBar;
+    public Label displayTextLabel;
+    /*******
 
-    private int currentQuizId ;
 
-    private TimerService timerService;
+
+
+
 
 
 
@@ -202,5 +159,43 @@ public class MainController {
 
 
     public void handleStartGame(ActionEvent actionEvent) {
+        difficultyVBox.setVisible(false);
+        testoVBox.setVisible(true);
+        testoVBox.setManaged(true);
+        startTimerPerTesto(1);
+    }
+
+    private void startTimerPerTesto(int numeroTesto) {
+        // Carica il titolo del testo numeroTesto (esempio)
+       // QuizController.setTitoloTesto(titleQuiz, getTitoloPerTesto(numeroTesto));
+
+        // Timer da 30 secondi con callback
+        TimerService timerService = new TimerService(15, () -> {
+            Platform.runLater(() -> {
+                timeLabel.setText("Tempo scaduto!");
+                // Quando il timer finisce, avvia il prossimo testo se ce n'è un altro
+                if (numeroTesto < 2) {
+                    startTimerPerTesto(numeroTesto + 1);
+                } else {
+                    // Fine quiz, nessun altro testo
+                    timeLabel.setText("Quiz terminato!");
+                }
+            });
+        });
+
+        timeProgressBar.progressProperty().bind(timerService.progressProperty());
+
+        timerService.progressProperty().addListener((obs, oldVal, newVal) -> {
+            int remaining = 30 - (int) (newVal.doubleValue() * 30);
+            timeLabel.setText(remaining + "s");
+        });
+
+        timerService.start();
+    }
+
+    // Metodo di esempio per ottenere il titolo in base al numero testo
+    private String getTitoloPerTesto(int numeroTesto) {
+        // Qui prendi il titolo dal DB o da lista
+        return "Testo " + numeroTesto;
     }
 }
