@@ -256,12 +256,17 @@ public class MainController {
             return;
         }
 
-        RegisterController.registerUser(userToRegister);
-
-        registerVBox.setVisible(false);
-        registerVBox.setManaged(false);
-        loginVBox.setVisible(true);
-        loginVBox.setManaged(true);
+        if(RegisterController.hasRegisterSuccess(userToRegister)) {
+            Alert.showAlert(AlertList.REGISTER_SUCCESS);
+            registerVBox.setVisible(false);
+            registerVBox.setManaged(false);
+            loginVBox.setVisible(true);
+            loginVBox.setManaged(true);
+        }
+        else {
+            Alert.showAlert(AlertList.REGISTER_FAILURE);
+            return;
+        }
 
     }
 

@@ -27,7 +27,7 @@ public class UserDAOPostgres implements UserDAO<User> {
         ){
             String query = String.format("select * from public.users where username = '%s'" , user.getUsername());
             rs = s.executeQuery(query);
-
+            //Se non è già registrato ok
             if(!rs.next()) {
                 query = String.format("insert into public.users(username, password) values('%s','%s')", user.getUsername(), user.getPassword());
                 s.executeUpdate(query);
