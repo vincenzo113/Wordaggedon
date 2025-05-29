@@ -3,34 +3,24 @@ package com.example.models;
 import java.util.Random;
 
 public class Quiz {
-    private String[] testi;
-    private int[] idTesti;
+    private Testo[] testi;
     private Domanda[] domande;
     private String difficolta;/**/
-    private String titolo;
 
-    public Quiz(String titolo, String[] testi , Domanda[] domande, String difficolta ) {
-        this.titolo = titolo;
+    public Quiz( Testo[] testi , Domanda[] domande, String difficolta ) {
         this.testi = testi ;
         this.domande = domande;
         this.difficolta = difficolta;
         setDomande();
     }
-    public String[] getTesti() {
+    public Testo[] getTesti() {
         return testi;
     }
-    public void setTesti(String[] testi) {
+    public void setTesti(Testo[] testi) {
         this.testi = testi;
     }
     public String getDifficolta(){
         return difficolta;
-    }
-    public String getTitolo() {
-        return titolo;
-    }
-
-    public void setTitolo(String titolo) {
-        this.titolo = titolo;
     }
 
     public Domanda[] getDomande() {
@@ -55,7 +45,7 @@ public class Quiz {
                 Random random = new Random();
                 int indiceTesto = random.nextInt(testi.length);
                 domande[i].setTesto("Quante volte si ripete la parola " + parolaDaCercare + " nel testo del quiz " + random + 1 + "?");
-                domande[i].setRisposte(idTesti,parolaDaCercare,indiceTesto); // Imposta le risposte per questa domanda
+                domande[i].setRisposte(testi,parolaDaCercare,indiceTesto); // Imposta le risposte per questa domanda
                 //GLI DOVRESTI PASSARE LA MAPPAZIONE DELLE PAROLE E IL CONTEGGIO
             };
 
@@ -64,21 +54,21 @@ public class Quiz {
                 Random random = new Random();
                 int indiceTesto = random.nextInt(testi.length);
                 domande[i].setTesto("Qual è la parola più frequente nel testo del quiz " + random + 1 + "?");
-                domande[i].setRisposte(idTesti,indiceTesto); // Imposta le risposte per questa domanda
+                domande[i].setRisposte(testi,indiceTesto); // Imposta le risposte per questa domanda
                 //PASSEREI ID TESTO A SET RISPOSTE PER PERMETTERGLI DI FARE UNA QUERY SULLA MAPPATURA DELLE PAROLE
             }
 
             if (domande[i].getTesto().equals("Qual è la parola più frequente in tutti i documenti")) {
 
                 domande[i].setTesto("Qual è la parola più frequente in tutti i documenti ?");
-                domande[i].setRisposte(idTesti); // Imposta le risposte per questa domanda
+                domande[i].setRisposte(testi); // Imposta le risposte per questa domanda
                 //PASSEREI ID TESTO A SET RISPOSTE PER PERMETTERGLI DI FARE UNA QUERY SULLA MAPPATURA DELLE PAROLE
             }
 
             if (domande[i].getTesto().equals("Quale parola non appare mai in nessun documento")) {
 
                 domande[i].setTesto("Quale parola non appare mai in nessun documento?");
-                domande[i].setRisposte(idTesti); // Imposta le risposte per questa domanda
+                domande[i].setRisposte(testi); // Imposta le risposte per questa domanda
                 //PASSEREI ID TESTO A SET RISPOSTE PER PERMETTERGLI DI FARE UNA QUERY SULLA MAPPATURA DELLE PAROLE
             }
 
