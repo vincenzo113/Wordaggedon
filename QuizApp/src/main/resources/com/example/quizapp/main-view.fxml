@@ -149,7 +149,7 @@
             </Label>
 
             <!-- Sottotitolo per la selezione -->
-            <Label fx:id="difficultySubtitleLabel" text="Scegli il livello di difficoltà"
+            <Label fx:id="difficultySubtitleLabel" text="Scegli un livello di difficoltà per iniziare"
                    styleClass="subtitle-label" wrapText="true" textAlignment="CENTER" />
 
             <!-- Sezione radiobutton per difficoltà -->

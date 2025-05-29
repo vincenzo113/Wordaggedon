@@ -236,7 +236,10 @@ public class MainController {
             difficultyVBox.setVisible(true);
             difficultyVBox.setManaged(true);
             StartGameController.aggiornaLabel(usernameWelcomeLabel , userToLog.getUsername());
-        } else {}
+        } else {
+            Alert.showAlert(AlertList.LOGIN_FAILURE);
+            return;
+        }
 
     }
 

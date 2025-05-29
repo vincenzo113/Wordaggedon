@@ -16,7 +16,6 @@ public class LoginController {
             if (result) {
                 return true;
             } else {
-                Alert.showAlert(AlertList.LOGIN_FAILURE);
                 return false;
             }
         } catch (SQLException e) {
