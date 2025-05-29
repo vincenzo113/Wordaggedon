@@ -3,6 +3,7 @@ package com.example.controller;
 import com.example.TimerService.TimerService;
 import com.example.alerts.Alert;
 import com.example.alerts.AlertList;
+import com.example.difficultySettings.DifficultyEnum;
 import com.example.exceptions.CampiNonCompilatiException;
 import com.example.exceptions.PasswordDiverseException;
 import com.example.models.User;
@@ -18,6 +19,9 @@ public class MainController {
     //LOGIN
     public TextField loginUsernameField;
     public PasswordField loginPasswordField;
+    public RadioButton easyRadio;
+    public RadioButton mediumRadio;
+    public RadioButton hardRadio;
     private LoginController loginController;
     public VBox loginVBox;
     //***********
@@ -58,6 +62,7 @@ public class MainController {
 
     }
 
+
     //Metodo per creare un utente dai textfields
     private User checkLogin() throws CampiNonCompilatiException {
         if (loginUsernameField.getText().trim().isEmpty() || loginPasswordField.getText().trim().isEmpty()) {
@@ -83,7 +88,11 @@ public class MainController {
         return new User(username,password,false);
     }
 
-
+    private DifficultyEnum  getDifficoltaScelta(){
+        if(easyRadio.isSelected()) return DifficultyEnum.EASY;
+        else if(mediumRadio.isSelected()) return DifficultyEnum.MEDIUM;
+        else return  DifficultyEnum.HARD;
+    }
     /***********/
 
 
@@ -162,40 +171,8 @@ public class MainController {
         difficultyVBox.setVisible(false);
         testoVBox.setVisible(true);
         testoVBox.setManaged(true);
-        startTimerPerTesto(1);
+        QuizController.startTimerPerTesto(1 , timeLabel , timeProgressBar , getDifficoltaScelta());
     }
 
-    private void startTimerPerTesto(int numeroTesto) {
-        // Carica il titolo del testo numeroTesto (esempio)
-       // QuizController.setTitoloTesto(titleQuiz, getTitoloPerTesto(numeroTesto));
 
-        // Timer da 30 secondi con callback
-        TimerService timerService = new TimerService(15, () -> {
-            Platform.runLater(() -> {
-                timeLabel.setText("Tempo scaduto!");
-                // Quando il timer finisce, avvia il prossimo testo se ce n'è un altro
-                if (numeroTesto < 2) {
-                    startTimerPerTesto(numeroTesto + 1);
-                } else {
-                    // Fine quiz, nessun altro testo
-                    timeLabel.setText("Quiz terminato!");
-                }
-            });
-        });
-
-        timeProgressBar.progressProperty().bind(timerService.progressProperty());
-
-        timerService.progressProperty().addListener((obs, oldVal, newVal) -> {
-            int remaining = 30 - (int) (newVal.doubleValue() * 30);
-            timeLabel.setText(remaining + "s");
-        });
-
-        timerService.start();
-    }
-
-    // Metodo di esempio per ottenere il titolo in base al numero testo
-    private String getTitoloPerTesto(int numeroTesto) {
-        // Qui prendi il titolo dal DB o da lista
-        return "Testo " + numeroTesto;
-    }
 }
