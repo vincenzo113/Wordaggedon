@@ -121,9 +121,8 @@ public class MainController {
     }
 
     public void handleRegister(ActionEvent actionEvent) throws SQLException {
-        User userToRegister = null;
         try {
-            userToRegister = checkRegister();
+            user = checkRegister();
         } catch (CampiNonCompilatiException e) {
             Alert.showAlert(AlertList.FIELDS_EMPTY);
             return;
@@ -133,7 +132,7 @@ public class MainController {
             return;
         }
 
-        if(RegisterController.hasRegisterSuccess(userToRegister)) {
+        if(RegisterController.hasRegisterSuccess(user)) {
             //Alert.showAlert(AlertList.REGISTER_SUCCESS);
             System.out.println("Registrazione avvenuta con successo");
             registerVBox.setVisible(false);
