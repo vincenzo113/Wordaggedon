@@ -3,9 +3,11 @@ package com.example.controller;
 import com.example.TimerService.TimerService;
 import com.example.alerts.Alert;
 import com.example.alerts.AlertList;
+import com.example.dao.Documento.DocumentoDAOPostgres;
 import com.example.difficultySettings.DifficultyEnum;
 import com.example.exceptions.CampiNonCompilatiException;
 import com.example.exceptions.PasswordDiverseException;
+import com.example.models.Documento;
 import com.example.models.User;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -14,8 +16,14 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class MainController {
+    //DAOs
+    private DocumentoDAOPostgres documentoDAOPostgres = new DocumentoDAOPostgres();
+
+
+
     //LOGIN
     public TextField loginUsernameField;
     public PasswordField loginPasswordField;
@@ -171,7 +179,9 @@ public class MainController {
         difficultyVBox.setVisible(false);
         testoVBox.setVisible(true);
         testoVBox.setManaged(true);
-        QuizController.startTimerPerTesto(1 , timeLabel , timeProgressBar , getDifficoltaScelta());
+        DifficultyEnum difficoltà = getDifficoltaScelta();
+        List<Documento> testiDaMostrare = documentoDAOPostgres.getDocumentiPerDifficolta(difficoltà);
+        QuizController.startTimerPerTesto(testiDaMostrare ,0, timeLabel , timeProgressBar , difficoltà , displayTextLabel , titleQuiz);
     }
 
 

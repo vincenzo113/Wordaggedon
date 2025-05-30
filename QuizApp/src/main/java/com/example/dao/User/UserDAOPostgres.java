@@ -1,4 +1,4 @@
-package com.example.dao;
+package com.example.dao.User;
 
 import com.example.models.User;
 

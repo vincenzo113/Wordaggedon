@@ -1,7 +1,5 @@
 package com.example.controller;
-import com.example.alerts.Alert;
-import com.example.alerts.AlertList;
-import com.example.dao.UserDAOPostgres;
+import com.example.dao.User.UserDAOPostgres;
 import com.example.models.User;
 
 import java.sql.SQLException;

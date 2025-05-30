@@ -3,9 +3,13 @@ package com.example.controller;
 import com.example.TimerService.TimerService;
 import com.example.difficultySettings.DifficultyEnum;
 import com.example.difficultySettings.DifficultySettings;
+import com.example.models.Documento;
 import javafx.application.Platform;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+
+import java.util.List;
 
 
 public class QuizController {
@@ -18,19 +22,21 @@ public class QuizController {
 
 
 
-    public static void startTimerPerTesto(int numeroTesto , Label timeLabel , ProgressBar timeProgressBar , DifficultyEnum difficolta) {
-        // Carica il titolo del testo numeroTesto (esempio)
-        // QuizController.setTitoloTesto(titleQuiz, getTitoloPerTesto(numeroTesto));
+    public static void startTimerPerTesto(List<Documento> documenti , int numeroTesto , Label timeLabel , ProgressBar timeProgressBar , DifficultyEnum difficolta , Label displayText , Label displayTitleText) {
         int timeLimit = DifficultySettings.getTimeLimit(difficolta);
-        int numeroTesti = DifficultySettings.getNumeroTesti(difficolta);
-        // Timer da 30 secondi con callback
+        int maxTesti = DifficultySettings.getNumeroTesti(difficolta);
+        //Qui bisogna settare il testo e il titolo del testo ogni volta
+        displayText.setText(documenti.get(numeroTesto).getContenuto());
+        displayTitleText.setText(documenti.get(numeroTesto).getTitolo());
+
         TimerService timerService = new TimerService(timeLimit, () -> {
             Platform.runLater(() -> {
-                if (numeroTesto < numeroTesti) {
-                    startTimerPerTesto(numeroTesto + 1 , timeLabel , timeProgressBar , difficolta);
+                if (numeroTesto + 1 < maxTesti) {
+                    startTimerPerTesto(documenti, numeroTesto + 1, timeLabel, timeProgressBar, difficolta , displayText , displayTitleText);
                 } else {
                     // Fine fase lettura , si passa alla nuova scena delle domande
-
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION , "Implementare che bisogna andare alla prossima scena , quella in cui si mostrano le domande");
+                    alert.showAndWait();
                 }
             });
         });
@@ -45,9 +51,5 @@ public class QuizController {
         timerService.start();
     }
 
-    // Metodo di esempio per ottenere il titolo in base al numero testo
-    private String getTitoloPerTesto(int numeroTesto) {
-        // Qui prendi il titolo dal DB o da lista
-        return "Testo " + numeroTesto;
-    }
+
 }
