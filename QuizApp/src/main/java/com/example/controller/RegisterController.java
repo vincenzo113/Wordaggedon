@@ -9,7 +9,7 @@ public class RegisterController {
 
     public static boolean hasRegisterSuccess(User user) {
         UserDAO<User> userDAOPostgres = new UserDAOPostgres();
-        boolean successRegistrazione= false;
+        boolean successRegistrazione = false;
 
         try {
             successRegistrazione = userDAOPostgres.register(user);

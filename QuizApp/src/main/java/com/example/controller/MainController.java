@@ -26,7 +26,6 @@ public class MainController {
     public RadioButton easyRadio;
     public RadioButton mediumRadio;
     public RadioButton hardRadio;
-    private LoginController loginController;
     public VBox loginVBox;
     //***********
     //REGISTRAZIONE
@@ -49,15 +48,6 @@ public class MainController {
     public Label timeLabel;
     public ProgressBar timeProgressBar;
     public Label displayTextLabel;
-    /*******
-
-
-
-    /*Metodi privati*/
-    private void initAuthControllers(){
-        loginController = new LoginController();
-
-    }
 
 
     //Metodo per creare un utente dai textfields
@@ -95,7 +85,7 @@ public class MainController {
 
     @FXML
     public void initialize(){
-        initAuthControllers();
+
     }
 
     public void handleLogin() {
@@ -108,9 +98,10 @@ public class MainController {
             return;
         }
 
-        boolean loginResult = loginController.hasLoginSuccess(userToLog);
+        boolean loginResult = LoginController.hasLoginSuccess(userToLog);
 
         if(loginResult) {
+            System.out.println("Login avvenuto con successo");
             loginVBox.setVisible(false);
             difficultyVBox.setVisible(true);
             difficultyVBox.setManaged(true);
