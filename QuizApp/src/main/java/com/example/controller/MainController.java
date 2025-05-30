@@ -310,6 +310,6 @@ public class MainController {
     }
 
     public void finishGame(ActionEvent actionEvent) {
-        ControlloreRisposte.setFinalScore(currentQuiz);
+        QuizController.setFinalScore(currentQuiz);
     }
 }

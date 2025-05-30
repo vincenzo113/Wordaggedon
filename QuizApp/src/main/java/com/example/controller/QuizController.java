@@ -4,6 +4,8 @@ import com.example.models.Documento;
 
 import com.example.difficultySettings.DifficultyEnum;
 import com.example.difficultySettings.DifficultySettings;
+import com.example.models.Domanda;
+import com.example.models.Risposta;
 import com.example.models.SessioneQuiz;
 import com.example.timerService.TimerService;
 import javafx.application.Platform;
@@ -47,6 +49,18 @@ public class QuizController {
         });
 
         timerService.start();
+    }
+
+    public static void setFinalScore(SessioneQuiz sessioneQuiz){
+        int score = 0;
+        for (Domanda domanda : sessioneQuiz.getDomande()) {
+            for (Risposta risposta : domanda.getRisposte()) {
+                if (risposta.isSelected() && risposta.getCorretta()) {
+                    score++;
+                }
+            }
+        }
+        sessioneQuiz.setScore(score);
     }
 
 
