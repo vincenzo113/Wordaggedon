@@ -20,8 +20,6 @@ public class QuizController {
     }
 
 
-
-
     public static void startTimerPerTesto(List<Documento> documenti , int numeroTesto , Label timeLabel , ProgressBar timeProgressBar , DifficultyEnum difficolta , Label displayText , Label displayTitleText) {
         int timeLimit = DifficultySettings.getTimeLimit(difficolta);
         int maxTesti = DifficultySettings.getNumeroTesti(difficolta);

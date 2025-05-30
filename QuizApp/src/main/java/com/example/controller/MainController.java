@@ -1,6 +1,5 @@
 package com.example.controller;
 
-import com.example.TimerService.TimerService;
 import com.example.alerts.Alert;
 import com.example.alerts.AlertList;
 import com.example.dao.Documento.DocumentoDAOPostgres;
@@ -9,7 +8,6 @@ import com.example.exceptions.CampiNonCompilatiException;
 import com.example.exceptions.PasswordDiverseException;
 import com.example.models.Documento;
 import com.example.models.User;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -21,8 +19,6 @@ import java.util.List;
 public class MainController {
     //DAOs
     private DocumentoDAOPostgres documentoDAOPostgres = new DocumentoDAOPostgres();
-
-
 
     //LOGIN
     public TextField loginUsernameField;
@@ -54,13 +50,6 @@ public class MainController {
     public ProgressBar timeProgressBar;
     public Label displayTextLabel;
     /*******
-
-
-
-
-
-
-
 
 
 
@@ -180,9 +169,9 @@ public class MainController {
         difficultyVBox.setVisible(false);
         testoVBox.setVisible(true);
         testoVBox.setManaged(true);
-        DifficultyEnum difficoltà = getDifficoltaScelta();
-        List<Documento> testiDaMostrare = documentoDAOPostgres.getDocumentiPerDifficolta(difficoltà);
-        QuizController.startTimerPerTesto(testiDaMostrare ,0, timeLabel , timeProgressBar , difficoltà , displayTextLabel , titleQuiz);
+        DifficultyEnum diff = getDifficoltaScelta();
+        List<Documento> testiDaMostrare = documentoDAOPostgres.getDocumentiPerDifficolta(diff);
+        QuizController.startTimerPerTesto(testiDaMostrare ,0, timeLabel , timeProgressBar , diff, displayTextLabel , titleQuiz);
     }
 
 

@@ -7,14 +7,8 @@ public class Alert {
         alert.setHeaderText(null);
 
         switch (alertType) {
-            case LOGIN_SUCCESS:
-                alert.setTitle("Login avvenuto con successo");
-                break;
             case LOGIN_FAILURE:
                 alert.setTitle("Login Fallito");
-                break;
-            case REGISTER_SUCCESS:
-                alert.setTitle("Registration avvenuta con successo");
                 break;
             case REGISTER_FAILURE:
                 alert.setTitle("Registration fallita , riprova");

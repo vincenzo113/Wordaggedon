@@ -17,11 +17,7 @@ public class RegisterController {
             e.printStackTrace();
         }
 
-        if (successRegistrazione) {
-            return true;
-        } else {
-            return false;
-        }
+        return successRegistrazione;
 
     }
 }
