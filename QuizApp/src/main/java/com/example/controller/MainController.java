@@ -310,7 +310,6 @@ public class MainController {
     }
 
     public void finishGame(ActionEvent actionEvent) {
-        //SETTA LO SCORE FINALE DELL'UTENTE CORRENTE
-        //UTILIZZANDO CONTROLLORE RISPOSTE
+        ControlloreRisposte.setFinalScore(currentQuiz);
     }
 }

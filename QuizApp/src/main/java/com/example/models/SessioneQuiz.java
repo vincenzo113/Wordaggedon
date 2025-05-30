@@ -43,6 +43,9 @@ public class SessioneQuiz {
             return score;
         }
 
+        public void setScore(int score) { this.score = score; }
+
+
         public void generaDomande() {
             //PRELIEVO DI DOMANDE BASE DAL DATABASE
 
@@ -83,4 +86,6 @@ public class SessioneQuiz {
 
 
         }
+
+
 }
