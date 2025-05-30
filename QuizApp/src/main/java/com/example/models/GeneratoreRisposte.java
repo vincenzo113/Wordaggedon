@@ -8,25 +8,25 @@ public class GeneratoreRisposte {
 
     static RispostaDAOPostgres rispostaDAOPostgres = new RispostaDAOPostgres();
     public static List<Risposta> RipetizioneParolaDocumento(Documento documento, String parola) {
-        rispostaDAOPostgres.selectRispostaCorrettaRipetizioneParolaDocumento(documento, parola);
+        Risposta rispostaCorretta = rispostaDAOPostgres.selectRispostaCorrettaRipetizioneParolaDocumento(documento, parola);
 
         return null;
     }
 
     public static List<Risposta>  PiuFrequenteDocumento(Documento documento) {
-        rispostaDAOPostgres.selectRispostaCorrettaPiuFrequenteDocumento(documento);
+        Risposta rispostaCorretta = rispostaDAOPostgres.selectRispostaCorrettaPiuFrequenteDocumento(documento);
 
         return null;
     }
 
     public static List<Risposta>  PiuFrequenteInTutti(List<Documento> documenti) {
-        rispostaDAOPostgres.selectRispostaCorrettaPiuFrequenteInTutti(documenti);
+        Risposta rispostaCorretta = rispostaDAOPostgres.selectRispostaCorrettaPiuFrequenteInTutti(documenti);
 
         return null;
     }
 
     public static List<Risposta>  NonPresente(List<Documento> documenti) {
-        rispostaDAOPostgres.selectRispostaCorrettaNonPresente(documenti);
+        Risposta rispostaCorretta = rispostaDAOPostgres.selectRispostaCorrettaNonPresente(documenti);
 
         return null;
     }
