@@ -37,11 +37,9 @@ public class QuizController {
         TimerService timerService = new TimerService(timeLimit, () -> {
             Platform.runLater(() -> {
                 if (numeroTesto + 1 < maxTesti) {
-                    startTimerPerTesto(documenti, numeroTesto + 1, timeLabel, timeProgressBar, difficolta , displayText , displayTitleText,null);
+                    startTimerPerTesto(documenti, numeroTesto + 1, timeLabel, timeProgressBar, difficolta , displayText , displayTitleText,showQuestionsAndAnswers);
                 } else {
                     // Fine fase lettura , si passa alla nuova scena delle domande
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION , "Implementare che bisogna andare alla prossima scena , quella in cui si mostrano le domande");
-                    alert.showAndWait();
                     showQuestionsAndAnswers.run();
                 }
             });

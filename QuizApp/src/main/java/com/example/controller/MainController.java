@@ -280,7 +280,7 @@ public class MainController {
         testoVBox.setManaged(true);
         DifficultyEnum diff = getDifficoltaScelta();
         List<Documento> testiDaMostrare = documentoDAOPostgres.getDocumentiPerDifficolta(diff);
-        QuizController.startTimerPerTesto(testiDaMostrare ,0, timeLabel , timeProgressBar , diff, displayTextLabel , titleQuiz ,null );
+        QuizController.startTimerPerTesto(testiDaMostrare ,0, timeLabel , timeProgressBar , diff, displayTextLabel , titleQuiz ,this::showQuestionsAndAnswers );
     }
 
 
