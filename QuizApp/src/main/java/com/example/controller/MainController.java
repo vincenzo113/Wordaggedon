@@ -112,7 +112,8 @@ public class MainController {
     SessioneQuiz currentQuiz;
 
 
-
+    //USER
+    User currentUser;
 
 
 
@@ -215,6 +216,7 @@ public class MainController {
 
         if(userToLog != null) {
             System.out.println("Login avvenuto con successo");
+            currentUser = userToLog; // Imposta l'utente corrente
             loginVBox.setVisible(false);
             difficultyVBox.setVisible(true);
             difficultyVBox.setManaged(true);
@@ -279,7 +281,7 @@ public class MainController {
         DifficultyEnum diff = getDifficoltaScelta();
 
         List<Documento> testiDaMostrare = documentoDAOPostgres.getDocumentiPerDifficolta(diff);
-        currentQuiz = new SessioneQuiz(testiDaMostrare, diff, null); // Inizializza la sessione quiz con difficoltà scelta
+        currentQuiz = new SessioneQuiz(testiDaMostrare, diff, currentUser); // Inizializza la sessione quiz con difficoltà scelta
         QuizController.startTimerPerTesto(testiDaMostrare ,0, timeLabel , timeProgressBar , diff, displayTextLabel , titleQuiz ,this::showQuestionsAndAnswers );
     }
 
