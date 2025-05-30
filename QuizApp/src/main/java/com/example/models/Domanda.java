@@ -24,35 +24,35 @@ public class Domanda {
     public Risposta[] getRisposte() {
         return risposte;
     }
-    public void setRisposte(Testo[] testi , String parola , int random) {
+    public void setRisposte(Documento[] documenti , String parola , int random) {
 
             if(testo.startsWith("Quante volte si ripete la parola")){
                 //CHIAMI UNA FUNZIONE SPECIFICA PER CALCOLARE RISPOSTA DI CALCOLATORE RISPOSTE
 
-                risposte = CalcolatoreRisposte.calcolaRispostePerConteggio(testi,parola);
+                risposte = CalcolatoreRisposte.calcolaRispostePerConteggio(documenti,parola);
             }
 
 
 
     }
-    public void setRisposte(Testo[] testi){
+    public void setRisposte(Documento[] documenti){
         if(testo.startsWith("Quale parola non appare mai in nessun documento")){
             //CHIAMI UNA FUNZIONE SPECIFICA PER CALCOLARE RISPOSTA DI CALCOLATORE RISPOSTE
 
-            risposte = CalcolatoreRisposte.calcolaParolaCheNonAppareMai(testi);
+            risposte = CalcolatoreRisposte.calcolaParolaCheNonAppareMai(documenti);
         }
         if(testo.startsWith("Qual è la parola più frequente in tutti i documenti")){
             //CHIAMI UNA FUNZIONE SPECIFICA PER CALCOLARE RISPOSTA DI CALCOLATORE RISPOSTE
 
-            risposte = CalcolatoreRisposte.calcolaParolaPiuFrequenteInTuttiIDocumenti(testi);
+            risposte = CalcolatoreRisposte.calcolaParolaPiuFrequenteInTuttiIDocumenti(documenti);
         }
     }
 
-    public void setRisposte(Testo[] testi,int random){
+    public void setRisposte(Documento[] documenti,int random){
         if(testo.startsWith("Qual è la parola più frequente nel testo del quiz ")){
             //CHIAMI UNA FUNZIONE SPECIFICA PER CALCOLARE RISPOSTA DI CALCOLATORE RISPOSTE
 
-            risposte = CalcolatoreRisposte.calcolaParolaPiuFrequente(testi);
+            risposte = CalcolatoreRisposte.calcolaParolaPiuFrequente(documenti);
         }
     }
 

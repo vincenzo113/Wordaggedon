@@ -1,25 +1,28 @@
 package com.example.models;
 
+import com.example.dao.QuizDAOPostgres;
+import com.example.difficultySettings.DifficultyEnum;
+
 import java.util.Random;
 
 public class Quiz {
-    private Testo[] testi;
+    private Documento[] documenti;
     private Domanda[] domande;
-    private String difficolta;/**/
+    private DifficultyEnum difficolta;/**/
+    private QuizDAOPostgres quizDAOPostgres;
 
-    public Quiz( Testo[] testi , Domanda[] domande, String difficolta ) {
-        this.testi = testi ;
+    public Quiz( Documento[] documenti , Domanda[] domande, DifficultyEnum difficolta ) {
+        this.documenti = documenti ;
         this.domande = domande;
         this.difficolta = difficolta;
-        setDomande();
     }
-    public Testo[] getTesti() {
-        return testi;
+    public Documento[] getTesti() {
+        return documenti;
     }
-    public void setTesti(Testo[] testi) {
-        this.testi = testi;
+    public void setTesti(Documento[] testi) {
+        this.documenti = testi;
     }
-    public String getDifficolta(){
+    public DifficultyEnum getDifficolta(){
         return difficolta;
     }
 
@@ -27,48 +30,43 @@ public class Quiz {
         return domande;
     }
 
-    public void setDomande() {
+    public void generaDomande() {
         //PRELIEVO DI DOMANDE BASE DAL DATABASE
 
-        domande = new Domanda[]{
-                new Domanda("Quante volte si ripete una parola",new Risposta[4]),
-                new Domanda("Qual è la parola più frequente",new Risposta[4]),
-                new Domanda("Qual è la parola più frequente in tutti i documenti",new Risposta[4]),
-                new Domanda("Quale parola non appare mai in nessun documento", new Risposta[4])
-        }; //DA ELIMINARE E SOSTITUIRE CON PRELIEVO DI DOMANDE CASUALI DAL DATABASE
-
+        domande = quizDAOPostgres.selectDomande(); // Esegui la query per ottenere le domande
 
         for(int i=0;i<domande.length;i++) {
 
+            //FARE ENUM PER DISTINGUERE LE DOMANDE
             if (domande[i].getTesto().equals("Quante volte si ripete una parola")) {
-                String parolaDaCercare = null; //QUERY PER CERCARE UNA PAROLA A CASO NEL TESTO DEL QUIZ
+                String parolaDaCercare = null; //QUERY PER CERCARE UNA PAROLA A CASO NEI TESTI
                 Random random = new Random();
-                int indiceTesto = random.nextInt(testi.length);
+                int indiceTesto = random.nextInt(documenti.length);
                 domande[i].setTesto("Quante volte si ripete la parola " + parolaDaCercare + " nel testo del quiz " + random + 1 + "?");
-                domande[i].setRisposte(testi,parolaDaCercare,indiceTesto); // Imposta le risposte per questa domanda
+                domande[i].setRisposte(documenti,parolaDaCercare,indiceTesto); // Imposta le risposte per questa domanda
                 //GLI DOVRESTI PASSARE LA MAPPAZIONE DELLE PAROLE E IL CONTEGGIO
             };
 
 
             if (domande[i].getTesto().equals("Qual è la parola più frequente nel quiz ?")) {
                 Random random = new Random();
-                int indiceTesto = random.nextInt(testi.length);
+                int indiceTesto = random.nextInt(documenti.length);
                 domande[i].setTesto("Qual è la parola più frequente nel testo del quiz " + random + 1 + "?");
-                domande[i].setRisposte(testi,indiceTesto); // Imposta le risposte per questa domanda
+                domande[i].setRisposte(documenti,indiceTesto); // Imposta le risposte per questa domanda
                 //PASSEREI ID TESTO A SET RISPOSTE PER PERMETTERGLI DI FARE UNA QUERY SULLA MAPPATURA DELLE PAROLE
             }
 
             if (domande[i].getTesto().equals("Qual è la parola più frequente in tutti i documenti")) {
 
                 domande[i].setTesto("Qual è la parola più frequente in tutti i documenti ?");
-                domande[i].setRisposte(testi); // Imposta le risposte per questa domanda
+                domande[i].setRisposte(documenti); // Imposta le risposte per questa domanda
                 //PASSEREI ID TESTO A SET RISPOSTE PER PERMETTERGLI DI FARE UNA QUERY SULLA MAPPATURA DELLE PAROLE
             }
 
             if (domande[i].getTesto().equals("Quale parola non appare mai in nessun documento")) {
 
                 domande[i].setTesto("Quale parola non appare mai in nessun documento?");
-                domande[i].setRisposte(testi); // Imposta le risposte per questa domanda
+                domande[i].setRisposte(documenti); // Imposta le risposte per questa domanda
                 //PASSEREI ID TESTO A SET RISPOSTE PER PERMETTERGLI DI FARE UNA QUERY SULLA MAPPATURA DELLE PAROLE
             }
 

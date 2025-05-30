@@ -9,20 +9,21 @@ import java.sql.SQLException;
 
 public class RegisterController {
 
-    static public void registerUser(User user) {
+    public static boolean hasRegisterSuccess(User user) {
         UserDAO<User> userDAOPostgres = new UserDAOPostgres();
-        boolean isRegistered = false;
+        boolean successRegistrazione= false;
 
         try {
-            isRegistered = userDAOPostgres.register(user);
+            successRegistrazione = userDAOPostgres.register(user);
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        if (isRegistered) {
-            Alert.showAlert(AlertList.REGISTER_SUCCESS);
+        if (successRegistrazione) {
+            return true;
         } else {
-            Alert.showAlert(AlertList.REGISTER_FAILURE);
+            return false;
         }
+
     }
 }

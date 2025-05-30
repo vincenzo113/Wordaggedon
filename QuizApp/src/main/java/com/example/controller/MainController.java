@@ -3,6 +3,7 @@ package com.example.controller;
 import com.example.TimerService.TimerService;
 import com.example.alerts.Alert;
 import com.example.alerts.AlertList;
+import com.example.difficultySettings.DifficultyEnum;
 import com.example.exceptions.CampiNonCompilatiException;
 import com.example.exceptions.PasswordDiverseException;
 import com.example.models.Domanda;
@@ -23,29 +24,38 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public class MainController {
-    @FXML
+
+    //LOGIN
     public TextField loginUsernameField;
-    @FXML
     public PasswordField loginPasswordField;
-    @FXML
+    public VBox loginVBox;
+    public Button nextButton;
+    private LoginController loginController;
+
+    //REGISTER
     public Button registerButton;
     public PasswordField confirmRegisterPasswordField;
     public PasswordField registerPasswordField;
     public TextField registerUsernameField;
+    public VBox registerVBox;
+    public Button switchModeButton;
 
-
+    //TIMER
     public Label timeLabel;
     public Label timeInfoLabel;
     public ProgressBar timeProgressBar;
+
+
     public Label displayTextLabel;
     public Label statusLabel;
     public Label titleLabel;
 
+    //DOMANDE
     public Label q1 ;
     public Label q2 ;
     public Label q3 ;
     public Label q4 ;
-
+    //OPZIONI RISPOSTE
     public RadioButton q1opt1;
     public RadioButton q1opt2;
     public RadioButton q1opt3;
@@ -66,6 +76,7 @@ public class MainController {
     public RadioButton q4opt3;
     public RadioButton q4opt4;
 
+    //ARRAY DI RISPOSTE
     public RadioButton[] q1Options = {
             q1opt1, q1opt2, q1opt3, q1opt4
     };
@@ -79,66 +90,40 @@ public class MainController {
             q4opt1, q4opt2, q4opt3, q4opt4
     };
 
-    public VBox registerVBox;
-    public Button switchModeButton;
-    public VBox loginVBox;
-    public VBox testoVBox;
-    public VBox domandaRispostaVBox;
-
-
-    public Label titleQuiz;
-
+    //SCELTA DELLA DIFFICOLTA'
     public Label usernameWelcomeLabel;
     public VBox difficultyVBox;
-
-    @FXML
+    public RadioButton easyRadio;
+    public RadioButton mediumRadio;
+    public RadioButton hardRadio;
+    public Button startGameButton;
     private Label welcomeText;
+    //*******
 
-    private LoginController loginController;
+
+    //QUIZ
+    public VBox testoVBox;
+    public VBox domandaRispostaVBox;
+    public Label titleQuiz;
     private QuizController QuizController;
+    Quiz currentQuiz;
+    int numCurrentTesto = 1; ;
+
+
+
+
+
 
     private int currentQuizId ;
 
     private TimerService timerService;
 
-    Quiz currentQuiz;
+
 
     private void getQuiz(){
-         currentQuiz = QuizController.getQuiz("facile");
+         currentQuiz = QuizController.getQuiz(getDifficoltaScelta());
     }
-    private void showQuizText(ActionEvent actionEvent) {
-        // Mostra il testo del quiz
 
-        loginVBox.setVisible(false);
-        loginVBox.setManaged(false);
-        registerVBox.setVisible(false);
-        registerVBox.setManaged(false);
-        testoVBox.setVisible(true);
-        testoVBox.setManaged(true);
-        domandaRispostaVBox.setVisible(false);
-        domandaRispostaVBox.setManaged(false);
-
-        titleQuiz.setText(currentQuiz.getTitolo());
-
-        displayTextLabel.setText("...");
-
-
-        //FAI PARTIRE TIMER!
-
-        timerService = new TimerService(
-                60,
-
-                () -> {
-                    showQuestionsAndAnswers(actionEvent);
-                    return;
-                }
-        );
-        timeProgressBar.progressProperty().bind(timerService.progressProperty());
-        timerService.start();
-
-
-
-    }
 
     private void showQuestionsAndAnswers(ActionEvent actionEvent) {
         // Mostra le domande e le risposte del quiz
@@ -210,7 +195,11 @@ public class MainController {
         return new User(username,password,false);
     }
 
-
+    private DifficultyEnum getDifficoltaScelta(){
+        if(easyRadio.isSelected()) return DifficultyEnum.EASY;
+        else if(mediumRadio.isSelected()) return DifficultyEnum.MEDIUM;
+        else return  DifficultyEnum.HARD;
+    }
     /***********/
 
 
@@ -236,7 +225,10 @@ public class MainController {
             difficultyVBox.setVisible(true);
             difficultyVBox.setManaged(true);
             StartGameController.aggiornaLabel(usernameWelcomeLabel , userToLog.getUsername());
-        } else {}
+        } else {
+            Alert.showAlert(AlertList.LOGIN_FAILURE);
+            return;
+        }
 
     }
 
@@ -253,12 +245,17 @@ public class MainController {
             return;
         }
 
-        RegisterController.registerUser(userToRegister);
-
-        registerVBox.setVisible(false);
-        registerVBox.setManaged(false);
-        loginVBox.setVisible(true);
-        loginVBox.setManaged(true);
+        if(RegisterController.hasRegisterSuccess(userToRegister)) {
+            Alert.showAlert(AlertList.REGISTER_SUCCESS);
+            registerVBox.setVisible(false);
+            registerVBox.setManaged(false);
+            loginVBox.setVisible(true);
+            loginVBox.setManaged(true);
+        }
+        else {
+            Alert.showAlert(AlertList.REGISTER_FAILURE);
+            return;
+        }
 
     }
 
@@ -278,5 +275,16 @@ public class MainController {
 
 
     public void handleStartGame(ActionEvent actionEvent) {
+        difficultyVBox.setVisible(false);
+        testoVBox.setVisible(true);
+        testoVBox.setManaged(true);
+
+        getQuiz();
+        QuizController.startTimerPerTesto(numCurrentTesto , timeLabel , timeProgressBar , getDifficoltaScelta());
+    }
+
+    public void nextDocument(ActionEvent actionEvent) {
+        numCurrentTesto++;
+        QuizController.startTimerPerTesto(numCurrentTesto , timeLabel , timeProgressBar , getDifficoltaScelta());
     }
 }
