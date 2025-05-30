@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox fx:controller="com.example.controller.MainController" xmlns:fx="http://javafx.com/fxml">
+<StackPane fx:controller="com.example.controller.MainController" xmlns:fx="http://javafx.com/fxml">
     <VBox
             fx:id="registerVBox"
             stylesheets="@../css/login-style.css"
@@ -328,4 +328,4 @@
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
         </padding>
     </VBox>
-</VBox>
+</StackPane>
