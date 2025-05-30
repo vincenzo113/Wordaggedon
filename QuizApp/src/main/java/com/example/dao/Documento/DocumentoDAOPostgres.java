@@ -69,6 +69,10 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
             String insertDocumento = String.format("INSERT INTO documento(titolo,contenuto) VALUES ('%s', '%s')", documento.getTitolo(), documento.getContenuto());
             s.executeUpdate(insertDocumento);
 
+            String query = String.format("SELECT id FROM documento WHERE titolo = '%s' AND contenuto = '%s'", documento.getTitolo(), documento.getContenuto());
+            ResultSet rs = s.executeQuery(query);
+
+            documento.setId(rs.getInt("id"));
             insertParole(documento);
 
         } catch (Exception e) {
@@ -82,7 +86,7 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
                     Connection c = DriverManager.getConnection(URL, USER, PASS);
                     Statement s = c.createStatement();
             ) {
-                String insertParola = String.format("INSERT INTO parole(parola,id_documento) VALUES ('%s', '%s')", entry.getKey(), documento.getId());
+                String insertParola = String.format("INSERT INTO parola(documento,valore,conteggio) VALUES ('%s', '%s')",documento.getId(), entry.getKey(), documento.getId());
                 s.executeUpdate(insertParola);
             } catch (Exception e) {
                 e.printStackTrace();
