@@ -1,6 +1,5 @@
 package com.example.controller;
 
-import com.example.dao.QuizDAOPostgres;
 import com.example.models.Documento;
 
 import com.example.difficultySettings.DifficultyEnum;
@@ -8,7 +7,6 @@ import com.example.difficultySettings.DifficultySettings;
 import com.example.models.SessioneQuiz;
 import com.example.timerService.TimerService;
 import javafx.application.Platform;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 
@@ -16,7 +14,6 @@ import java.util.*;
 
 public class QuizController {
 
-   QuizDAOPostgres quizDAOPostgres = new QuizDAOPostgres();
     Map<String, Integer> conteggio ;
 
     public SessioneQuiz getQuiz(DifficultyEnum difficolta) {

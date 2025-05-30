@@ -26,21 +26,21 @@ public class Domanda {
 
     public void setRisposte(Documento documento , String parola) {
         if (getTesto().startsWith("Quante volte si ripete una parola")) {
-            risposte = CalcolatoreRisposte.RipetizioneParolaDocumento(documento, parola);
+            risposte = GeneratoreRisposte.RipetizioneParolaDocumento(documento, parola);
         }
     }
     public void setRisposte(Documento documento) {
         if (getTesto().startsWith("Qual è la parola più frequente nel quiz")) {
-            risposte = CalcolatoreRisposte.PiuFrequenteDocumento(documento);
+            risposte = GeneratoreRisposte.PiuFrequenteDocumento(documento);
         }
     }
 
     public void setRisposte(List<Documento> documenti){
             if(getTesto().startsWith("Qual è la parola più frequente in tutti i documenti")){
-                risposte = CalcolatoreRisposte.PiuFrequenteInTutti(documenti);
+                risposte = GeneratoreRisposte.PiuFrequenteInTutti(documenti);
             }
             else if(getTesto().startsWith("Quale parola non appare mai in nessun documento")){
-                risposte = CalcolatoreRisposte.NonPresente(documenti);
+                risposte = GeneratoreRisposte.NonPresente(documenti);
             }
         }
 

@@ -4,7 +4,7 @@ import com.example.dao.Risposta.RispostaDAOPostgres;
 
 import java.util.List;
 
-public class CalcolatoreRisposte {
+public class GeneratoreRisposte {
 
     static RispostaDAOPostgres rispostaDAOPostgres = new RispostaDAOPostgres();
     public static List<Risposta> RipetizioneParolaDocumento(Documento documento, String parola) {

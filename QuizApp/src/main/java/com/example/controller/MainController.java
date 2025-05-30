@@ -121,12 +121,6 @@ public class MainController {
     private TimerService timerService;
 
 
-
-    private void getQuiz(){
-         currentQuiz = QuizController.getQuiz(getDifficoltaScelta());
-    }
-
-
     private void showQuestionsAndAnswers() {
 
         testoVBox.setVisible(false);
@@ -134,6 +128,7 @@ public class MainController {
         domandaRispostaVBox.setVisible(true);
         domandaRispostaVBox.setManaged(true);
 
+        currentQuiz.generaDomande();
         List<Domanda> domande = currentQuiz.getDomande();
 
         q1.setText(domande.get(0).getTesto());
@@ -282,7 +277,9 @@ public class MainController {
         testoVBox.setVisible(true);
         testoVBox.setManaged(true);
         DifficultyEnum diff = getDifficoltaScelta();
+
         List<Documento> testiDaMostrare = documentoDAOPostgres.getDocumentiPerDifficolta(diff);
+        currentQuiz = new SessioneQuiz(testiDaMostrare, diff, null); // Inizializza la sessione quiz con difficoltà scelta
         QuizController.startTimerPerTesto(testiDaMostrare ,0, timeLabel , timeProgressBar , diff, displayTextLabel , titleQuiz ,this::showQuestionsAndAnswers );
     }
 
@@ -310,5 +307,10 @@ public class MainController {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void finishGame(ActionEvent actionEvent) {
+        //SETTA LO SCORE FINALE DELL'UTENTE CORRENTE
+        //UTILIZZANDO CONTROLLORE RISPOSTE
     }
 }
