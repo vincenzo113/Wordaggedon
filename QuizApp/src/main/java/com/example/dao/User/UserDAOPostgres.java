@@ -88,7 +88,7 @@ public class UserDAOPostgres implements UserDAO<User> {
                 Connection c = DriverManager.getConnection(URL, USER, PASS);
                 Statement s = c.createStatement();
         ) {
-            String insert = String.format("INSERT INTO public.users(username, password, role) VALUES ('%s', '%s', '%s')", user.getUsername(), user.getPassword(), user.isAdmin());
+            String insert = String.format("INSERT INTO public.users(username, password, admin) VALUES ('%s', '%s', '%s')", user.getUsername(), user.getPassword(), user.isAdmin());
             s.executeUpdate(insert);
         } catch (Exception e) {
             e.printStackTrace();
