@@ -1,6 +1,6 @@
 package com.example.controller;
 
-import com.example.TimerService.TimerService;
+import com.example.timerService.TimerService;
 import com.example.difficultySettings.DifficultyEnum;
 import com.example.difficultySettings.DifficultySettings;
 import com.example.models.Documento;
