@@ -107,7 +107,6 @@ public class MainController {
     public Label titleQuiz;
     private QuizController QuizController;
     Quiz currentQuiz;
-    int numCurrentTesto = 1; ;
 
 
 
@@ -280,11 +279,10 @@ public class MainController {
         testoVBox.setManaged(true);
 
         getQuiz();
-        QuizController.startTimerPerTesto(numCurrentTesto , timeLabel , timeProgressBar , getDifficoltaScelta());
+        QuizController.startTimerPerTesto(1 , timeLabel , timeProgressBar , getDifficoltaScelta());
     }
 
-    public void nextDocument(ActionEvent actionEvent) {
-        numCurrentTesto++;
-        QuizController.startTimerPerTesto(numCurrentTesto , timeLabel , timeProgressBar , getDifficoltaScelta());
+
+    public void finishGame(ActionEvent actionEvent) {
     }
 }

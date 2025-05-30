@@ -64,6 +64,7 @@ public class QuizController {
                 } else {
                     // Fine fase lettura , si passa alla nuova scena delle domande
 
+
                 }
             });
         });
