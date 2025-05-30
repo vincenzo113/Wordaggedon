@@ -7,10 +7,7 @@ import com.example.dao.Documento.DocumentoDAOPostgres;
 import com.example.difficultySettings.DifficultyEnum;
 import com.example.exceptions.CampiNonCompilatiException;
 import com.example.exceptions.PasswordDiverseException;
-import com.example.models.Documento;
-import com.example.models.Domanda;
-import com.example.models.Quiz;
-import com.example.models.User;
+import com.example.models.*;
 import com.example.timerService.TimerService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -112,7 +109,7 @@ public class MainController {
     public VBox domandaRispostaVBox;
     public Label titleQuiz;
     private QuizController QuizController;
-    Quiz currentQuiz;
+    SessioneQuiz currentQuiz;
 
 
 
@@ -137,28 +134,28 @@ public class MainController {
         domandaRispostaVBox.setVisible(true);
         domandaRispostaVBox.setManaged(true);
 
-        Domanda[] domande = currentQuiz.getDomande();
+        List<Domanda> domande = currentQuiz.getDomande();
 
-        q1.setText(domande[0].getTesto());
-        q2.setText(domande[1].getTesto());
-        q3.setText(domande[2].getTesto());
-        q4.setText(domande[3].getTesto());
+        q1.setText(domande.get(0).getTesto());
+        q2.setText(domande.get(1).getTesto());
+        q3.setText(domande.get(2).getTesto());
+        q4.setText(domande.get(3).getTesto());
 
         int i = 0;
         for(RadioButton q1opt : q1Options) {
-            q1opt.setText(domande[0].getRisposte()[i].getTesto());
+            q1opt.setText(domande.get(0).getRisposte().get(i).getTesto());
         }
         i=0;
         for(RadioButton q2opt : q2Options) {
-            q2opt.setText(domande[1].getRisposte()[i].getTesto());
+            q2opt.setText(domande.get(1).getRisposte().get(i).getTesto());
         }
         i=0;
         for(RadioButton q3opt : q3Options) {
-            q3opt.setText(domande[2].getRisposte()[i].getTesto());
+            q3opt.setText(domande.get(2).getRisposte().get(i).getTesto());
         }
         i=0;
         for(RadioButton q4opt : q4Options) {
-            q4opt.setText(domande[3].getRisposte()[i].getTesto());
+            q4opt.setText(domande.get(3).getRisposte().get(i).getTesto());
         }
 
 

@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Random;
 public class Domanda {
     private String testo;
-    private Risposta[] risposte;
+    private List<Risposta> risposte;
 
-    public Domanda(String testo, Risposta[] risposte) {
+    public Domanda(String testo, List<Risposta> risposte) {
         this.testo = testo;
         this.risposte = risposte;
     }
@@ -20,44 +20,32 @@ public class Domanda {
     public void setTesto(String testo) {
         this.testo = testo;
     }
-    public Risposta[] getRisposte() {
+    public  List<Risposta> getRisposte() {
         return risposte;
     }
-    public void setRisposte(Documento[] documenti , String parola , int random) {
 
-            if(testo.startsWith("Quante volte si ripete la parola")){
-                //CHIAMI UNA FUNZIONE SPECIFICA PER CALCOLARE RISPOSTA DI CALCOLATORE RISPOSTE
+    public void setRisposte(Documento documento , String parola) {
+        if (getTesto().startsWith("Quante volte si ripete una parola")) {
+            risposte = CalcolatoreRisposte.RipetizioneParolaDocumento(documento, parola);
+        }
+    }
+    public void setRisposte(Documento documento) {
+        if (getTesto().startsWith("Qual è la parola più frequente nel quiz")) {
+            risposte = CalcolatoreRisposte.PiuFrequenteDocumento(documento);
+        }
+    }
 
-                risposte = CalcolatoreRisposte.calcolaRispostePerConteggio(documenti,parola);
+    public void setRisposte(List<Documento> documenti){
+            if(getTesto().startsWith("Qual è la parola più frequente in tutti i documenti")){
+                risposte = CalcolatoreRisposte.PiuFrequenteInTutti(documenti);
             }
-
-
-
-    }
-    public void setRisposte(Documento[] documenti){
-        if(testo.startsWith("Quale parola non appare mai in nessun documento")){
-            //CHIAMI UNA FUNZIONE SPECIFICA PER CALCOLARE RISPOSTA DI CALCOLATORE RISPOSTE
-
-            risposte = CalcolatoreRisposte.calcolaParolaCheNonAppareMai(documenti);
+            else if(getTesto().startsWith("Quale parola non appare mai in nessun documento")){
+                risposte = CalcolatoreRisposte.NonPresente(documenti);
+            }
         }
-        if(testo.startsWith("Qual è la parola più frequente in tutti i documenti")){
-            //CHIAMI UNA FUNZIONE SPECIFICA PER CALCOLARE RISPOSTA DI CALCOLATORE RISPOSTE
-
-            risposte = CalcolatoreRisposte.calcolaParolaPiuFrequenteInTuttiIDocumenti(documenti);
-        }
-    }
-
-    public void setRisposte(Documento[] documenti,int random){
-        if(testo.startsWith("Qual è la parola più frequente nel testo del quiz ")){
-            //CHIAMI UNA FUNZIONE SPECIFICA PER CALCOLARE RISPOSTA DI CALCOLATORE RISPOSTE
-
-            risposte = CalcolatoreRisposte.calcolaParolaPiuFrequente(documenti);
-        }
-    }
-
-
 
 }
+
 
 
 

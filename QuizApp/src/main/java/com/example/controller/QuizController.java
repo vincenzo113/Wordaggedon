@@ -2,11 +2,10 @@ package com.example.controller;
 
 import com.example.dao.QuizDAOPostgres;
 import com.example.models.Documento;
-import com.example.models.Domanda;
-import com.example.models.Quiz;
 
 import com.example.difficultySettings.DifficultyEnum;
 import com.example.difficultySettings.DifficultySettings;
+import com.example.models.SessioneQuiz;
 import com.example.timerService.TimerService;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
@@ -14,15 +13,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class QuizController {
 
    QuizDAOPostgres quizDAOPostgres = new QuizDAOPostgres();
     Map<String, Integer> conteggio ;
 
-    public Quiz getQuiz(DifficultyEnum difficolta) {
+    public SessioneQuiz getQuiz(DifficultyEnum difficolta) {
         return null;
     }
 

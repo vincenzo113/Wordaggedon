@@ -15,8 +15,7 @@ import java.util.List;
 import static java.sql.DriverManager.getConnection;
 
 public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
-    private final String USER = "postgres";
-    private final String PASS = "tw2024";
+
 
     //Metodo per ottenere il numero di documenti da mostrare all'utente in base alla difficolta scelta dall'utente stesso
     @Override
