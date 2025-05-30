@@ -7,7 +7,10 @@ import com.example.difficultySettings.DifficultyEnum;
 import com.example.exceptions.CampiNonCompilatiException;
 import com.example.exceptions.PasswordDiverseException;
 import com.example.models.Documento;
+import com.example.models.Domanda;
+import com.example.models.Quiz;
 import com.example.models.User;
+import com.example.timerService.TimerService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -19,6 +22,7 @@ import java.util.List;
 public class MainController {
 
 
+    public Button addTestoButton;
     //DAOs
     private DocumentoDAOPostgres documentoDAOPostgres = new DocumentoDAOPostgres();
 
@@ -26,6 +30,7 @@ public class MainController {
     public TextField loginUsernameField;
     public PasswordField loginPasswordField;
     public VBox loginVBox;
+    private LoginController loginController;
     //***********
     //REGISTRAZIONE
     public Button registerButton;
@@ -126,7 +131,7 @@ public class MainController {
         domandaRispostaVBox.setVisible(true);
         domandaRispostaVBox.setManaged(true);
 
-        Domanda [] domande = currentQuiz.getDomande();
+        Domanda[] domande = currentQuiz.getDomande();
 
         q1.setText(domande[0].getTesto());
         q2.setText(domande[1].getTesto());
@@ -156,7 +161,7 @@ public class MainController {
 
     /*Metodi privati*/
     private void initAuthControllers(){
-        loginController = new LoginController();
+         loginController = new LoginController();
         QuizController = new QuizController();
     }
 
@@ -208,14 +213,14 @@ public class MainController {
             return;
         }
 
-        user = LoginController.hasLoginSuccess(userToLog);
+        userToLog = LoginController.hasLoginSuccess(userToLog);
 
-        if(user != null) {
+        if(userToLog != null) {
             System.out.println("Login avvenuto con successo");
             loginVBox.setVisible(false);
             difficultyVBox.setVisible(true);
             difficultyVBox.setManaged(true);
-            if(user.isAdmin()) {
+            if(userToLog.isAdmin()) {
                 addTestoButton.setVisible(true);
                 addTestoButton.setManaged(true);
             }
@@ -228,8 +233,9 @@ public class MainController {
     }
 
     public void handleRegister(ActionEvent actionEvent) throws SQLException {
+        User userToRegister = null;
         try {
-            user = checkRegister();
+             userToRegister = checkRegister();
         } catch (CampiNonCompilatiException e) {
             Alert.showAlert(AlertList.FIELDS_EMPTY);
             return;
@@ -274,8 +280,7 @@ public class MainController {
         testoVBox.setManaged(true);
         DifficultyEnum diff = getDifficoltaScelta();
         List<Documento> testiDaMostrare = documentoDAOPostgres.getDocumentiPerDifficolta(diff);
-        getQuiz();
-        QuizController.startTimerPerTesto(testiDaMostrare ,0, timeLabel , timeProgressBar , diff, displayTextLabel , titleQuiz);
+        QuizController.startTimerPerTesto(testiDaMostrare ,0, timeLabel , timeProgressBar , diff, displayTextLabel , titleQuiz ,null );
     }
 
 

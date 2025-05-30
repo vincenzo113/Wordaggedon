@@ -7,7 +7,7 @@ public class Documento {
     private String contenuto;
     private String difficolta;
 
-    public Documento(int id, String titolo, String contenuto, String difficolta) {
+    public Documento(int id, String titolo, String contenuto) {
         this.id = id;
         this.titolo = titolo;
         this.contenuto = contenuto;

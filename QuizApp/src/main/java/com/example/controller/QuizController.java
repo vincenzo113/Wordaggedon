@@ -1,14 +1,15 @@
 package com.example.controller;
 
 import com.example.dao.QuizDAOPostgres;
+import com.example.models.Documento;
 import com.example.models.Domanda;
 import com.example.models.Quiz;
-import com.example.models.Risposta;
 
-import com.example.TimerService.TimerService;
 import com.example.difficultySettings.DifficultyEnum;
 import com.example.difficultySettings.DifficultySettings;
+import com.example.timerService.TimerService;
 import javafx.application.Platform;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 
@@ -26,7 +27,7 @@ public class QuizController {
     }
 
     public static void startTimerPerTesto(List<Documento> documenti , int numeroTesto , Label timeLabel , ProgressBar timeProgressBar , DifficultyEnum difficolta , Label displayText , Label displayTitleText,
-    Runnable showQuestionsAndAnswers) {
+                                          Runnable showQuestionsAndAnswers) {
         int timeLimit = DifficultySettings.getTimeLimit(difficolta);
         int maxTesti = DifficultySettings.getNumeroTesti(difficolta);
         //Qui bisogna settare il testo e il titolo del testo ogni volta
@@ -36,7 +37,7 @@ public class QuizController {
         TimerService timerService = new TimerService(timeLimit, () -> {
             Platform.runLater(() -> {
                 if (numeroTesto + 1 < maxTesti) {
-                    startTimerPerTesto(documenti, numeroTesto + 1, timeLabel, timeProgressBar, difficolta , displayText , displayTitleText);
+                    startTimerPerTesto(documenti, numeroTesto + 1, timeLabel, timeProgressBar, difficolta , displayText , displayTitleText,null);
                 } else {
                     // Fine fase lettura , si passa alla nuova scena delle domande
                     Alert alert = new Alert(Alert.AlertType.INFORMATION , "Implementare che bisogna andare alla prossima scena , quella in cui si mostrano le domande");
