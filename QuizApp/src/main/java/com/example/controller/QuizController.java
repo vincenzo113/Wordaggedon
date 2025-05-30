@@ -22,50 +22,26 @@ public class QuizController {
     Map<String, Integer> conteggio ;
 
     public Quiz getQuiz(DifficultyEnum difficolta) {
-        Quiz quiz = new Quiz(null,null,difficolta);
-        quiz.setTesti(quizDAOPostgres.selectDocumenti(difficolta)); // Esegui la query per ottenere i testi
-        quiz.generaDomande();
-        return quiz ;
-
+        return null;
     }
 
-    public void setMappaturaQuiz(){
-        String stringa = "" ;
-        Stream<String> parole = Arrays.stream(stringa.split(" "));
-        Map<String, Integer> conteggio = parole.collect(Collectors.groupingBy(String::toString,
-                Collectors.summingInt(p->1))); //per ogni stringa somma 1 al conteggio
-
-        Domanda [] domande = new Domanda[4]; // Supponiamo di avere quattro domande per il quiz facile
-        Random random = new Random();
-
-        List<String> chiavi = new ArrayList<>(conteggio.keySet());
-        String parola = chiavi.get(random.nextInt(chiavi.size()));
-        int rispostaCorretta = conteggio.get(parola);
-    }
-
-    public static void setTitoloTesto(Label label , String titolo){
-        label.setText(titolo);
-    }
-
-
-
-
-    public static void startTimerPerTesto(int numeroTesto , Label timeLabel , ProgressBar timeProgressBar , DifficultyEnum difficolta,
+    public static void startTimerPerTesto(List<Documento> documenti , int numeroTesto , Label timeLabel , ProgressBar timeProgressBar , DifficultyEnum difficolta , Label displayText , Label displayTitleText,
     Runnable showQuestionsAndAnswers) {
-        // Carica il titolo del testo numeroTesto (esempio)
-        // QuizController.setTitoloTesto(titleQuiz, getTitoloPerTesto(numeroTesto));
         int timeLimit = DifficultySettings.getTimeLimit(difficolta);
-        int numeroTesti = DifficultySettings.getNumeroTesti(difficolta);
-        // Timer da 30 secondi con callback
+        int maxTesti = DifficultySettings.getNumeroTesti(difficolta);
+        //Qui bisogna settare il testo e il titolo del testo ogni volta
+        displayText.setText(documenti.get(numeroTesto).getContenuto());
+        displayTitleText.setText(documenti.get(numeroTesto).getTitolo());
+
         TimerService timerService = new TimerService(timeLimit, () -> {
             Platform.runLater(() -> {
-                if (numeroTesto < numeroTesti) {
-                    startTimerPerTesto(numeroTesto + 1 , timeLabel , timeProgressBar , difficolta, showQuestionsAndAnswers);
-                    showNextDocument(); // Mostra il prossimo documento
+                if (numeroTesto + 1 < maxTesti) {
+                    startTimerPerTesto(documenti, numeroTesto + 1, timeLabel, timeProgressBar, difficolta , displayText , displayTitleText);
                 } else {
                     // Fine fase lettura , si passa alla nuova scena delle domande
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION , "Implementare che bisogna andare alla prossima scena , quella in cui si mostrano le domande");
+                    alert.showAndWait();
                     showQuestionsAndAnswers.run();
-
                 }
             });
         });
@@ -80,13 +56,5 @@ public class QuizController {
         timerService.start();
     }
 
-    // Metodo di esempio per ottenere il titolo in base al numero testo
-    private String getTitoloPerTesto(int numeroTesto) {
-        // Qui prendi il titolo dal DB o da lista
-        return "Testo " + numeroTesto;
-    }
 
-    static private void showNextDocument(/*QUI GLI DEVI PASSARE TUTTO PER SETTARE DOCUMENTO*/){
-        return ;
-    }
 }

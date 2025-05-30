@@ -1,4 +1,4 @@
-package com.example.dao;
+package com.example.dao.User;
 
 import com.example.models.User;
 
@@ -19,22 +19,17 @@ public class UserDAOPostgres implements UserDAO<User> {
 
     public boolean register(User user) throws SQLException {
         ResultSet rs = null;
-        System.out.println(URL);
         try(
                 Connection c = DriverManager.getConnection(URL, USER, PASS);
-
                 Statement s = c.createStatement();
         ){
             String query = String.format("select * from public.users where username = '%s'" , user.getUsername());
             rs = s.executeQuery(query);
-
+            //Se non è già registrato ok
             if(!rs.next()) {
-                query = String.format("insert into public.users(username, password) values('%s','%s')", user.getUsername(), user.getPassword());
-                s.executeUpdate(query);
+                insert(user);
                 return true;
             }
-
-            return false;
 
         }catch(Exception ex){
             ex.printStackTrace();
@@ -44,20 +39,25 @@ public class UserDAOPostgres implements UserDAO<User> {
     }
 
     @Override
-    public boolean login(User user) throws SQLException {
+    public User login(User user) throws SQLException {
+        ResultSet rs = null;
         try(
                 Connection c = DriverManager.getConnection(URL, USER, PASS);
                 Statement s = c.createStatement()
         ){
             String query = String.format("select * from users where username = '%s' and password = '%s' ", user.getUsername(), user.getPassword());
-            ResultSet rs = s.executeQuery(query);
+            rs = s.executeQuery(query);
 
-            return rs.next();
+            if(rs.next()) {
+                boolean admin = rs.getBoolean("admin");
+                user.setAdmin(admin);
+                return user;
+            }
 
         }catch(Exception ex){
             ex.printStackTrace();
-            return false;
         }
+        return null;
     }
 
 
@@ -92,7 +92,7 @@ public class UserDAOPostgres implements UserDAO<User> {
                 Connection c = DriverManager.getConnection(URL, USER, PASS);
                 Statement s = c.createStatement();
         ) {
-            String insert = String.format("INSERT INTO public.users(username, password, role) VALUES ('%s', '%s', '%s')", user.getUsername(), user.getPassword(), user.isAdmin());
+            String insert = String.format("INSERT INTO public.users(username, password, admin) VALUES ('%s', '%s', '%s')", user.getUsername(), user.getPassword(), user.isAdmin());
             s.executeUpdate(insert);
         } catch (Exception e) {
             e.printStackTrace();
@@ -111,4 +111,5 @@ public class UserDAOPostgres implements UserDAO<User> {
             e.printStackTrace();
         }
     }
+
 }

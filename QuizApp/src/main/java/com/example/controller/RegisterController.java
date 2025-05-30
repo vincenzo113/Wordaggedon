@@ -1,9 +1,7 @@
 package com.example.controller;
 
-import com.example.alerts.Alert;
-import com.example.alerts.AlertList;
-import com.example.dao.UserDAO;
-import com.example.dao.UserDAOPostgres;
+import com.example.dao.User.UserDAO;
+import com.example.dao.User.UserDAOPostgres;
 import com.example.models.User;
 import java.sql.SQLException;
 
@@ -19,11 +17,7 @@ public class RegisterController {
             e.printStackTrace();
         }
 
-        if (successRegistrazione) {
-            return true;
-        } else {
-            return false;
-        }
+        return successRegistrazione;
 
     }
 }

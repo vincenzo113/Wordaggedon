@@ -1,26 +1,20 @@
 package com.example.controller;
-import com.example.alerts.Alert;
-import com.example.alerts.AlertList;
-import com.example.dao.UserDAOPostgres;
+import com.example.dao.User.UserDAO;
+import com.example.dao.User.UserDAOPostgres;
 import com.example.models.User;
 
 import java.sql.SQLException;
 
 public class LoginController {
-    UserDAOPostgres udp = new UserDAOPostgres();
 
-    public boolean hasLoginSuccess(User user) {
+    public static User hasLoginSuccess(User user) {
+        UserDAO<User> userDAOPostgres = new UserDAOPostgres();
         try {
-            boolean result = udp.login(user);
-
-            if (result) {
-                return true;
-            } else {
-                Alert.showAlert(AlertList.LOGIN_FAILURE);
-                return false;
-            }
-        } catch (SQLException e) {
-            return false;
+            return userDAOPostgres.login(user);
+    } catch (SQLException e) {
+            e.printStackTrace();
         }
+
+        return null;
     }
 }

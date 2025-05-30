@@ -1,38 +1,33 @@
 package com.example.controller;
 
-import com.example.TimerService.TimerService;
 import com.example.alerts.Alert;
 import com.example.alerts.AlertList;
+import com.example.dao.Documento.DocumentoDAOPostgres;
 import com.example.difficultySettings.DifficultyEnum;
 import com.example.exceptions.CampiNonCompilatiException;
 import com.example.exceptions.PasswordDiverseException;
-import com.example.models.Domanda;
-import com.example.models.Quiz;
-import com.example.models.Risposta;
+import com.example.models.Documento;
 import com.example.models.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 public class MainController {
+
+
+    //DAOs
+    private DocumentoDAOPostgres documentoDAOPostgres = new DocumentoDAOPostgres();
 
     //LOGIN
     public TextField loginUsernameField;
     public PasswordField loginPasswordField;
     public VBox loginVBox;
-    public Button nextButton;
-    private LoginController loginController;
-
-    //REGISTER
+    //***********
+    //REGISTRAZIONE
     public Button registerButton;
     public PasswordField confirmRegisterPasswordField;
     public PasswordField registerPasswordField;
@@ -200,7 +195,7 @@ public class MainController {
 
     @FXML
     public void initialize(){
-        initAuthControllers();
+
     }
 
     public void handleLogin() {
@@ -213,12 +208,17 @@ public class MainController {
             return;
         }
 
-        boolean loginResult = loginController.hasLoginSuccess(userToLog);
+        user = LoginController.hasLoginSuccess(userToLog);
 
-        if(loginResult) {
+        if(user != null) {
+            System.out.println("Login avvenuto con successo");
             loginVBox.setVisible(false);
             difficultyVBox.setVisible(true);
             difficultyVBox.setManaged(true);
+            if(user.isAdmin()) {
+                addTestoButton.setVisible(true);
+                addTestoButton.setManaged(true);
+            }
             StartGameController.aggiornaLabel(usernameWelcomeLabel , userToLog.getUsername());
         } else {
             Alert.showAlert(AlertList.LOGIN_FAILURE);
@@ -228,9 +228,8 @@ public class MainController {
     }
 
     public void handleRegister(ActionEvent actionEvent) throws SQLException {
-        User userToRegister = null;
         try {
-            userToRegister = checkRegister();
+            user = checkRegister();
         } catch (CampiNonCompilatiException e) {
             Alert.showAlert(AlertList.FIELDS_EMPTY);
             return;
@@ -273,12 +272,11 @@ public class MainController {
         difficultyVBox.setVisible(false);
         testoVBox.setVisible(true);
         testoVBox.setManaged(true);
-
+        DifficultyEnum diff = getDifficoltaScelta();
+        List<Documento> testiDaMostrare = documentoDAOPostgres.getDocumentiPerDifficolta(diff);
         getQuiz();
-        QuizController.startTimerPerTesto(1 , timeLabel , timeProgressBar , getDifficoltaScelta() , this::showQuestionsAndAnswers);
+        QuizController.startTimerPerTesto(testiDaMostrare ,0, timeLabel , timeProgressBar , diff, displayTextLabel , titleQuiz);
     }
 
 
-    public void finishGame(ActionEvent actionEvent) {
-    }
 }
