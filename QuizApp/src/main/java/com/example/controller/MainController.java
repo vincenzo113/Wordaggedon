@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.example.alerts.Alert;
 import com.example.alerts.AlertList;
+import com.example.dao.Documento.DocumentoDAO;
 import com.example.dao.Documento.DocumentoDAOPostgres;
 import com.example.difficultySettings.DifficultyEnum;
 import com.example.exceptions.CampiNonCompilatiException;
@@ -12,9 +13,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class MainController {
 
@@ -172,4 +178,28 @@ public class MainController {
     }
 
 
+    public void addTesto(ActionEvent actionEvent) {
+        DocumentoDAO<Documento> documentoDAO = new DocumentoDAOPostgres();
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Seleziona un file di testo");
+        fc.getExtensionFilters().addAll(
+            new FileChooser.ExtensionFilter("File di testo", "*.txt"),
+            new FileChooser.ExtensionFilter("Tutti i file", "*.*")
+        );
+        File selectedFile = fc.showOpenDialog(null);
+        if (selectedFile != null && selectedFile.getName().endsWith(".txt")) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(selectedFile))) {
+                String contentClean = reader.lines()
+                        .map(String::trim)
+                        .filter(line -> !line.isEmpty())
+                        .reduce("", (acc, line) -> acc + line + " ")
+                        .trim()
+                        .replaceAll("\\s+", " ");
+                Documento documento = new Documento(selectedFile.getName().split("\\.")[0], contentClean);
+                documentoDAO.insertDocumento(documento);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

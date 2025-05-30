@@ -2,6 +2,7 @@ package com.example.dao.Documento;
 
 import com.example.difficultySettings.DifficultyEnum;
 import com.example.models.Documento;
+import com.example.models.User;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -57,6 +58,36 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
 
         return documenti;
 
+    }
+
+    @Override
+    public void insertDocumento(Documento documento) {
+        try(
+                Connection c = DriverManager.getConnection(URL, USER, PASS);
+                Statement s = c.createStatement();
+        ) {
+            String insertDocumento = String.format("INSERT INTO documento(titolo,contenuto) VALUES ('%s', '%s')", documento.getTitolo(), documento.getContenuto());
+            s.executeUpdate(insertDocumento);
+
+            insertParole(documento);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void insertParole(Documento documento) {
+        documento.getMappaQuiz().entrySet().forEach(entry -> {
+            try(
+                    Connection c = DriverManager.getConnection(URL, USER, PASS);
+                    Statement s = c.createStatement();
+            ) {
+                String insertParola = String.format("INSERT INTO parole(parola,id_documento) VALUES ('%s', '%s')", entry.getKey(), documento.getId());
+                s.executeUpdate(insertParola);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
 }
