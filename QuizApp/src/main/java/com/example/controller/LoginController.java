@@ -7,14 +7,14 @@ import java.sql.SQLException;
 
 public class LoginController {
 
-    public static boolean hasLoginSuccess(User user) {
+    public static User hasLoginSuccess(User user) {
         UserDAO<User> userDAOPostgres = new UserDAOPostgres();
-        boolean successLogin = false;
         try {
-            successLogin = userDAOPostgres.login(user);
-        } catch (SQLException e) {
+            return userDAOPostgres.login(user);
+    } catch (SQLException e) {
             e.printStackTrace();
         }
-        return successLogin;
+
+        return null;
     }
 }

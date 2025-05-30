@@ -14,7 +14,7 @@ public interface UserDAO<T> extends URL {
     void insert(T t);
     //void update(T t);
     void delete(T t);
-    boolean login(User user) throws SQLException;
+    User login(User user) throws SQLException;
 
     boolean register(User user) throws SQLException;
 }

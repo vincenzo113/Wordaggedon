@@ -39,7 +39,7 @@ public class UserDAOPostgres implements UserDAO<User> {
     }
 
     @Override
-    public boolean login(User user) throws SQLException {
+    public User login(User user) throws SQLException {
         ResultSet rs = null;
         try(
                 Connection c = DriverManager.getConnection(URL, USER, PASS);
@@ -48,12 +48,16 @@ public class UserDAOPostgres implements UserDAO<User> {
             String query = String.format("select * from users where username = '%s' and password = '%s' ", user.getUsername(), user.getPassword());
             rs = s.executeQuery(query);
 
-            return rs.next();
+            if(rs.next()) {
+                boolean admin = rs.getBoolean("admin");
+                user.setAdmin(admin);
+                return user;
+            }
 
         }catch(Exception ex){
             ex.printStackTrace();
         }
-        return false;
+        return null;
     }
 
 
@@ -107,4 +111,5 @@ public class UserDAOPostgres implements UserDAO<User> {
             e.printStackTrace();
         }
     }
+
 }

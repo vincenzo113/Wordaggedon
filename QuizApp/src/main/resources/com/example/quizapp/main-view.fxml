@@ -128,6 +128,16 @@
             <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
         </padding>
 
+        <!-- Pulsante + in alto a destra -->
+        <HBox alignment="TOP_RIGHT">
+            <Button fx:id="addTestoButton" text="+" prefWidth="40.0" prefHeight="40.0"
+                    styleClass="add-button" visible="false" managed="false">
+                <font>
+                    <Font name="System Bold" size="18.0" />
+                </font>
+            </Button>
+        </HBox>
+
         <!-- Container principale della selezione difficoltà -->
         <VBox fx:id="difficultyContainer" alignment="CENTER" maxWidth="380.0" spacing="18.0" styleClass="form-container">
             <padding>

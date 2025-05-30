@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class MainController {
+
     //DAOs
     private DocumentoDAOPostgres documentoDAOPostgres = new DocumentoDAOPostgres();
 
@@ -35,10 +36,12 @@ public class MainController {
     public TextField registerUsernameField;
     public VBox registerVBox;
     //**********
+    public User user;
 
     //SCELTA DELLA DIFFICOLTA'
     public Label usernameWelcomeLabel;
     public VBox difficultyVBox;
+    public Button addTestoButton;
     //*******
 
 
@@ -98,13 +101,17 @@ public class MainController {
             return;
         }
 
-        boolean loginResult = LoginController.hasLoginSuccess(userToLog);
+        user = LoginController.hasLoginSuccess(userToLog);
 
-        if(loginResult) {
+        if(user != null) {
             System.out.println("Login avvenuto con successo");
             loginVBox.setVisible(false);
             difficultyVBox.setVisible(true);
             difficultyVBox.setManaged(true);
+            if(user.isAdmin()) {
+                addTestoButton.setVisible(true);
+                addTestoButton.setManaged(true);
+            }
             StartGameController.aggiornaLabel(usernameWelcomeLabel , userToLog.getUsername());
         } else {
             Alert.showAlert(AlertList.LOGIN_FAILURE);
