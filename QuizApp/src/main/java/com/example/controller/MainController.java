@@ -124,12 +124,8 @@ public class MainController {
     }
 
 
-    private void showQuestionsAndAnswers(ActionEvent actionEvent) {
-        // Mostra le domande e le risposte del quiz
-        loginVBox.setVisible(false);
-        loginVBox.setManaged(false);
-        registerVBox.setVisible(false);
-        registerVBox.setManaged(false);
+    private void showQuestionsAndAnswers() {
+
         testoVBox.setVisible(false);
         testoVBox.setManaged(false);
         domandaRispostaVBox.setVisible(true);
@@ -279,7 +275,7 @@ public class MainController {
         testoVBox.setManaged(true);
 
         getQuiz();
-        QuizController.startTimerPerTesto(1 , timeLabel , timeProgressBar , getDifficoltaScelta());
+        QuizController.startTimerPerTesto(1 , timeLabel , timeProgressBar , getDifficoltaScelta() , this::showQuestionsAndAnswers);
     }
 
 

@@ -50,7 +50,8 @@ public class QuizController {
 
 
 
-    public static void startTimerPerTesto(int numeroTesto , Label timeLabel , ProgressBar timeProgressBar , DifficultyEnum difficolta) {
+    public static void startTimerPerTesto(int numeroTesto , Label timeLabel , ProgressBar timeProgressBar , DifficultyEnum difficolta,
+    Runnable showQuestionsAndAnswers) {
         // Carica il titolo del testo numeroTesto (esempio)
         // QuizController.setTitoloTesto(titleQuiz, getTitoloPerTesto(numeroTesto));
         int timeLimit = DifficultySettings.getTimeLimit(difficolta);
@@ -59,11 +60,11 @@ public class QuizController {
         TimerService timerService = new TimerService(timeLimit, () -> {
             Platform.runLater(() -> {
                 if (numeroTesto < numeroTesti) {
-                    startTimerPerTesto(numeroTesto + 1 , timeLabel , timeProgressBar , difficolta);
+                    startTimerPerTesto(numeroTesto + 1 , timeLabel , timeProgressBar , difficolta, showQuestionsAndAnswers);
                     showNextDocument(); // Mostra il prossimo documento
                 } else {
                     // Fine fase lettura , si passa alla nuova scena delle domande
-
+                    showQuestionsAndAnswers.run();
 
                 }
             });
