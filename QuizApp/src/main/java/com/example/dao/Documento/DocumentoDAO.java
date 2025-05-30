@@ -9,5 +9,6 @@ import java.util.List;
 public interface DocumentoDAO<T> extends URL {
 
     public List<T> getDocumentiPerDifficolta(DifficultyEnum difficolta);
+    public void insertDocumento(Documento documento);
 
 }

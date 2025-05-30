@@ -1,22 +1,53 @@
 package com.example.models;
 
-public class Documento {
 
+import java.util.Arrays;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class  Documento {
     private int id;
     private String titolo;
     private String contenuto;
-    private String difficolta;
+    private Map<String, Integer> mappaQuiz;
+
 
     public Documento(int id, String titolo, String contenuto) {
         this.id = id;
         this.titolo = titolo;
         this.contenuto = contenuto;
-        this.difficolta = difficolta;
+        this.mappaQuiz = setMappaturaQuiz();
+    }
+
+    public Documento(String titolo, String contenuto) {
+        this.titolo = titolo;
+        this.contenuto = contenuto;
+        this.mappaQuiz = setMappaturaQuiz();
+
     }
 
     // Getter e setter
     public int getId() { return id; }
     public String getTitolo() { return titolo; }
     public String getContenuto() { return contenuto; }
-    public String getDifficolta() { return difficolta; }
+
+    public void setId(int id) {this.id = id;}
+    public void setTitolo(String titolo) {this.titolo = titolo;}
+    public void setContenuto(String contenuto) {this.contenuto = contenuto;}
+
+    public Map<String, Integer> setMappaturaQuiz(){
+        Stream<String> parole = Arrays.stream(contenuto.split(" "));
+        return parole.collect(Collectors.groupingBy(String::toString,
+                Collectors.summingInt(p->1)));
+    }
+
+    public Map<String, Integer> getMappaQuiz() {
+        return mappaQuiz;
+    }
+
+    public void setMappaQuiz(Map<String, Integer> mappaQuiz) {
+        this.mappaQuiz = mappaQuiz;
+    }
 }
+

@@ -131,7 +131,7 @@
         <!-- Pulsante + in alto a destra -->
         <HBox alignment="TOP_RIGHT">
             <Button fx:id="addTestoButton" text="+" prefWidth="40.0" prefHeight="40.0"
-                    styleClass="add-button" visible="false" managed="false">
+                    styleClass="add-button" onAction="#addTesto" visible="false" managed="false">
                 <font>
                     <Font name="System Bold" size="18.0" />
                 </font>
