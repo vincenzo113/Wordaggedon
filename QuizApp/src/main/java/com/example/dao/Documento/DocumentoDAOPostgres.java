@@ -8,15 +8,17 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static java.sql.DriverManager.getConnection;
 
-public class DocumentoDAOPostgres implements DocumentoDAO<DocumentoDAOPostgres>{
+public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
     private final String USER = "postgres";
     private final String PASS = "tw2024";
 
     //Metodo per ottenere il numero di documenti da mostrare all'utente in base alla difficolta scelta dall'utente stesso
+    @Override
     public List<Documento> getDocumentiPerDifficolta(DifficultyEnum difficolta) {
         List<Documento> documenti = new ArrayList<>();
         int limiteNumeroDocumenti;
@@ -56,4 +58,5 @@ public class DocumentoDAOPostgres implements DocumentoDAO<DocumentoDAOPostgres>{
         return documenti;
 
     }
+
 }

@@ -9,13 +9,7 @@ public class LoginController {
 
     public boolean hasLoginSuccess(User user) {
         try {
-            boolean result = udp.login(user);
-
-            if (result) {
-                return true;
-            } else {
-                return false;
-            }
+            return udp.login(user);
         } catch (SQLException e) {
             return false;
         }

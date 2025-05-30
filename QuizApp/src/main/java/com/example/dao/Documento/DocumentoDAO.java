@@ -1,6 +1,13 @@
 package com.example.dao.Documento;
 
-public interface DocumentoDAO <T>{
-    public static final String URL = "jdbc:postgresql://localhost:6060/quiz";
+import com.example.dao.URL;
+import com.example.difficultySettings.DifficultyEnum;
+import com.example.models.Documento;
+
+import java.util.List;
+
+public interface DocumentoDAO<T> extends URL {
+
+    public List<T> getDocumentiPerDifficolta(DifficultyEnum difficolta);
 
 }

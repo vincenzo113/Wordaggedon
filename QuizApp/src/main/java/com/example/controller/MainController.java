@@ -147,11 +147,12 @@ public class MainController {
         }
 
         if(RegisterController.hasRegisterSuccess(userToRegister)) {
-            Alert.showAlert(AlertList.REGISTER_SUCCESS);
+            //Alert.showAlert(AlertList.REGISTER_SUCCESS);
+            System.out.println("Registrazione avvenuta con successo");
             registerVBox.setVisible(false);
             registerVBox.setManaged(false);
-            loginVBox.setVisible(true);
-            loginVBox.setManaged(true);
+            difficultyVBox.setVisible(true);
+            difficultyVBox.setManaged(true);
         }
         else {
             Alert.showAlert(AlertList.REGISTER_FAILURE);
