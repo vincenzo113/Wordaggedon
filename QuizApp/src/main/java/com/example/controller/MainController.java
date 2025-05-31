@@ -279,7 +279,7 @@ public class MainController {
 
         List<Documento> testiDaMostrare = documentoDAOPostgres.getDocumentiPerDifficolta(diff);
         currentQuiz = new SessioneQuiz(testiDaMostrare, diff, currentUser); // Inizializza la sessione quiz con difficoltà scelta
-        QuizController.startTimerPerTesto(testiDaMostrare ,0, timeLabel , timeProgressBar , diff, displayTextLabel , titleQuiz ,this::showQuestionsAndAnswers );
+        QuizController.startTimerPerTesto(testiDaMostrare ,0, timeLabel , timeProgressBar , diff, displayTextLabel , titleQuiz ,()->showQuestionsAndAnswers());
     }
 
 

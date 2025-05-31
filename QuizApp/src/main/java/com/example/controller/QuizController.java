@@ -23,7 +23,7 @@ public class QuizController {
     }
 
     public static void startTimerPerTesto(List<Documento> documenti , int numeroTesto , Label timeLabel , ProgressBar timeProgressBar , DifficultyEnum difficolta , Label displayText , Label displayTitleText,
-                                          Runnable showQuestionsAndAnswers) {
+                                          Runnable callback ) {
         int timeLimit = DifficultySettings.getTimeLimit(difficolta);
         int maxTesti = DifficultySettings.getNumeroTesti(difficolta);
         //Qui bisogna settare il testo e il titolo del testo ogni volta
@@ -33,10 +33,10 @@ public class QuizController {
         TimerService timerService = new TimerService(timeLimit, () -> {
             Platform.runLater(() -> {
                 if (numeroTesto + 1 < maxTesti) {
-                    startTimerPerTesto(documenti, numeroTesto + 1, timeLabel, timeProgressBar, difficolta , displayText , displayTitleText,showQuestionsAndAnswers);
+                    startTimerPerTesto(documenti, numeroTesto + 1, timeLabel, timeProgressBar, difficolta , displayText , displayTitleText,callback);
                 } else {
                     // Fine fase lettura , si passa alla nuova scena delle domande
-                    showQuestionsAndAnswers.run();
+                    callback.run();
                 }
             });
         });
