@@ -37,14 +37,14 @@ public class RispostaDAOPostgres implements RispostaDAO{
                         " m1.documento = " + documenti.get(1).getId() +")" ;
             }
             else if(documenti.size()==3){
-                query = "SELECT valore FROM parola WHERE parola NOT IN (SELECT parola FROM parola m1" +
+                query = "SELECT valore FROM parola WHERE parola NOT IN (SELECT valore FROM parola m1" +
                         " WHERE m1.documento = " + documenti.get(0).getId() +" OR" +
                         " m1.documento = " + documenti.get(1).getId() +") OR m1.documento = " + documenti.get(2).getId() +")";
             }
 
 
             ResultSet rs = stmt.executeQuery(query);
-            return new Risposta(rs.getString("valore"), true);
+            return new Risposta(rs.getString("conteggio"), true);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
