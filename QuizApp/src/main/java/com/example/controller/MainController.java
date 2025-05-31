@@ -169,7 +169,7 @@ public class MainController {
 
         String username = loginUsernameField.getText();
         String password = loginPasswordField.getText();
-        return new User(username,password,false);
+        return new User(username.trim(),password.trim(),false);
     }
 
     private User checkRegister() throws CampiNonCompilatiException  , PasswordDiverseException {
@@ -183,7 +183,7 @@ public class MainController {
 
         String username = registerUsernameField.getText();
         String password = registerPasswordField.getText();
-        return new User(username,password,false);
+        return new User(username.trim(),password.trim(),false);
     }
 
     private DifficultyEnum getDifficoltaScelta(){
