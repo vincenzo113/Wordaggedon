@@ -26,6 +26,7 @@ public class MainController {
 
 
     public Button addTestoButton;
+
     //DAOs
     private DocumentoDAOPostgres documentoDAOPostgres = new DocumentoDAOPostgres();
 
@@ -112,7 +113,9 @@ public class MainController {
     private SessioneQuiz currentQuiz;
     private User currentUser;
 
-
+    //SCOREBOARD
+    public VBox finalScoreVBox;
+    public Label scoreLabel;
 
     private int currentQuizId ;
 
@@ -309,6 +312,28 @@ public class MainController {
     }
 
     public void finishGame(ActionEvent actionEvent) {
+        //SETTA LE RISPOSTE SELEZIONATE
+
+
+        QuizController.setRisposteSelezionate(q1Options,q2Options,q3Options,q4Options,currentQuiz);
         QuizController.setFinalScore(currentQuiz);
+        finalScoreVBox.setVisible(true);
+        finalScoreVBox.setManaged(true);
+        domandaRispostaVBox.setVisible(false);
+        domandaRispostaVBox.setManaged(false);
+        scoreLabel.setText("Il tuo punteggio finale è: " + currentQuiz.getScore());
+
+
+
     }
+
+    public void goToScoreboard(ActionEvent actionEvent) throws SQLException {
+        List<SessioneQuiz> listUsersScores = QuizController.setScoreboard(currentQuiz);
+
+        //QUI MOSTRO LA CLASSIFICA CON UNA TABLE VIEW O UN LIST VIEW
+
+
+    }
+
+
 }

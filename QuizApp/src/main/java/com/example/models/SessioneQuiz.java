@@ -22,6 +22,12 @@ public class SessioneQuiz {
             this.domande = null; // Inizializza la lista delle domande a null
         }
 
+        public SessioneQuiz(User user, DifficultyEnum difficolta, int score) {
+        this.difficolta = difficolta;
+        this.user = user;
+        this.score = score;
+        }
+
 
         public List<Documento> getDocumenti() {
             return documenti;
@@ -50,6 +56,7 @@ public class SessioneQuiz {
             //PRELIEVO DI DOMANDE BASE DAL DATABASE
 
             domande = domandeDAOPostgres.selectDomande(); // Esegui la query per ottenere le domande
+
             Random random = new Random();
             for(int i=0;i<domande.size();i++) {
 
