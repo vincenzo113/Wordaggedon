@@ -109,11 +109,8 @@ public class MainController {
     public VBox domandaRispostaVBox;
     public Label titleQuiz;
     private QuizController QuizController;
-    SessioneQuiz currentQuiz;
-
-
-    //USER
-    User currentUser;
+    private SessioneQuiz currentQuiz;
+    private User currentUser;
 
 
 
