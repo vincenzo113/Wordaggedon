@@ -4,6 +4,7 @@ import com.example.difficultySettings.DifficultyEnum;
 import com.example.models.SessioneQuiz;
 import com.example.models.User;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -16,7 +17,7 @@ public class SessionDAOPostgres implements SessionDAO {
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
              Statement stmt = conn.createStatement()) {
 
-            String query = "SELECT username, punteggio, difficolta FROM sessione ORDER BY punteggio DESC LIMIT 10";
+            String query = "SELECT username, punteggio, difficolta FROM sessione ORDER BY punteggio DESC ";
             ResultSet rs = stmt.executeQuery(query);
 
             while (rs.next()) {
@@ -57,6 +58,36 @@ public class SessionDAOPostgres implements SessionDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public List<SessioneQuiz> selectPersonalScoreboard(User user) throws SQLException {
+        List<SessioneQuiz> sessions = new ArrayList<>();
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+             Statement stmt = conn.createStatement()) {
+
+            String query = String.format(
+                    "SELECT username, punteggio, difficolta FROM sessione WHERE username = '%s' ORDER BY punteggio DESC",
+                    user.getUsername()
+            );
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                int punteggio = rs.getInt("punteggio");
+
+                //OTTENGO DIFFICOLTA'
+                String difficolta = rs.getString("difficolta");
+                DifficultyEnum difficulty = null;
+                if ("EASY".equalsIgnoreCase(difficolta)) difficulty = DifficultyEnum.EASY;
+                else if ("MEDIUM".equalsIgnoreCase(difficolta)) difficulty = DifficultyEnum.MEDIUM;
+                else if ("HARD".equalsIgnoreCase(difficolta)) difficulty = DifficultyEnum.HARD;
+
+                //CREAZIONE SESSIONE QUIZ
+                sessions.add(new SessioneQuiz(user, difficulty, punteggio));
+
+            }
+        }
+        return sessions;
     }
 }
 

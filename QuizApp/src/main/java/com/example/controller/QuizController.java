@@ -1,13 +1,10 @@
 package com.example.controller;
 
 import com.example.dao.SessionQuiz.SessionDAOPostgres;
-import com.example.models.Documento;
+import com.example.models.*;
 
 import com.example.difficultySettings.DifficultyEnum;
 import com.example.difficultySettings.DifficultySettings;
-import com.example.models.Domanda;
-import com.example.models.Risposta;
-import com.example.models.SessioneQuiz;
 import com.example.timerService.TimerService;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
@@ -69,8 +66,13 @@ public class QuizController {
         sessionDAOPostgres.insertSessione(sessioneQuiz);
         return;
     }
-    public static List<SessioneQuiz> getScoreboard(SessioneQuiz currentQuiz) throws SQLException {
-        List<SessioneQuiz> sessioni = sessionDAOPostgres.selectSessionsWithTopScores();
+    public static List<SessioneQuiz> getScoreboard() {
+        List<SessioneQuiz> sessioni = null;
+        try {
+            sessioni = sessionDAOPostgres.selectSessionsWithTopScores();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         return sessioni;
     }
 
@@ -116,5 +118,15 @@ public class QuizController {
             }
             r4.setSelected(false);
         }
+    }
+
+    public static List<SessioneQuiz> getPersonalScoreboard(User user) {
+        List<SessioneQuiz> sessioni = null;
+        try {
+            sessioni = sessionDAOPostgres.selectPersonalScoreboard(user);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return sessioni;
     }
 }

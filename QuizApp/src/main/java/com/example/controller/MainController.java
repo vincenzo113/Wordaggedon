@@ -11,7 +11,6 @@ import com.example.models.*;
 import com.example.timerService.TimerService;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,7 +20,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 
 import java.sql.SQLException;
-import java.util.Collections;
 import java.util.List;
 import java.io.BufferedReader;
 import java.io.File;
@@ -32,7 +30,7 @@ public class MainController {
 
 
     public Button addTestoButton;
-
+    public CheckBox punteggiPersonaliCheckBox;
 
 
     //DAOs
@@ -174,6 +172,12 @@ public class MainController {
 
     /*Metodi privati*/
 
+    private void aggiornaTableView(List<SessioneQuiz> sessioni){
+        sessioniQuizList = FXCollections.observableList(sessioni);
+        tableView.setItems(sessioniQuizList);
+        tableView.refresh();
+    }
+
     //Metodo per creare un utente dai textfields
     private User checkLogin() throws CampiNonCompilatiException {
         if (loginUsernameField.getText().trim().isEmpty() || loginPasswordField.getText().trim().isEmpty()) {
@@ -227,6 +231,15 @@ public class MainController {
         scoreColumn.setSortType(TableColumn.SortType.DESCENDING);
         tableView.getSortOrder().setAll(scoreColumn);
         tableView.sort();
+
+        punteggiPersonaliCheckBox.selectedProperty().addListener((obs, oldVal, newVal) -> {
+            List<SessioneQuiz> sessioni = null;
+            if (newVal) {sessioni = QuizController.getPersonalScoreboard(currentQuiz.getUser());}
+            else {sessioni = QuizController.getScoreboard();}
+            aggiornaTableView(sessioni);
+        });
+
+
     }
 
     public void handleLogin() {
@@ -359,15 +372,26 @@ public class MainController {
             return;
         }
         QuizController.updateScoreboard(currentQuiz);
-        List<SessioneQuiz> listUsersScores = QuizController.getScoreboard(currentQuiz);
+        aggiornaTableView(QuizController.getScoreboard());
         finalScoreVBox.setManaged(false);
         finalScoreVBox.setVisible(false);
         scoreboardVBox.setManaged(true);
         scoreboardVBox.setVisible(true);
-        //QUI MOSTRO LA CLASSIFICA CON UNA TABLE VIEW O UN LIST VIEW
-        sessioniQuizList = FXCollections.observableList(listUsersScores);
-        tableView.setItems(sessioniQuizList);
+
+        punteggiPersonaliCheckBox.selectedProperty().addListener((obs, oldVal, newVal) -> {
+            List<SessioneQuiz> sessioni = null;
+            if (newVal) {
+                if(currentQuiz==null) System.out.println("NULL!!!!!!");
+                sessioni = QuizController.getPersonalScoreboard(currentQuiz.getUser());}
+            else {sessioni = QuizController.getScoreboard();}
+            aggiornaTableView(sessioni);
+        });
+
     }
 
-
 }
+
+
+
+
+

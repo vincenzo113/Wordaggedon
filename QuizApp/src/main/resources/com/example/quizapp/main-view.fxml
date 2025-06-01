@@ -365,9 +365,17 @@
 
 
 
-    <VBox  spacing="10" alignment="CENTER" fx:id="scoreboardVBox" visible="false" managed="false" >
+    <VBox spacing="15" alignment="CENTER" fx:id="scoreboardVBox" visible="false" managed="false">
 
-        <TableView fx:id="tableView" VBox.vgrow="ALWAYS">
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+
+        <!-- CheckBox sopra la tabella -->
+        <CheckBox fx:id="punteggiPersonaliCheckBox" text="Punteggi Personali"/>
+
+        <!-- Tabella -->
+        <TableView fx:id="tableView" VBox.vgrow="ALWAYS" maxWidth="600">
             <columnResizePolicy>
                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
             </columnResizePolicy>
@@ -378,8 +386,12 @@
             </columns>
         </TableView>
 
-        <Button fx:id="avantiButton" text="Avanti"/>
+        <!-- Un solo bottone -->
+        <Button fx:id="avantiButton" text="Avanti" minWidth="150"
+                style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
 
     </VBox>
+
+
 
 </StackPane>
