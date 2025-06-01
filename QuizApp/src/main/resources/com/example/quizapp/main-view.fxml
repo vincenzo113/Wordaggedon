@@ -15,6 +15,7 @@
             fx:id="registerVBox"
             stylesheets="@../css/login-style.css"
             alignment="CENTER" spacing="20.0" styleClass="register-view"
+            visible="false" managed="false"
     >
 
         <padding>
@@ -81,7 +82,7 @@
 
 
 
-    <VBox fx:id="loginVBox" alignment="CENTER" spacing="20.0"  stylesheets="@../css/login-style.css" styleClass="login-view" visible="false" managed="false">
+    <VBox fx:id="loginVBox" alignment="CENTER" spacing="20.0"  stylesheets="@../css/login-style.css" styleClass="login-view">
 
         <padding>
             <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
