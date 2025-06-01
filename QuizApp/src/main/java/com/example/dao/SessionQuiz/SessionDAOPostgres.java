@@ -16,7 +16,7 @@ public class SessionDAOPostgres implements SessionDAO {
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
              Statement stmt = conn.createStatement()) {
 
-            String query = "SeLECT username, punteggio FROM sessione ORDER BY punteggio DESC LIMIT 10";
+            String query = "SELECT username, punteggio, difficolta FROM sessione ORDER BY punteggio DESC LIMIT 10";
             ResultSet rs = stmt.executeQuery(query);
 
             while (rs.next()) {
@@ -30,13 +30,12 @@ public class SessionDAOPostgres implements SessionDAO {
                 //OTTENGO DIFFICOLTA'
                 String difficolta = rs.getString("difficolta");
                 DifficultyEnum difficulty = null;
-                if (difficolta.equals("EASY")) difficulty = DifficultyEnum.EASY;
-                else if (difficolta.equals("MEDIUM")) difficulty = DifficultyEnum.MEDIUM;
-                else if (difficolta.equals("HARD")) difficulty = DifficultyEnum.HARD;
+                if ("EASY".equalsIgnoreCase(difficolta)) difficulty = DifficultyEnum.EASY;
+                else if ("MEDIUM".equalsIgnoreCase(difficolta)) difficulty = DifficultyEnum.MEDIUM;
+                else if ("HARD".equalsIgnoreCase(difficolta)) difficulty = DifficultyEnum.HARD;
 
                 //CREAZIONE SESSIONE QUIZ
                 sessions.add(new SessioneQuiz(user, difficulty, punteggio));
-
 
             }
         }
@@ -48,9 +47,12 @@ public class SessionDAOPostgres implements SessionDAO {
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
              Statement stmt = conn.createStatement()) {
 
-            String query = "INSERT INTO sessione (username, difficolta, punteggio) " +
-                    "VALUES ('" + currentQuiz.getUser().getUsername() + "', '" +
-                    currentQuiz.getDifficolta().name() + "', " + currentQuiz.getScore() + ")";
+            String query = String.format(
+                    "INSERT INTO sessione (username, difficolta, punteggio) VALUES ('%s', '%s', %d)",
+                    currentQuiz.getUser().getUsername(),
+                    currentQuiz.getDifficolta().toString(),
+                    currentQuiz.getScore()
+            );
             stmt.executeUpdate(query);
         } catch (SQLException e) {
             throw new RuntimeException(e);

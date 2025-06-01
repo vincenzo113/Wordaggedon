@@ -20,7 +20,7 @@ import java.util.*;
 public class QuizController {
 
     Map<String, Integer> conteggio ;
-    SessionDAOPostgres sessionDAOPostgres = new SessionDAOPostgres();
+    static SessionDAOPostgres sessionDAOPostgres = new SessionDAOPostgres();
 
     public static void startTimerPerTesto(List<Documento> documenti , int numeroTesto , Label timeLabel , ProgressBar timeProgressBar , DifficultyEnum difficolta , Label displayText , Label displayTitleText,
                                           Runnable callback ) {
@@ -30,7 +30,7 @@ public class QuizController {
         displayText.setText(documenti.get(numeroTesto).getContenuto());
         displayTitleText.setText(documenti.get(numeroTesto).getTitolo());
 
-        TimerService timerService = new TimerService(timeLimit, () -> {
+        TimerService timerService = new TimerService(1, () -> {
             Platform.runLater(() -> {
                 if (numeroTesto + 1 < maxTesti) {
                     startTimerPerTesto(documenti, numeroTesto + 1, timeLabel, timeProgressBar, difficolta , displayText , displayTitleText,callback);
@@ -53,21 +53,23 @@ public class QuizController {
 
     public static void setFinalScore(SessioneQuiz sessioneQuiz){
 
-        int score = 0;
-
+        int score = 50;
+        /*
         for (Domanda domanda : sessioneQuiz.getDomande()) {
             for (Risposta risposta : domanda.getRisposte()) {
                 if (risposta.isSelected() && risposta.getCorretta()) {
                     score++;
                 }
             }
-        }
+        }*/
         sessioneQuiz.setScore(score);
     }
 
-
-    public List<SessioneQuiz> setScoreboard(SessioneQuiz currentQuiz) throws SQLException {
-        sessionDAOPostgres.insertSessione(currentQuiz);
+    public static void updateScoreboard(SessioneQuiz sessioneQuiz){
+        sessionDAOPostgres.insertSessione(sessioneQuiz);
+        return;
+    }
+    public static List<SessioneQuiz> getScoreboard(SessioneQuiz currentQuiz) throws SQLException {
         List<SessioneQuiz> sessioni = sessionDAOPostgres.selectSessionsWithTopScores();
         return sessioni;
     }

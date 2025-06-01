@@ -57,6 +57,7 @@ public class SessioneQuiz {
 
             domande = domandeDAOPostgres.selectDomande(); // Esegui la query per ottenere le domande
 
+            /*
             Random random = new Random();
             for(int i=0;i<domande.size();i++) {
 
@@ -88,7 +89,7 @@ public class SessioneQuiz {
                     domande.get(i).setTesto("Quale parola non appare mai in nessun documento?");
                     domande.get(i).setRisposte(documenti);
                 }
-            }
+            }*/
 
 
 

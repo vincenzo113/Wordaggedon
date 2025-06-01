@@ -9,6 +9,11 @@ import com.example.exceptions.CampiNonCompilatiException;
 import com.example.exceptions.PasswordDiverseException;
 import com.example.models.*;
 import com.example.timerService.TimerService;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -16,6 +21,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 import java.io.BufferedReader;
 import java.io.File;
@@ -26,6 +32,8 @@ public class MainController {
 
 
     public Button addTestoButton;
+
+
 
     //DAOs
     private DocumentoDAOPostgres documentoDAOPostgres = new DocumentoDAOPostgres();
@@ -113,11 +121,17 @@ public class MainController {
     private SessioneQuiz currentQuiz;
     private User currentUser;
 
-    //SCOREBOARD
+    //SCORE
     public VBox finalScoreVBox;
     public Label scoreLabel;
 
-    private int currentQuizId ;
+    //SCOREBOARD
+    public TableView<SessioneQuiz> tableView;
+    public TableColumn<SessioneQuiz,String> utenteColumn;
+    public TableColumn<SessioneQuiz,Integer> scoreColumn;
+    public TableColumn<SessioneQuiz,String> difficoltaColumn;
+    public VBox scoreboardVBox;
+    ObservableList<SessioneQuiz> sessioniQuizList;
 
     private TimerService timerService;
 
@@ -159,10 +173,6 @@ public class MainController {
 
 
     /*Metodi privati*/
-    private void initAuthControllers(){
-         loginController = new LoginController();
-        QuizController = new QuizController();
-    }
 
     //Metodo per creare un utente dai textfields
     private User checkLogin() throws CampiNonCompilatiException {
@@ -199,7 +209,24 @@ public class MainController {
 
     @FXML
     public void initialize(){
+        tableView.setItems(sessioniQuizList);
+        utenteColumn.setCellValueFactory(cellData ->
+                        new SimpleStringProperty(cellData.getValue().getUser().getUsername()) //cellData.getValue() è una SessioneQuiz
+                //devi ritornare per forza un valore observable, quindi uso SimpleStringProperty per il nome utente
+        );
+        scoreColumn.setCellValueFactory(cellData ->
+                        new SimpleIntegerProperty(cellData.getValue().getScore()).asObject()
+                //perché SimpleIntegerProperty da solo non è un ObservableValue<Integer> — è un ObservableValue<Number>.
+                // Ma la colonna vuole esattamente ObservableValue<Integer>. asObject() converte il tipo Number in Integer,
+                // che è ciò che la colonna si aspetta.
+        );
+        difficoltaColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getDifficolta().toString())
+        );
 
+        scoreColumn.setSortType(TableColumn.SortType.DESCENDING);
+        tableView.getSortOrder().setAll(scoreColumn);
+        tableView.sort();
     }
 
     public void handleLogin() {
@@ -313,9 +340,7 @@ public class MainController {
 
     public void finishGame(ActionEvent actionEvent) {
         //SETTA LE RISPOSTE SELEZIONATE
-
-
-        QuizController.setRisposteSelezionate(q1Options,q2Options,q3Options,q4Options,currentQuiz);
+        //QuizController.setRisposteSelezionate(q1Options,q2Options,q3Options,q4Options,currentQuiz);
         QuizController.setFinalScore(currentQuiz);
         finalScoreVBox.setVisible(true);
         finalScoreVBox.setManaged(true);
@@ -328,11 +353,20 @@ public class MainController {
     }
 
     public void goToScoreboard(ActionEvent actionEvent) throws SQLException {
-        List<SessioneQuiz> listUsersScores = QuizController.setScoreboard(currentQuiz);
-
+        if (currentQuiz == null) {
+            System.err.println("Error: currentQuiz is null!");
+            // Handle the error appropriately - maybe show an alert or return early
+            return;
+        }
+        QuizController.updateScoreboard(currentQuiz);
+        List<SessioneQuiz> listUsersScores = QuizController.getScoreboard(currentQuiz);
+        finalScoreVBox.setManaged(false);
+        finalScoreVBox.setVisible(false);
+        scoreboardVBox.setManaged(true);
+        scoreboardVBox.setVisible(true);
         //QUI MOSTRO LA CLASSIFICA CON UNA TABLE VIEW O UN LIST VIEW
-
-
+        sessioniQuizList = FXCollections.observableList(listUsersScores);
+        tableView.setItems(sessioniQuizList);
     }
 
 
