@@ -136,6 +136,18 @@ public class MainController {
     private TimerService timerService;
 
 
+    private void clearRegisterFields(){
+        registerUsernameField.clear();
+        registerPasswordField.clear();
+        confirmRegisterPasswordField.clear();
+    }
+
+
+    private void  clearLoginFields(){
+        loginUsernameField.clear();
+        loginPasswordField.clear();
+    }
+
     private void showQuestionsAndAnswers() {
 
         testoVBox.setVisible(false);
@@ -295,6 +307,7 @@ public class MainController {
     }
 
     public void backToRegister(ActionEvent actionEvent) {
+        clearLoginFields();
         registerVBox.setVisible(true);
         registerVBox.setManaged(true);
         loginVBox.setVisible(false);
@@ -302,6 +315,7 @@ public class MainController {
     }
 
     public void backToLogin(ActionEvent actionEvent) {
+        clearRegisterFields();
         registerVBox.setVisible(false);
         registerVBox.setManaged(false);
         loginVBox.setVisible(true);
