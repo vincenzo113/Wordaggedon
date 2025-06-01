@@ -204,11 +204,10 @@ public class MainController {
         else if(mediumRadio.isSelected()) return DifficultyEnum.MEDIUM;
         else return  DifficultyEnum.HARD;
     }
-    /***********/
 
 
-    @FXML
-    public void initialize(){
+    private void initTableView(){
+        sessioniQuizList = FXCollections.observableArrayList();
         tableView.setItems(sessioniQuizList);
         utenteColumn.setCellValueFactory(cellData ->
                         new SimpleStringProperty(cellData.getValue().getUser().getUsername()) //cellData.getValue() è una SessioneQuiz
@@ -227,6 +226,15 @@ public class MainController {
         scoreColumn.setSortType(TableColumn.SortType.DESCENDING);
         tableView.getSortOrder().setAll(scoreColumn);
         tableView.sort();
+    }
+    /***********/
+
+
+
+
+    @FXML
+    public void initialize(){
+     initTableView();
     }
 
     public void handleLogin() {
@@ -365,8 +373,8 @@ public class MainController {
         scoreboardVBox.setManaged(true);
         scoreboardVBox.setVisible(true);
         //QUI MOSTRO LA CLASSIFICA CON UNA TABLE VIEW O UN LIST VIEW
-        sessioniQuizList = FXCollections.observableList(listUsersScores);
-        tableView.setItems(sessioniQuizList);
+        sessioniQuizList.clear();
+        sessioniQuizList.setAll(listUsersScores);
     }
 
 
