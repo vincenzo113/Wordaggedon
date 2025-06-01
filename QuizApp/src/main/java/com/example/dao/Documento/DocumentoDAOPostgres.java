@@ -57,7 +57,9 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
 
     }
 
+
     @Override
+    //Appena inserisce il documento , inseriamo anche la sua mappatura associata
     public void insertDocumento(Documento documento) {
         try(
                 Connection c = DriverManager.getConnection(URL, USER, PASS);
@@ -65,6 +67,7 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
         ) {
             String insertDocumento = String.format("INSERT INTO documento(titolo,contenuto) VALUES ('%s', '%s')", documento.getTitolo(), documento.getContenuto());
             s.executeUpdate(insertDocumento);
+            insertMappaturaDocumento(documento);
         } catch (Exception e) {
             e.printStackTrace();
         }
