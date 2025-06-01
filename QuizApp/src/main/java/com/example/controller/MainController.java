@@ -335,6 +335,15 @@ public class MainController {
         loginVBox.setManaged(true);
     }
 
+    @FXML
+    public void handleLogout(ActionEvent actionEvent) {
+        clearLoginFields();
+        difficultyVBox.setVisible(false);
+        difficultyVBox.setManaged(false);
+        loginVBox.setVisible(true);
+        loginVBox.setManaged(true);
+        currentUser = null;
+    }
 
     public void handleStartGame(ActionEvent actionEvent) {
         difficultyVBox.setVisible(false);
