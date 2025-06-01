@@ -60,13 +60,20 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
 
     @Override
     //Appena inserisce il documento , inseriamo anche la sua mappatura associata
-    public void insertDocumento(Documento documento) {
+    public void insertDocumento(Documento  documento) {
         try(
                 Connection c = DriverManager.getConnection(URL, USER, PASS);
                 Statement s = c.createStatement();
         ) {
-            String insertDocumento = String.format("INSERT INTO documento(titolo,contenuto) VALUES ('%s', '%s')", documento.getTitolo(), documento.getContenuto());
-            s.executeUpdate(insertDocumento);
+            //Query per inserire un documento , e ritornare l'id generato per quel documento
+            String insertDocumento = String.format("INSERT INTO documento(titolo,contenuto) VALUES ('%s', '%s') RETURNING ID", documento.getTitolo(), documento.getContenuto());
+            ResultSet resultSet = s.executeQuery(insertDocumento);
+            if(resultSet.next()){
+                //Settiamo l'id generato sul documento corrente , altrimenti avremmo sempre il valore di default "0"
+                int generatedIdForDocument = resultSet.getInt("id");
+                documento.setId(generatedIdForDocument);
+            }
+            //Ora possiamo inserire anche l'analisi per quel documento
             insertMappaturaDocumento(documento);
         } catch (Exception e) {
             e.printStackTrace();
