@@ -4,13 +4,11 @@ import com.example.difficultySettings.DifficultyEnum;
 import com.example.models.Documento;
 import com.example.models.User;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import static java.sql.DriverManager.getConnection;
 
@@ -67,26 +65,28 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
         ) {
             String insertDocumento = String.format("INSERT INTO documento(titolo,contenuto) VALUES ('%s', '%s')", documento.getTitolo(), documento.getContenuto());
             s.executeUpdate(insertDocumento);
-
-            insertParole(documento);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void insertParole(Documento documento) {
-        documento.getMappaQuiz().entrySet().forEach(entry -> {
-            try(
-                    Connection c = DriverManager.getConnection(URL, USER, PASS);
-                    Statement s = c.createStatement();
-            ) {
-                String insertParola = String.format("INSERT INTO parole(parola,id_documento) VALUES ('%s', '%s')", entry.getKey(), documento.getId());
-                s.executeUpdate(insertParola);
-            } catch (Exception e) {
-                e.printStackTrace();
+    public void insertMappaturaDocumento(Documento documento) {
+        Map<String,Integer> mappatura = documento.getMappaQuiz();
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+             Statement stmt = conn.createStatement()) {
+
+            for (Map.Entry<String, Integer> entry : mappatura.entrySet()) {
+                String parola = entry.getKey();
+                int conteggio = entry.getValue();
+
+                String query = String.format(
+                        "INSERT INTO parola (documento, valore, conteggio) VALUES ('%s', '%s', %d)",
+                        documento.getId(), parola, conteggio);
+                stmt.executeUpdate(query);
             }
-        });
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

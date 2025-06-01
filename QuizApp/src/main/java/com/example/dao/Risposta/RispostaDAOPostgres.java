@@ -5,6 +5,7 @@ import com.example.models.Risposta;
 
 import java.sql.*;
 import java.util.List;
+import java.util.Map;
 
 public class RispostaDAOPostgres implements RispostaDAO{
     @Override
@@ -99,4 +100,6 @@ public class RispostaDAOPostgres implements RispostaDAO{
             throw new RuntimeException(sqle);
         }
     }
+
+
 }
