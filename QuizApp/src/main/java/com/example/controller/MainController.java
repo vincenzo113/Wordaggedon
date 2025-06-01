@@ -134,6 +134,18 @@ public class MainController {
     private TimerService timerService;
 
 
+    private void clearRegisterFields(){
+        registerUsernameField.clear();
+        registerPasswordField.clear();
+        confirmRegisterPasswordField.clear();
+    }
+
+
+    private void  clearLoginFields(){
+        loginUsernameField.clear();
+        loginPasswordField.clear();
+    }
+
     private void showQuestionsAndAnswers() {
 
         testoVBox.setVisible(false);
@@ -208,11 +220,10 @@ public class MainController {
         else if(mediumRadio.isSelected()) return DifficultyEnum.MEDIUM;
         else return  DifficultyEnum.HARD;
     }
-    /***********/
 
 
-    @FXML
-    public void initialize(){
+    private void initTableView(){
+        sessioniQuizList = FXCollections.observableArrayList();
         tableView.setItems(sessioniQuizList);
         utenteColumn.setCellValueFactory(cellData ->
                         new SimpleStringProperty(cellData.getValue().getUser().getUsername()) //cellData.getValue() è una SessioneQuiz
@@ -240,6 +251,15 @@ public class MainController {
         });
 
 
+    }
+    /***********/
+
+
+
+
+    @FXML
+    public void initialize(){
+     initTableView();
     }
 
     public void handleLogin() {
@@ -300,6 +320,7 @@ public class MainController {
     }
 
     public void backToRegister(ActionEvent actionEvent) {
+        clearLoginFields();
         registerVBox.setVisible(true);
         registerVBox.setManaged(true);
         loginVBox.setVisible(false);
@@ -307,6 +328,7 @@ public class MainController {
     }
 
     public void backToLogin(ActionEvent actionEvent) {
+        clearRegisterFields();
         registerVBox.setVisible(false);
         registerVBox.setManaged(false);
         loginVBox.setVisible(true);

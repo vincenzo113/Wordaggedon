@@ -37,7 +37,7 @@ public class  Documento {
     public void setContenuto(String contenuto) {this.contenuto = contenuto;}
 
     public Map<String, Integer> setMappaturaQuiz(){
-        Stream<String> parole = Arrays.stream(contenuto.split(" "));
+        Stream<String> parole = Arrays.stream(contenuto.toLowerCase().split("\\W+")); //Splitta il contenuto anche per punteggiatura
         return parole.collect(Collectors.groupingBy(String::toString,
                 Collectors.summingInt(p->1)));
     }

@@ -1,9 +1,8 @@
 package com.example.dao.User;
 
 
-import com.example.dao.ConnectionConfig;
 import com.example.models.User;
-
+import com.example.dao.ConnectionConfig;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
