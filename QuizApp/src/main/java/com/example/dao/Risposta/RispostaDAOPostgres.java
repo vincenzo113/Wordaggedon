@@ -169,6 +169,8 @@ public class RispostaDAOPostgres implements RispostaDAO{
                 int remaining = 3 - risposteFake.size();
                 //SELEZIONA UNA PAROLA DAL VOCABOLARIO CHE NON È UGUALE A PAROLA CORRETTA , CHE NON È UNA STOPWORD,
                 // E CHE NON HA UN CONTEGGIO UGUALE A QUELLA CORRETTA
+
+                //MA QUESTA PAROLA POTREBBE ESSERE PRESENTE NEL DOCUMENTO
                 String vocQuery =
                         "SELECT v.stringa " +
                                 "FROM vocabolario v " +
@@ -242,6 +244,8 @@ public class RispostaDAOPostgres implements RispostaDAO{
                 int remaining = 3 - risposteFake.size();
                 //SELEZIONA UNA PAROLA DAL VOCABOLARIO CHE NON È UGUALE A PAROLA CORRETTA , CHE NON È UNA STOPWORD,
                 // E CHE NON HA UN CONTEGGIO UGUALE A QUELLA CORRETTA
+
+                //MA QUESTA PAROLA POTREBBE ESSERE PRESENTE IN UNO DEI DOCUMENTI
                 String vocQuery =
                         "SELECT v.stringa " +
                                 "FROM vocabolario v " +
