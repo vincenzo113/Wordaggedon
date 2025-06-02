@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import com.example.dao.SessionQuiz.SessionDAOPostgres;
+import com.example.dao.User.UserDAOPostgres;
 import com.example.models.*;
 
 import com.example.difficultySettings.DifficultyEnum;
@@ -18,6 +19,7 @@ public class QuizController {
 
     Map<String, Integer> conteggio ;
     static SessionDAOPostgres sessionDAOPostgres = new SessionDAOPostgres();
+    static UserDAOPostgres userDAOPostgres = new UserDAOPostgres();
 
     public static void startTimerPerTesto(List<Documento> documenti , int numeroTesto , Label timeLabel , ProgressBar timeProgressBar , DifficultyEnum difficolta , Label displayText , Label displayTitleText,
                                           Runnable callback ) {
@@ -102,5 +104,24 @@ public class QuizController {
             throw new RuntimeException(e);
         }
         return sessioni;
+    }
+
+    public static String getPunteggioMedio(User user, DifficultyEnum difficolta) {
+        System.out.println("userdao" + userDAOPostgres);
+        String punteggioMedio;
+        punteggioMedio = String.valueOf(userDAOPostgres.punteggioAvg(user,difficolta));
+        return punteggioMedio;
+    }
+
+    public static String getMigliorPunteggio(User user, DifficultyEnum difficolta) {
+        String migliorPunteggio;
+        migliorPunteggio = String.valueOf(userDAOPostgres.punteggioBest(user,difficolta));
+        return migliorPunteggio;
+    }
+
+    public static String getPartite(User user) {
+        String partite;
+        partite = String.valueOf(userDAOPostgres.contPartite(user));
+        return partite;
     }
 }

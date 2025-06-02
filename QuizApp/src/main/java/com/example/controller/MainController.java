@@ -132,7 +132,6 @@ public class MainController {
     public TableView<SessioneQuiz> tableView;
     public TableColumn<SessioneQuiz,String> utenteColumn;
     public TableColumn<SessioneQuiz,Integer> scoreColumn;
-    public TableColumn<SessioneQuiz,Integer> partiteColumn;
     public VBox scoreboardVBox;
     ObservableList<SessioneQuiz> sessioniQuizList;
 
@@ -269,21 +268,30 @@ public class MainController {
             diff = DifficultyEnum.MEDIUM;
         else diff = DifficultyEnum.HARD;
 
+        boolean soloPersonali = punteggiPersonaliCheckBox.isSelected();
+
         // Filtra i dati in base alla difficoltà e al checkbox
         List<SessioneQuiz> sessioni;
-        sessioni = QuizController.getScoreboard(diff);
+            sessioni = QuizController.getScoreboard(diff);
+        else sessioni = QuizController.getPersonalScoreboard(currentUser,diff);
 
         // Aggiorna la tabella
         aggiornaTableView(sessioni);
 
         // Aggiorna le statistiche
-        //aggiornaStats(filteredScores);
+        aggiornaStats(diff);
     }
 
     private void aggiornaTableView(List<SessioneQuiz> sessioni){
         sessioniQuizList = FXCollections.observableList(sessioni);
         tableView.setItems(sessioniQuizList);
         tableView.refresh();
+    }
+
+    private void aggiornaStats(DifficultyEnum difficultyEnum) {
+        punteggioMedioLabel.setText(QuizController.getPunteggioMedio(currentUser,difficultyEnum));
+        migliorPunteggioLabel.setText(QuizController.getMigliorPunteggio(currentUser,difficultyEnum));
+        numeroPartiteLabel.setText(QuizController.getPartite(currentUser));
     }
 
     //Metodo per creare un utente dai textfields
@@ -316,15 +324,6 @@ public class MainController {
         else return  DifficultyEnum.HARD;
     }
 
-    /*private void initListeners(){
-        punteggiPersonaliCheckBox.selectedProperty().addListener((obs, oldVal, newVal) -> {
-            List<SessioneQuiz> sessioni = null;
-            if (newVal) {sessioni = QuizController.getPersonalScoreboard(currentQuiz.getUser());}
-            else {sessioni = QuizController.getScoreboard();}
-            aggiornaTableView(sessioni);
-        });
-
-    }*/
     private void initTableView(){
         sessioniQuizList = FXCollections.observableArrayList();
         tableView.setItems(sessioniQuizList);

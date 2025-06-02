@@ -1,5 +1,6 @@
 package com.example.dao.User;
 
+import com.example.difficultySettings.DifficultyEnum;
 import com.example.models.User;
 
 import java.sql.*;
@@ -36,6 +37,66 @@ public class UserDAOPostgres implements UserDAO<User> {
         }
 
         return false;
+    }
+
+    @Override
+    public int punteggioAvg(User user, DifficultyEnum difficultyEnum) {
+        ResultSet rs = null;
+        try(
+                Connection c = DriverManager.getConnection(URL, USER, PASS);
+                Statement s = c.createStatement();
+        ){
+            String query = String.format("select avg(punteggio) as media from sessione where utente = '%s' and difficolta = '%s'" , user.getUsername(), difficultyEnum.toString() );
+            rs = s.executeQuery(query);
+
+            if(rs.next()) {
+                return rs.getInt("media");
+            }
+
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return 0;
+    }
+
+    @Override
+    public int punteggioBest(User user, DifficultyEnum difficultyEnum) {
+        ResultSet rs = null;
+        try(
+                Connection c = DriverManager.getConnection(URL, USER, PASS);
+                Statement s = c.createStatement();
+        ){
+            String query = String.format("select max(punteggio) as massimo from sessione where utente = '%s' and difficolta = '%s'" , user.getUsername(), difficultyEnum.toString() );
+            rs = s.executeQuery(query);
+
+            if(rs.next()) {
+                return rs.getInt("massimo");
+            }
+
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return 0;
+    }
+
+    @Override
+    public int contPartite(User user) {
+        ResultSet rs = null;
+        try(
+                Connection c = DriverManager.getConnection(URL, USER, PASS);
+                Statement s = c.createStatement();
+        ){
+            String query = String.format("select count(*) as numpartite from sessione where utente = '%s'" , user.getUsername());
+            rs = s.executeQuery(query);
+
+            if(rs.next()) {
+                return rs.getInt("numpartite");
+            }
+
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return 0;
     }
 
     @Override

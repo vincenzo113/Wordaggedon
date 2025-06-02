@@ -1,6 +1,7 @@
 package com.example.dao.User;
 
 
+import com.example.difficultySettings.DifficultyEnum;
 import com.example.models.User;
 import com.example.dao.ConnectionConfig;
 import java.sql.SQLException;
@@ -17,4 +18,8 @@ public interface UserDAO<T> extends ConnectionConfig {
     User login(User user) throws SQLException;
 
     boolean register(User user) throws SQLException;
+
+    int punteggioAvg(User user, DifficultyEnum difficultyEnum);
+    int punteggioBest(User user, DifficultyEnum difficultyEnum);
+    int contPartite(User user);
 }
