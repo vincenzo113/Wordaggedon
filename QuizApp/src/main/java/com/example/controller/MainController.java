@@ -31,6 +31,16 @@ public class MainController {
 
 
     public Button addTestoButton;
+
+    public ToggleButton facileButton;
+    public ToggleButton medioButton;
+    public ToggleButton difficileButton;
+    private ToggleGroup difficoltaToggleGroup;
+
+    public Label punteggioMedioLabel;
+    public Label migliorPunteggioLabel;
+    public Label numeroPartiteLabel;
+
     public CheckBox punteggiPersonaliCheckBox;
 
 
@@ -120,7 +130,7 @@ public class MainController {
     public TableView<SessioneQuiz> tableView;
     public TableColumn<SessioneQuiz,String> utenteColumn;
     public TableColumn<SessioneQuiz,Integer> scoreColumn;
-    public TableColumn<SessioneQuiz,String> difficoltaColumn;
+    public TableColumn<SessioneQuiz,Integer> partiteColumn;
     public VBox scoreboardVBox;
     ObservableList<SessioneQuiz> sessioniQuizList;
 
@@ -132,13 +142,10 @@ public class MainController {
         registerPasswordField.clear();
         confirmRegisterPasswordField.clear();
     }
-
-
     private void  clearLoginFields(){
         loginUsernameField.clear();
         loginPasswordField.clear();
     }
-
     private void clearQuizFields(){
         q1opt1.setSelected(false);
         q1opt2.setSelected(false);
@@ -154,6 +161,11 @@ public class MainController {
         q3opt2.setSelected(false);
         q3opt3.setSelected(false);
         q3opt4.setSelected(false);
+
+        q4opt1.setSelected(false);
+        q4opt2.setSelected(false);
+        q4opt3.setSelected(false);
+        q4opt4.setSelected(false);
     }
 
     private void showQuestionsAndAnswers() {
@@ -197,6 +209,75 @@ public class MainController {
 
     /*Metodi privati*/
 
+    private void setupToggleButtons() {
+        // Crea il ToggleGroup per i bottoni di difficoltà
+        difficoltaToggleGroup = new ToggleGroup();
+
+        facileButton.setToggleGroup(difficoltaToggleGroup);
+        medioButton.setToggleGroup(difficoltaToggleGroup);
+        difficileButton.setToggleGroup(difficoltaToggleGroup);
+
+        // Imposta difficolta di default
+        //da sistemare sembra dia sempre null
+        if (currentQuiz == null || currentQuiz.getDifficolta() == DifficultyEnum.EASY)
+            facileButton.setSelected(true);
+        else if (currentQuiz.getDifficolta() == DifficultyEnum.MEDIUM)
+            medioButton.setSelected(true);
+        else
+            difficileButton.setSelected(true);
+
+        // Aggiungi listener per il cambio di selezione
+        difficoltaToggleGroup.selectedToggleProperty().addListener((obs, oldToggle, newToggle) -> {
+            if (newToggle != null) {
+                updateDisplayedData();
+                updateToggleButtonStyles();
+            } else {
+                // Se nessun bottone è selezionato, riseleziona "FACILE"
+                facileButton.setSelected(true);
+            }
+        });
+
+        // Listener per il checkbox punteggi personali
+        punteggiPersonaliCheckBox.selectedProperty().addListener((obs, oldVal, newVal) -> {
+            updateDisplayedData();
+        });
+    }
+
+    private void updateToggleButtonStyles() {
+        // Reset stili e applica colori di base
+        facileButton.setStyle("-fx-background-color: #8BC34A; -fx-text-fill: white;");
+        medioButton.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white;");
+        difficileButton.setStyle("-fx-background-color: #F44336; -fx-text-fill: white;");
+
+        // Applica stile al bottone selezionato
+        ToggleButton selected = (ToggleButton) difficoltaToggleGroup.getSelectedToggle();
+        if (selected != null) {
+            selected.setStyle(selected.getStyle() + "; -fx-font-weight: bold; -fx-border-color: #333333; -fx-border-width: 2px;");
+        }
+    }
+
+    private void updateDisplayedData() {
+        ToggleButton selected = (ToggleButton) difficoltaToggleGroup.getSelectedToggle();
+        DifficultyEnum diff;
+        if (selected == null)
+            diff = DifficultyEnum.EASY;
+        else if (selected == facileButton)
+            diff = DifficultyEnum.EASY;
+        else if (selected == medioButton)
+            diff = DifficultyEnum.MEDIUM;
+        else diff = DifficultyEnum.HARD;
+
+        // Filtra i dati in base alla difficoltà e al checkbox
+        List<SessioneQuiz> sessioni;
+        sessioni = QuizController.getScoreboard(diff);
+
+        // Aggiorna la tabella
+        aggiornaTableView(sessioni);
+
+        // Aggiorna le statistiche
+        //aggiornaStats(filteredScores);
+    }
+
     private void aggiornaTableView(List<SessioneQuiz> sessioni){
         sessioniQuizList = FXCollections.observableList(sessioni);
         tableView.setItems(sessioniQuizList);
@@ -213,7 +294,6 @@ public class MainController {
         String password = loginPasswordField.getText();
         return new User(username.trim(),password.trim(),false);
     }
-
     private User checkRegister() throws CampiNonCompilatiException  , PasswordDiverseException {
         if (registerUsernameField.getText().trim().isEmpty() || registerPasswordField.getText().trim().isEmpty() || registerPasswordField.getText().trim().isEmpty()) {
             throw new CampiNonCompilatiException("");
@@ -234,7 +314,7 @@ public class MainController {
         else return  DifficultyEnum.HARD;
     }
 
-    private void initListeners(){
+    /*private void initListeners(){
         punteggiPersonaliCheckBox.selectedProperty().addListener((obs, oldVal, newVal) -> {
             List<SessioneQuiz> sessioni = null;
             if (newVal) {sessioni = QuizController.getPersonalScoreboard(currentQuiz.getUser());}
@@ -242,7 +322,7 @@ public class MainController {
             aggiornaTableView(sessioni);
         });
 
-    }
+    }*/
     private void initTableView(){
         sessioniQuizList = FXCollections.observableArrayList();
         tableView.setItems(sessioniQuizList);
@@ -252,12 +332,9 @@ public class MainController {
         );
         scoreColumn.setCellValueFactory(cellData ->
                         new SimpleIntegerProperty(cellData.getValue().getScore()).asObject()
-                //perché SimpleIntegerProperty da solo non è un ObservableValue<Integer> — è un ObservableValue<Number>.
+                //perche SimpleIntegerProperty da solo non è un ObservableValue<Integer> — è un ObservableValue<Number>.
                 // Ma la colonna vuole esattamente ObservableValue<Integer>. asObject() converte il tipo Number in Integer,
                 // che è ciò che la colonna si aspetta.
-        );
-        difficoltaColumn.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getDifficolta().toString())
         );
 
         scoreColumn.setSortType(TableColumn.SortType.DESCENDING);
@@ -289,7 +366,7 @@ public class MainController {
                 q4opt1, q4opt2, q4opt3, q4opt4
         };
 
-          initListeners();
+        setupToggleButtons();
     }
 
     public void handleLogin() {
@@ -430,7 +507,7 @@ public class MainController {
     public void goToScoreboard(ActionEvent actionEvent) throws SQLException {
 
         QuizController.updateScoreboard(currentQuiz);
-        aggiornaTableView(QuizController.getScoreboard());
+        aggiornaTableView(QuizController.getScoreboard(currentQuiz.getDifficolta()));
         finalScoreVBox.setManaged(false);
         finalScoreVBox.setVisible(false);
         scoreboardVBox.setManaged(true);

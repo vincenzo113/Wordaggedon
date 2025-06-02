@@ -12,12 +12,12 @@ import java.sql.*;
 
 public class SessionDAOPostgres implements SessionDAO {
     @Override
-    public List<SessioneQuiz> selectSessionsWithTopScores() throws SQLException {
+    public List<SessioneQuiz> selectSessionsWithTopScores(DifficultyEnum difficolta) throws SQLException {
         List<SessioneQuiz> sessions = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
              Statement stmt = conn.createStatement()) {
 
-            String query = "SELECT utente, punteggio, difficolta FROM sessione ORDER BY punteggio DESC ";
+            String query = String.format("SELECT utente, punteggio FROM sessione WHERE difficolta = '%s' ORDER BY punteggio DESC ", difficolta.toString());
             ResultSet rs = stmt.executeQuery(query);
 
             while (rs.next()) {
@@ -28,15 +28,16 @@ public class SessionDAOPostgres implements SessionDAO {
 
                 int punteggio = rs.getInt("punteggio");
 
+                /*
                 //OTTENGO DIFFICOLTA'
                 String difficolta = rs.getString("difficolta");
                 DifficultyEnum difficulty = null;
                 if ("EASY".equalsIgnoreCase(difficolta)) difficulty = DifficultyEnum.EASY;
                 else if ("MEDIUM".equalsIgnoreCase(difficolta)) difficulty = DifficultyEnum.MEDIUM;
-                else if ("HARD".equalsIgnoreCase(difficolta)) difficulty = DifficultyEnum.HARD;
+                else if ("HARD".equalsIgnoreCase(difficolta)) difficulty = DifficultyEnum.HARD;*/
 
                 //CREAZIONE SESSIONE QUIZ
-                sessions.add(new SessioneQuiz(user, difficulty, punteggio));
+                sessions.add(new SessioneQuiz(user, difficolta, punteggio));
 
             }
         }
@@ -61,29 +62,30 @@ public class SessionDAOPostgres implements SessionDAO {
     }
 
     @Override
-    public List<SessioneQuiz> selectPersonalScoreboard(User user) throws SQLException {
+    public List<SessioneQuiz> selectPersonalScoreboard(User user, DifficultyEnum difficultyEnum) throws SQLException {
         List<SessioneQuiz> sessions = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
              Statement stmt = conn.createStatement()) {
 
             String query = String.format(
-                    "SELECT utente, punteggio, difficolta FROM sessione WHERE utente = '%s' ORDER BY punteggio DESC",
-                    user.getUsername()
+                    "SELECT utente, punteggio FROM sessione WHERE utente = '%s' AND difficolta = '%s' ORDER BY punteggio DESC",
+                    user.getUsername(), difficultyEnum.toString()
             );
             ResultSet rs = stmt.executeQuery(query);
 
             while (rs.next()) {
                 int punteggio = rs.getInt("punteggio");
 
+                /*
                 //OTTENGO DIFFICOLTA'
                 String difficolta = rs.getString("difficolta");
                 DifficultyEnum difficulty = null;
                 if ("EASY".equalsIgnoreCase(difficolta)) difficulty = DifficultyEnum.EASY;
                 else if ("MEDIUM".equalsIgnoreCase(difficolta)) difficulty = DifficultyEnum.MEDIUM;
-                else if ("HARD".equalsIgnoreCase(difficolta)) difficulty = DifficultyEnum.HARD;
+                else if ("HARD".equalsIgnoreCase(difficolta)) difficulty = DifficultyEnum.HARD;*/
 
                 //CREAZIONE SESSIONE QUIZ
-                sessions.add(new SessioneQuiz(user, difficulty, punteggio));
+                sessions.add(new SessioneQuiz(user, difficultyEnum, punteggio));
 
             }
         }

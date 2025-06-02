@@ -23,12 +23,12 @@ public class RispostaDAOPostgres implements RispostaDAO{
             if(rs.next()) {
                // System.out.println("Ripetizione trovata");
                 return new Risposta(rs.getInt("conteggio") + "", true);
-            }
+            } else return new Risposta("0", true);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
       //  System.out.println("Ripetizione non trovata");
-        return null;
+        //return null;
     }
 
     @Override
@@ -44,12 +44,12 @@ public class RispostaDAOPostgres implements RispostaDAO{
             if(rs.next()) {
                // System.out.println("CORRECT ANSWER");
                 return new Risposta(rs.getString("stringa"), true);
-            }
+            } else return new Risposta("Nessuna delle altre risposte è corretta", true);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         //System.out.println("NULL");
-        return null;
+        //return null;
     }
 
     @Override
@@ -75,12 +75,12 @@ public class RispostaDAOPostgres implements RispostaDAO{
             ResultSet rs = stmt.executeQuery(query);
             if(rs.next()) {
                 return new Risposta(rs.getString("valore"), true);
-            }
+            } else return new Risposta("Nessuna delle altre risposte è corretta", true);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return null;
+        //return null;
     }
 
 
@@ -100,7 +100,7 @@ public class RispostaDAOPostgres implements RispostaDAO{
             if(rs.next()) {
                 //System.out.println("PIu frequente nel documento: "+rs.getString("valore"));
                 return new Risposta(rs.getString("valore"), true);
-            }
+            } else return new Risposta("Nessuna delle altre risposte è corretta", true);
 
         } catch (SQLException sqle) {
             //System.out.println("Non ho trovato la piu frequente nel documento");
@@ -108,7 +108,7 @@ public class RispostaDAOPostgres implements RispostaDAO{
         }
        // System.out.println("Non ho trovato la piu frequente nel documento");
 
-        return null;
+        //return null;
     }
 
 

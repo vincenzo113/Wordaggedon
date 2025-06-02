@@ -66,10 +66,10 @@ public class QuizController {
         sessionDAOPostgres.insertSessione(sessioneQuiz);
         return;
     }
-    public static List<SessioneQuiz> getScoreboard() {
+    public static List<SessioneQuiz> getScoreboard(DifficultyEnum difficolta) {
         List<SessioneQuiz> sessioni = null;
         try {
-            sessioni = sessionDAOPostgres.selectSessionsWithTopScores();
+            sessioni = sessionDAOPostgres.selectSessionsWithTopScores(difficolta);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -94,10 +94,10 @@ public class QuizController {
         }
     }
 
-    public static List<SessioneQuiz> getPersonalScoreboard(User user) {
+    public static List<SessioneQuiz> getPersonalScoreboard(User user, DifficultyEnum difficolta) {
         List<SessioneQuiz> sessioni = null;
         try {
-            sessioni = sessionDAOPostgres.selectPersonalScoreboard(user);
+            sessioni = sessionDAOPostgres.selectPersonalScoreboard(user, difficolta);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

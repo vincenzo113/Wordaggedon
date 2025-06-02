@@ -1,6 +1,7 @@
 package com.example.dao.SessionQuiz;
 
 import com.example.dao.ConnectionConfig;
+import com.example.difficultySettings.DifficultyEnum;
 import com.example.models.SessioneQuiz;
 import com.example.models.User;
 
@@ -9,9 +10,9 @@ import java.util.List;
 
 public interface SessionDAO extends ConnectionConfig {
 
-    List<SessioneQuiz> selectSessionsWithTopScores() throws SQLException;
+    List<SessioneQuiz> selectSessionsWithTopScores(DifficultyEnum difficolta) throws SQLException;
 
     void insertSessione(SessioneQuiz currentQuiz);
 
-    List<SessioneQuiz> selectPersonalScoreboard(User user) throws SQLException;
+    List<SessioneQuiz> selectPersonalScoreboard(User user, DifficultyEnum difficultyEnum) throws SQLException;
 }
