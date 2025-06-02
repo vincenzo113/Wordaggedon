@@ -569,6 +569,7 @@ public class MainController {
         FileChooser fc = new FileChooser();
         fc.setTitle("Seleziona un file csv");
         fc.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("File di testo", "*.txt"),
                 new FileChooser.ExtensionFilter("File csv", "*.csv"),
                 new FileChooser.ExtensionFilter("Tutti i file", "*.*")
         );
@@ -583,11 +584,19 @@ public class MainController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-
-            stopWordsDAOPostgres.inserisciStopWords(allStopWords);
     }
-
+        if (selectedFile != null && selectedFile.getName().endsWith(".txt")) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(selectedFile))) {
+                String line = "";
+                while((line = reader.readLine()) != null){
+                    String[] campi = line.split("[,;\\t ]+");
+                    for(String parola : campi) allStopWords.add(parola);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        stopWordsDAOPostgres.inserisciStopWords(allStopWords);
 }
 
     public void vaiAlPunteggio(ActionEvent actionEvent) {
