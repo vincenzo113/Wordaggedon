@@ -32,7 +32,7 @@ public class QuizController {
                 if (numeroTesto + 1 < maxTesti) {
                     startTimerPerTesto(documenti, numeroTesto + 1, timeLabel, timeProgressBar, difficolta , displayText , displayTitleText,callback);
                 } else {
-                    // Fine fase lettura , si passa alla nuova scena delle domande
+                    // Fine fase lettura, si passa alla nuova scena delle domande
                     callback.run();
                 }
             });

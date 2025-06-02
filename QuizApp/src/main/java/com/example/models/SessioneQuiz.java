@@ -58,37 +58,38 @@ public class SessioneQuiz {
             domande = domandeDAOPostgres.selectDomande(); // Esegui la query per ottenere le domande
 
             Random random = new Random();
-            for(int i=0;i<domande.size();i++) {
+            for (Domanda domanda : domande) {
 
                 //FARE ENUM PER DISTINGUERE LE DOMANDE
-                if (domande.get(i).getTesto().equals("Quante volte si ripete una parola")) {
+                if (domanda.getTesto().equals("Quante volte si ripete una parola")) {
 
 
                     int indiceTesto = random.nextInt(documenti.size());
                     String parolaDaCercare = domandeDAOPostgres.selectParolaCasuale(documenti.get(indiceTesto));
-                    domande.get(i).setTesto("Quante volte si ripete la parola " + parolaDaCercare + " nel testo  " + documenti.get(indiceTesto).getTitolo() + "?");
-                    domande.get(i).setRisposteQuanteVolteSiPresentaInUnTesto(documenti.get(indiceTesto),parolaDaCercare);
-                };
+                    domanda.setTesto("Quante volte si ripete la parola " + parolaDaCercare + " nel testo  " + documenti.get(indiceTesto).getTitolo() + "?");
+                    domanda.setRisposteQuanteVolteSiPresentaInUnTesto(documenti.get(indiceTesto), parolaDaCercare);
+                }
+                ;
 
 
-                if (domande.get(i).getTesto().equals("Qual è la parola più frequente nel quiz")) {
+                if (domanda.getTesto().equals("Qual è la parola più frequente nel quiz")) {
 
                     int indiceTesto = random.nextInt(documenti.size());
-                    domande.get(i).setTesto("Qual è la parola più frequente nel testo  " + documenti.get(indiceTesto).getTitolo() + "?");
-                    domande.get(i).setRispostePiuFrequenteNelTesto(documenti.get(indiceTesto));
+                    domanda.setTesto("Qual è la parola più frequente nel testo  " + documenti.get(indiceTesto).getTitolo() + "?");
+                    domanda.setRispostePiuFrequenteNelTesto(documenti.get(indiceTesto));
 
                 }
 
-                if (domande.get(i).getTesto().equals("Qual è la parola più frequente in tutti i documenti")) {
+                if (domanda.getTesto().equals("Qual è la parola più frequente in tutti i documenti")) {
 
-                    domande.get(i).setTesto("Qual è la parola più frequente in tutti i documenti ?");
-                    domande.get(i).setRispostePiuFrequenteInTutti(documenti);
+                    domanda.setTesto("Qual è la parola più frequente in tutti i documenti ?");
+                    domanda.setRispostePiuFrequenteInTutti(documenti);
 
                 }
 
-                if (domande.get(i).getTesto().equals("Quale parola non appare mai in nessun documento")) {
-                    domande.get(i).setTesto("Quale parola non appare mai in nessun documento?");
-                    domande.get(i).setRisposteMaiPresente(documenti);
+                if (domanda.getTesto().equals("Quale parola non appare mai in nessun documento")) {
+                    domanda.setTesto("Quale parola non appare mai in nessun documento?");
+                    domanda.setRisposteMaiPresente(documenti);
 
                 }
             }

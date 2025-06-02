@@ -426,7 +426,7 @@
         </TableView>
 
         <!-- Un solo bottone -->
-        <Button fx:id="avantiButton" text="Avanti" minWidth="150"
+        <Button fx:id="avantiButton" text="Avanti" minWidth="150" onAction="#restartGame"
                 style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
 
     </VBox>

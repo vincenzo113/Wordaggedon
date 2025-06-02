@@ -139,13 +139,29 @@ public class MainController {
         loginPasswordField.clear();
     }
 
+    private void clearQuizFields(){
+        q1opt1.setSelected(false);
+        q1opt2.setSelected(false);
+        q1opt3.setSelected(false);
+        q1opt4.setSelected(false);
+
+        q2opt1.setSelected(false);
+        q2opt2.setSelected(false);
+        q2opt3.setSelected(false);
+        q2opt4.setSelected(false);
+
+        q3opt1.setSelected(false);
+        q3opt2.setSelected(false);
+        q3opt3.setSelected(false);
+        q3opt4.setSelected(false);
+    }
+
     private void showQuestionsAndAnswers() {
         testoVBox.setVisible(false);
         testoVBox.setManaged(false);
         domandaRispostaVBox.setVisible(true);
         domandaRispostaVBox.setManaged(true);
         currentQuiz.generaDomande();
-
 
         List<Domanda> domande = currentQuiz.getDomande();
 
@@ -291,6 +307,7 @@ public class MainController {
         if(userToLog != null) {
             currentUser = userToLog; // Imposta l'utente corrente
             loginVBox.setVisible(false);
+            loginVBox.setManaged(false);
             difficultyVBox.setVisible(true);
             difficultyVBox.setManaged(true);
             if(userToLog.isAdmin()) {
@@ -348,7 +365,6 @@ public class MainController {
         loginVBox.setManaged(true);
     }
 
-    @FXML
     public void handleLogout(ActionEvent actionEvent) {
         clearLoginFields();
         difficultyVBox.setVisible(false);
@@ -360,6 +376,7 @@ public class MainController {
 
     public void handleStartGame(ActionEvent actionEvent) {
         difficultyVBox.setVisible(false);
+        difficultyVBox.setManaged(false);
         testoVBox.setVisible(true);
         testoVBox.setManaged(true);
         DifficultyEnum diff = getDifficoltaScelta();
@@ -399,10 +416,11 @@ public class MainController {
         //SETTA LE RISPOSTE SELEZIONATE
         //QuizController.setRisposteSelezionate(q1Options,q2Options,q3Options,q4Options,currentQuiz);
         QuizController.setFinalScore( q1Options , q2Options , q3Options , q4Options , currentQuiz);
-        finalScoreVBox.setVisible(true);
-        finalScoreVBox.setManaged(true);
         domandaRispostaVBox.setVisible(false);
         domandaRispostaVBox.setManaged(false);
+        finalScoreVBox.setVisible(true);
+        finalScoreVBox.setManaged(true);
+        clearQuizFields();
         scoreLabel.setText("Il tuo punteggio finale è: " + currentQuiz.getScore());
 
 
@@ -420,6 +438,13 @@ public class MainController {
 
     }
 
+    public void restartGame(ActionEvent actionEvent) {
+        scoreboardVBox.setVisible(false);
+        scoreboardVBox.setManaged(false);
+        difficultyVBox.setVisible(true);
+        difficultyVBox.setManaged(true);
+        currentQuiz = null;
+    }
 }
 
 
