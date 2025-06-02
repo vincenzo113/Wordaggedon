@@ -10,6 +10,8 @@ import com.example.exceptions.CampiNonCompilatiException;
 import com.example.exceptions.PasswordDiverseException;
 import com.example.models.*;
 import com.example.timerService.TimerService;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -30,6 +32,10 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class MainController {
+    public ToggleGroup gruppoDomanda1;
+    public ToggleGroup gruppoDomanda2;
+    public ToggleGroup gruppoDomanda3;
+    public ToggleGroup gruppoDomanda4;
 
 
     public Button addTestoButton;
@@ -51,6 +57,7 @@ public class MainController {
     public Label domanda1Label;
     public Label risposta1UtenteLabel;
     public Label risposta1CorrettaLabel;
+    public Button nextButton;
     /// /////////////////////////////
     private ToggleGroup difficoltaToggleGroup;
 
@@ -384,6 +391,22 @@ public class MainController {
         };
 
         setupToggleButtons();
+        initBindings();
+    }
+
+    private void initBindings(){
+        BooleanBinding tutteRisposteDate = Bindings.createBooleanBinding(
+                () ->  gruppoDomanda1.getSelectedToggle() != null &&
+                        gruppoDomanda2.getSelectedToggle() != null &&
+                        gruppoDomanda3.getSelectedToggle() != null &&
+                        gruppoDomanda4.getSelectedToggle() != null,
+                gruppoDomanda1.selectedToggleProperty(),
+                gruppoDomanda2.selectedToggleProperty(),
+                gruppoDomanda3.selectedToggleProperty(),
+                gruppoDomanda4.selectedToggleProperty()
+        );
+
+        nextButton.disableProperty().bind(tutteRisposteDate.not());
     }
 
     public void handleLogin() {
