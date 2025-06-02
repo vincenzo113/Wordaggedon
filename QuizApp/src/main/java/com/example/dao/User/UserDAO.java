@@ -19,7 +19,7 @@ public interface UserDAO<T> extends ConnectionConfig {
 
     boolean register(User user) throws SQLException;
 
-    int punteggioAvg(User user, DifficultyEnum difficultyEnum);
+    float punteggioAvg(User user, DifficultyEnum difficultyEnum);
     int punteggioBest(User user, DifficultyEnum difficultyEnum);
     int contPartite(User user);
 }

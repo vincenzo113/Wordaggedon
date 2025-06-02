@@ -514,7 +514,8 @@ public class MainController {
         finalScoreVBox.setVisible(false);
         scoreboardVBox.setManaged(true);
         scoreboardVBox.setVisible(true);
-
+        updateDisplayedData();
+        updateToggleButtonStyles();
     }
 
     public void restartGame(ActionEvent actionEvent) {

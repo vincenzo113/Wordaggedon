@@ -40,7 +40,7 @@ public class UserDAOPostgres implements UserDAO<User> {
     }
 
     @Override
-    public int punteggioAvg(User user, DifficultyEnum difficultyEnum) {
+    public float punteggioAvg(User user, DifficultyEnum difficultyEnum) {
         ResultSet rs = null;
         try(
                 Connection c = DriverManager.getConnection(URL, USER, PASS);
@@ -50,7 +50,7 @@ public class UserDAOPostgres implements UserDAO<User> {
             rs = s.executeQuery(query);
 
             if(rs.next()) {
-                return rs.getInt("media");
+                return rs.getFloat("media");
             }
 
         }catch(Exception ex){

@@ -109,7 +109,7 @@ public class QuizController {
     public static String getPunteggioMedio(User user, DifficultyEnum difficolta) {
         System.out.println("userdao" + userDAOPostgres);
         String punteggioMedio;
-        punteggioMedio = String.valueOf(userDAOPostgres.punteggioAvg(user,difficolta));
+        punteggioMedio = String.format("%.2f",userDAOPostgres.punteggioAvg(user,difficolta));
         return punteggioMedio;
     }
 
