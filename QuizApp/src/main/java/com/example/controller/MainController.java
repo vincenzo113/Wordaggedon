@@ -218,7 +218,15 @@ public class MainController {
         else return  DifficultyEnum.HARD;
     }
 
+    private void initListeners(){
+        punteggiPersonaliCheckBox.selectedProperty().addListener((obs, oldVal, newVal) -> {
+            List<SessioneQuiz> sessioni = null;
+            if (newVal) {sessioni = QuizController.getPersonalScoreboard(currentQuiz.getUser());}
+            else {sessioni = QuizController.getScoreboard();}
+            aggiornaTableView(sessioni);
+        });
 
+    }
     private void initTableView(){
         sessioniQuizList = FXCollections.observableArrayList();
         tableView.setItems(sessioniQuizList);
@@ -240,12 +248,7 @@ public class MainController {
         tableView.getSortOrder().setAll(scoreColumn);
         tableView.sort();
 
-        punteggiPersonaliCheckBox.selectedProperty().addListener((obs, oldVal, newVal) -> {
-            List<SessioneQuiz> sessioni = null;
-            if (newVal) {sessioni = QuizController.getPersonalScoreboard(currentQuiz.getUser());}
-            else {sessioni = QuizController.getScoreboard();}
-            aggiornaTableView(sessioni);
-        });
+
 
 
     }
@@ -269,6 +272,8 @@ public class MainController {
           q4Options = new RadioButton[]{
                 q4opt1, q4opt2, q4opt3, q4opt4
         };
+
+          initListeners();
     }
 
     public void handleLogin() {
@@ -405,26 +410,13 @@ public class MainController {
     }
 
     public void goToScoreboard(ActionEvent actionEvent) throws SQLException {
-        if (currentQuiz == null) {
-            System.err.println("Error: currentQuiz is null!");
-            // Handle the error appropriately - maybe show an alert or return early
-            return;
-        }
+
         QuizController.updateScoreboard(currentQuiz);
         aggiornaTableView(QuizController.getScoreboard());
         finalScoreVBox.setManaged(false);
         finalScoreVBox.setVisible(false);
         scoreboardVBox.setManaged(true);
         scoreboardVBox.setVisible(true);
-
-        punteggiPersonaliCheckBox.selectedProperty().addListener((obs, oldVal, newVal) -> {
-            List<SessioneQuiz> sessioni = null;
-            if (newVal) {
-                if(currentQuiz==null) System.out.println("NULL!!!!!!");
-                sessioni = QuizController.getPersonalScoreboard(currentQuiz.getUser());}
-            else {sessioni = QuizController.getScoreboard();}
-            aggiornaTableView(sessioni);
-        });
 
     }
 

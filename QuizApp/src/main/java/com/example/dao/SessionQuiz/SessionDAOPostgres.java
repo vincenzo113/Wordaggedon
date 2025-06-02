@@ -17,12 +17,12 @@ public class SessionDAOPostgres implements SessionDAO {
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
              Statement stmt = conn.createStatement()) {
 
-            String query = "SELECT username, punteggio, difficolta FROM sessione ORDER BY punteggio DESC ";
+            String query = "SELECT utente, punteggio, difficolta FROM sessione ORDER BY punteggio DESC ";
             ResultSet rs = stmt.executeQuery(query);
 
             while (rs.next()) {
                 //CREAZIONE USER
-                String username = rs.getString("username");
+                String username = rs.getString("utente");
                 User user = new User(username);
 
 
@@ -49,7 +49,7 @@ public class SessionDAOPostgres implements SessionDAO {
              Statement stmt = conn.createStatement()) {
 
             String query = String.format(
-                    "INSERT INTO sessione (username, difficolta, punteggio) VALUES ('%s', '%s', %d)",
+                    "INSERT INTO sessione (utente, difficolta, punteggio) VALUES ('%s', '%s', %d)",
                     currentQuiz.getUser().getUsername(),
                     currentQuiz.getDifficolta().toString(),
                     currentQuiz.getScore()
@@ -67,7 +67,7 @@ public class SessionDAOPostgres implements SessionDAO {
              Statement stmt = conn.createStatement()) {
 
             String query = String.format(
-                    "SELECT username, punteggio, difficolta FROM sessione WHERE username = '%s' ORDER BY punteggio DESC",
+                    "SELECT utente, punteggio, difficolta FROM sessione WHERE utente = '%s' ORDER BY punteggio DESC",
                     user.getUsername()
             );
             ResultSet rs = stmt.executeQuery(query);
