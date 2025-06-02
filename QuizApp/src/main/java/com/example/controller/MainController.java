@@ -4,6 +4,7 @@ import com.example.alerts.Alert;
 import com.example.alerts.AlertList;
 import com.example.dao.Documento.DocumentoDAO;
 import com.example.dao.Documento.DocumentoDAOPostgres;
+import com.example.dao.stopWordsDAO.stopWordsDAOPostgres;
 import com.example.difficultySettings.DifficultyEnum;
 import com.example.exceptions.CampiNonCompilatiException;
 import com.example.exceptions.PasswordDiverseException;
@@ -20,6 +21,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.io.BufferedReader;
@@ -445,6 +447,36 @@ public class MainController {
         difficultyVBox.setManaged(true);
         currentQuiz = null;
     }
+
+
+    @FXML
+    public void loadStopwords(ActionEvent actionEvent){
+        List<String> allStopWords = new ArrayList<>();
+        stopWordsDAOPostgres stopWordsDAOPostgres = new stopWordsDAOPostgres();
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Seleziona un file csv");
+        fc.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("File csv", "*.csv"),
+                new FileChooser.ExtensionFilter("Tutti i file", "*.*")
+        );
+        File selectedFile = fc.showOpenDialog(null);
+        if (selectedFile != null && selectedFile.getName().endsWith(".csv")) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(selectedFile))) {
+                String line = "";
+                while((line = reader.readLine()) != null){
+                    String[] campi = line.split("[,;\\t ]+");
+                   for(String parola : campi) allStopWords.add(parola);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            stopWordsDAOPostgres.inserisciStopWords(allStopWords);
+    }
+
+}
+
 }
 
 

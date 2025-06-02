@@ -155,6 +155,16 @@
                         <Font name="System Bold" size="12.0" />
                     </font>
                 </Button>
+
+                <Button fx:id="loadStopwordsButton" text="Carica Stopwords"
+                        prefWidth="150.0" prefHeight="35.0"
+                        style="-fx-background-color: #17a2b8; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5px; -fx-cursor: hand;"
+                        onAction="#loadStopwords">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                </Button>
+
                 <Button fx:id="logoutButton" text="Logout" onAction="#handleLogout"
                         prefWidth="100.0" prefHeight="35.0"
                         style="-fx-background-color: #dc3545; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5px; -fx-cursor: hand;"
