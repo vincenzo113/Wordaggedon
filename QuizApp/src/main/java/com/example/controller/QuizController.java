@@ -27,7 +27,7 @@ public class QuizController {
         displayText.setText(documenti.get(numeroTesto).getContenuto());
         displayTitleText.setText(documenti.get(numeroTesto).getTitolo());
 
-        TimerService timerService = new TimerService(timeLimit, () -> {
+        TimerService timerService = new TimerService(1, () -> {
             Platform.runLater(() -> {
                 if (numeroTesto + 1 < maxTesti) {
                     startTimerPerTesto(documenti, numeroTesto + 1, timeLabel, timeProgressBar, difficolta , displayText , displayTitleText,callback);
@@ -48,17 +48,17 @@ public class QuizController {
         timerService.start();
     }
 
-    public static void setFinalScore(SessioneQuiz sessioneQuiz){
+    public static void setFinalScore(RadioButton[] q1Options, RadioButton[] q2Options, RadioButton[] q3Options, RadioButton[] q4Options ,SessioneQuiz sessioneQuiz){
 
-        int score = 50;
-        /*
+        int score = 0;
+        setRisposteSelezionate(q1Options, q2Options, q3Options, q4Options, sessioneQuiz);
         for (Domanda domanda : sessioneQuiz.getDomande()) {
             for (Risposta risposta : domanda.getRisposte()) {
                 if (risposta.isSelected() && risposta.getCorretta()) {
                     score++;
                 }
             }
-        }*/
+        }
         sessioneQuiz.setScore(score);
     }
 
@@ -76,47 +76,21 @@ public class QuizController {
         return sessioni;
     }
 
-    public void setRisposteSelezionate(RadioButton[] q1Options, RadioButton[] q2Options, RadioButton[] q3Options, RadioButton[] q4Options, SessioneQuiz currentQuiz) {
-        for(RadioButton r1 : q1Options) {
-            if (r1.isSelected()) {
-                currentQuiz.getDomande().get(0).getRisposte().forEach(risposta -> {
-                    if (r1.isSelected()) {
-                        risposta.setSelected(true);
-                    }
+    public static void setRisposteSelezionate(RadioButton[] q1Options, RadioButton[] q2Options, RadioButton[] q3Options, RadioButton[] q4Options, SessioneQuiz currentQuiz) {
+        setRispostaSelezionataPerGruppo(q1Options, currentQuiz.getDomande().get(0));
+        setRispostaSelezionataPerGruppo(q2Options, currentQuiz.getDomande().get(1));
+        setRispostaSelezionataPerGruppo(q3Options, currentQuiz.getDomande().get(2));
+        setRispostaSelezionataPerGruppo(q4Options, currentQuiz.getDomande().get(3));
+    }
 
-                });
+    private static void setRispostaSelezionataPerGruppo(RadioButton[] options, Domanda domanda) {
+        for (int i = 0; i < options.length; i++) {
+            if (options[i].isSelected()) {
+                // Imposta selected = true solo sulla risposta corrispondente a questo RadioButton
+                domanda.getRisposte().forEach(r -> r.setSelected(false)); // prima resetta tutte a false
+                domanda.getRisposte().get(i).setSelected(true);
+                break;
             }
-            r1.setSelected(false);
-        }
-        for(RadioButton r2 : q2Options) {
-            if (r2.isSelected()) {
-                currentQuiz.getDomande().get(1).getRisposte().forEach(risposta -> {
-                    if (r2.isSelected()) {
-                        risposta.setSelected(true);
-                    }
-                });
-            }
-            r2.setSelected(false);
-        }
-        for(RadioButton r3 : q3Options) {
-            if (r3.isSelected()) {
-                currentQuiz.getDomande().get(2).getRisposte().forEach(risposta -> {
-                    if (r3.isSelected()) {
-                        risposta.setSelected(true);
-                    }
-                });
-            }
-            r3.setSelected(false);
-        }
-        for(RadioButton r4 : q4Options) {
-            if (r4.isSelected()) {
-                currentQuiz.getDomande().get(3).getRisposte().forEach(risposta -> {
-                    if (r4.isSelected()) {
-                        risposta.setSelected(true);
-                    }
-                });
-            }
-            r4.setSelected(false);
         }
     }
 

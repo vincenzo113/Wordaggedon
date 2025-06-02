@@ -393,7 +393,7 @@ public class MainController {
     public void finishGame(ActionEvent actionEvent) {
         //SETTA LE RISPOSTE SELEZIONATE
         //QuizController.setRisposteSelezionate(q1Options,q2Options,q3Options,q4Options,currentQuiz);
-        QuizController.setFinalScore(currentQuiz);
+        QuizController.setFinalScore( q1Options , q2Options , q3Options , q4Options , currentQuiz);
         finalScoreVBox.setVisible(true);
         finalScoreVBox.setManaged(true);
         domandaRispostaVBox.setVisible(false);
