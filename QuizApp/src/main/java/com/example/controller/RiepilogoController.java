@@ -25,10 +25,10 @@ public class RiepilogoController {
                 //Se è corretta la setti verde
                 if(risposta.getCorretta()){
 
-                    risposta1Utente.setStyle("-fx-text-fill: green; !important;");
+                    risposta1Utente.setStyle("-fx-text-fill: green; ");
                 }
                 else
-                    risposta1Utente.setStyle("-fx-text-fill: red !important;");
+                    risposta1Utente.setStyle("-fx-text-fill: red ");
                 break;
             }
 
@@ -41,11 +41,11 @@ public class RiepilogoController {
                 //Se è corretta la setti verde
                 if(risposta.getCorretta()){
 
-                    risposta2Utente.setStyle("-fx-text-fill: green !important;");
+                    risposta2Utente.setStyle("-fx-text-fill: green; ");
 
                 }
                 else
-                    risposta2Utente.setStyle("-fx-text-fill: red !important;");
+                    risposta2Utente.setStyle("-fx-text-fill: red ;");
 
                 break;
             }
@@ -60,10 +60,10 @@ public class RiepilogoController {
                 //Se è corretta la setti verde
                 if(risposta.getCorretta()){
 
-                    risposta3Utente.setStyle("-fx-text-fill: green !important;");
+                    risposta3Utente.setStyle("-fx-text-fill: green ;");
                 }
                 else
-                    risposta3Utente.setStyle("-fx-text-fill: red !important;");
+                    risposta3Utente.setStyle("-fx-text-fill: red ;");
                 break;
             }
 
@@ -77,10 +77,10 @@ public class RiepilogoController {
                 //Se è corretta la setti verde
                 if(risposta.getCorretta()){
 
-                    risposta4Utente.setStyle("-fx-text-fill: green !important;");
+                    risposta4Utente.setStyle("-fx-text-fill: green ;");
                 }
                 else
-                    risposta4Utente.setStyle("-fx-text-fill: red !important;");
+                    risposta4Utente.setStyle("-fx-text-fill: red ;");
 
 
                 break;
