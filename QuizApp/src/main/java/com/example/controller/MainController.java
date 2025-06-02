@@ -20,6 +20,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 import java.io.BufferedReader;
 import java.io.File;
@@ -87,18 +88,10 @@ public class MainController {
     public RadioButton q4opt4;
 
     //ARRAY DI RISPOSTE
-    public RadioButton[] q1Options = {
-            q1opt1, q1opt2, q1opt3, q1opt4
-    };
-    public RadioButton[] q2Options = {
-            q2opt1, q2opt2, q2opt3, q2opt4
-    };
-    public RadioButton[] q3Options = {
-            q3opt1, q3opt2, q3opt3, q3opt4
-    };
-    public RadioButton[] q4Options = {
-            q4opt1, q4opt2, q4opt3, q4opt4
-    };
+    private RadioButton[] q1Options;
+    private RadioButton[] q2Options;
+    private RadioButton[] q3Options;
+    private RadioButton[] q4Options;
 
     //SCELTA DELLA DIFFICOLTA'
     public Label usernameWelcomeLabel;
@@ -147,13 +140,13 @@ public class MainController {
     }
 
     private void showQuestionsAndAnswers() {
-
         testoVBox.setVisible(false);
         testoVBox.setManaged(false);
         domandaRispostaVBox.setVisible(true);
         domandaRispostaVBox.setManaged(true);
-
         currentQuiz.generaDomande();
+
+
         List<Domanda> domande = currentQuiz.getDomande();
 
         q1.setText(domande.get(0).getTesto());
@@ -164,18 +157,22 @@ public class MainController {
         int i = 0;
         for(RadioButton q1opt : q1Options) {
             q1opt.setText(domande.get(0).getRisposte().get(i).getTesto());
+            i++;
         }
         i=0;
         for(RadioButton q2opt : q2Options) {
             q2opt.setText(domande.get(1).getRisposte().get(i).getTesto());
+            i++;
         }
         i=0;
         for(RadioButton q3opt : q3Options) {
             q3opt.setText(domande.get(2).getRisposte().get(i).getTesto());
+            i++;
         }
         i=0;
         for(RadioButton q4opt : q4Options) {
             q4opt.setText(domande.get(3).getRisposte().get(i).getTesto());
+            i++;
         }
 
 
@@ -260,6 +257,18 @@ public class MainController {
     @FXML
     public void initialize(){
      initTableView();
+          q1Options = new RadioButton[]{
+                q1opt1, q1opt2, q1opt3, q1opt4
+        };
+          q2Options = new RadioButton[]{
+                q2opt1, q2opt2, q2opt3, q2opt4
+        };
+          q3Options = new RadioButton[] {
+                q3opt1, q3opt2, q3opt3, q3opt4
+        };
+          q4Options = new RadioButton[]{
+                q4opt1, q4opt2, q4opt3, q4opt4
+        };
     }
 
     public void handleLogin() {
@@ -275,7 +284,6 @@ public class MainController {
         userToLog = LoginController.hasLoginSuccess(userToLog);
 
         if(userToLog != null) {
-            System.out.println("Login avvenuto con successo");
             currentUser = userToLog; // Imposta l'utente corrente
             loginVBox.setVisible(false);
             difficultyVBox.setVisible(true);

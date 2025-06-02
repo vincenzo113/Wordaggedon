@@ -57,7 +57,6 @@ public class SessioneQuiz {
 
             domande = domandeDAOPostgres.selectDomande(); // Esegui la query per ottenere le domande
 
-            /*
             Random random = new Random();
             for(int i=0;i<domande.size();i++) {
 
@@ -67,29 +66,35 @@ public class SessioneQuiz {
 
                     int indiceTesto = random.nextInt(documenti.size());
                     String parolaDaCercare = domandeDAOPostgres.selectParolaCasuale(documenti.get(indiceTesto));
-                    domande.get(i).setTesto("Quante volte si ripete la parola " + parolaDaCercare + " nel testo del quiz " + random + 1 + "?");
-                    domande.get(i).setRisposte(documenti.get(indiceTesto),parolaDaCercare);
+                    domande.get(i).setTesto("Quante volte si ripete la parola " + parolaDaCercare + " nel testo  " + documenti.get(indiceTesto).getTitolo() + "?");
+                    domande.get(i).setRisposteQuanteVolteSiPresentaInUnTesto(documenti.get(indiceTesto),parolaDaCercare);
                 };
 
 
                 if (domande.get(i).getTesto().equals("Qual è la parola più frequente nel quiz")) {
 
                     int indiceTesto = random.nextInt(documenti.size());
-                    domande.get(i).setTesto("Qual è la parola più frequente nel testo del quiz " + random + 1 + "?");
-                    domande.get(i).setRisposte(documenti.get(indiceTesto));
+                    domande.get(i).setTesto("Qual è la parola più frequente nel testo  " + documenti.get(indiceTesto).getTitolo() + "?");
+                    domande.get(i).setRispostePiuFrequenteNelTesto(documenti.get(indiceTesto));
+
                 }
 
                 if (domande.get(i).getTesto().equals("Qual è la parola più frequente in tutti i documenti")) {
 
                     domande.get(i).setTesto("Qual è la parola più frequente in tutti i documenti ?");
-                    domande.get(i).setRisposte(documenti);
+                    domande.get(i).setRispostePiuFrequenteInTutti(documenti);
+
                 }
 
                 if (domande.get(i).getTesto().equals("Quale parola non appare mai in nessun documento")) {
                     domande.get(i).setTesto("Quale parola non appare mai in nessun documento?");
-                    domande.get(i).setRisposte(documenti);
+                    domande.get(i).setRisposteMaiPresente(documenti);
+
                 }
-            }*/
+            }
+
+
+
 
 
 

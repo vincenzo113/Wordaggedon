@@ -23,4 +23,13 @@ public class Risposta {
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
+
+    @Override
+    public String toString() {
+        return "Risposta{" +
+                "testo='" + testo + '\'' +
+                ", corretta=" + corretta +
+                ", selected=" + selected +
+                '}';
+    }
 }

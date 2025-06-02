@@ -29,7 +29,7 @@ public class  Documento {
 
     // Getter e setter
     public int getId() { return id; }
-    public String getTitolo() { return titolo; }
+    public String getTitolo() { return "'"+titolo+"'"; }
     public String getContenuto() { return contenuto; }
 
     public void setId(int id) {this.id = id;}

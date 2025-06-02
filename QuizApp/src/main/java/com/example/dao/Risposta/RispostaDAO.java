@@ -13,6 +13,8 @@ public interface RispostaDAO extends ConnectionConfig {
     Risposta selectRispostaCorrettaNonPresente(List<Documento> documenti);
     Risposta selectRispostaCorrettaPiuFrequenteInTutti(List<Documento> documenti);
     Risposta selectRispostaCorrettaPiuFrequenteDocumento(Documento documento);
-
+    List<Risposta> selectParoleNonPiuFrequenti(Documento documento , String parola);
+    List<Risposta> selectParoleNonPiuFrequentiInTutti(List<Documento> documenti, String parolaCorretta);
+    List<Risposta> selectParolePresentiInAlmenoUnDocumento(List<Documento> docs);
 
 }

@@ -66,7 +66,7 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
                 Statement s = c.createStatement();
         ) {
             //Query per inserire un documento , e ritornare l'id generato per quel documento
-            String insertDocumento = String.format("INSERT INTO documento(titolo,contenuto) VALUES ('%s', '%s') RETURNING ID", documento.getTitolo(), documento.getContenuto());
+            String insertDocumento = String.format("INSERT INTO documento(titolo,contenuto) VALUES (''%s'', '%s') RETURNING ID", documento.getTitolo(), documento.getContenuto());
             ResultSet resultSet = s.executeQuery(insertDocumento);
             if(resultSet.next()){
                 //Settiamo l'id generato sul documento corrente , altrimenti avremmo sempre il valore di default "0"

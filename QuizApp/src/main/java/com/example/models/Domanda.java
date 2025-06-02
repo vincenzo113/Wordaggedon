@@ -24,26 +24,34 @@ public class Domanda {
         return risposte;
     }
 
-    public void setRisposte(Documento documento , String parola) {
-        if (testo.startsWith("Quante volte si ripete una parola")) {
-            risposte = GeneratoreRisposte.RipetizioneParolaDocumento(documento, parola);
-        }
+    public void setRisposteQuanteVolteSiPresentaInUnTesto(Documento documento , String parola) {
+        risposte = GeneratoreRisposte.RipetizioneParolaDocumento(documento, parola);
     }
-    public void setRisposte(Documento documento) {
-        if (testo.startsWith("Qual è la parola più frequente nel quiz")) {
+
+
+
+    public void setRispostePiuFrequenteNelTesto(Documento documento) {
             risposte = GeneratoreRisposte.PiuFrequenteDocumento(documento);
-        }
     }
 
-    public void setRisposte(List<Documento> documenti){
-            if(testo.startsWith("Qual è la parola più frequente in tutti i documenti")){
-                risposte = GeneratoreRisposte.PiuFrequenteInTutti(documenti);
-            }
-            else if(getTesto().startsWith("Quale parola non appare mai in nessun documento")){
-                risposte = GeneratoreRisposte.NonPresente(documenti);
-            }
-        }
+    public void setRispostePiuFrequenteInTutti(List<Documento> docs){
+        this.risposte = GeneratoreRisposte.PiuFrequenteInTutti(docs);
 
+    }
+
+
+    public void setRisposteMaiPresente(List<Documento> docs){
+        risposte = GeneratoreRisposte.NonPresente(docs);
+    }
+
+
+    @Override
+    public String toString() {
+        return "Domanda{" +
+                "testo='" + testo + '\'' +
+                ", risposte=" + risposte +
+                '}';
+    }
 }
 
 

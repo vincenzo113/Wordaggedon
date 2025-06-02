@@ -42,7 +42,10 @@ public class DomandeDAOPostgres implements DomandeDAO{
              Statement stmt = conn.createStatement()){
             String query = String.format("select contenuto from documento where id = '%s'" , documento.getId());
             ResultSet resultSet = stmt.executeQuery(query);
-            String content = resultSet.getString("contenuto");
+            String content = "";
+            if(resultSet.next()) {
+                content = resultSet.getString("contenuto");
+            }
             //Divido il contenuto del testo appositamente
             String [] parole = content.split("\\W+");
             //Scorro tutte le parole del testo e prendo solo quella che soddisfa le condizioni imposte(stopwords...)
