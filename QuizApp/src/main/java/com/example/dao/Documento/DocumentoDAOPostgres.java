@@ -66,11 +66,14 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
                 Statement s = c.createStatement();
         ) {
             //Query per inserire un documento , e ritornare l'id generato per quel documento
-            String insertDocumento = String.format("INSERT INTO documento(titolo,contenuto) VALUES (''%s'', '%s') RETURNING ID", documento.getTitolo(), documento.getContenuto());
-            ResultSet resultSet = s.executeQuery(insertDocumento);
-            if(resultSet.next()){
+            String sql = "INSERT INTO documento(titolo, contenuto) VALUES (?, ?) RETURNING id";
+            PreparedStatement stmt = c.prepareStatement(sql);
+            stmt.setString(1, documento.getTitolo());
+            stmt.setString(2, documento.getContenuto());
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()){
                 //Settiamo l'id generato sul documento corrente , altrimenti avremmo sempre il valore di default "0"
-                int generatedIdForDocument = resultSet.getInt("id");
+                int generatedIdForDocument = rs.getInt("id");
                 documento.setId(generatedIdForDocument);
             }
             //Ora possiamo inserire anche l'analisi per quel documento
@@ -86,7 +89,7 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
              Statement stmt = conn.createStatement()) {
 
             for (Map.Entry<String, Integer> entry : mappatura.entrySet()) {
-                String parola = entry.getKey();
+                String parola = entry.getKey().toLowerCase();
                 int conteggio = entry.getValue();
 
                 String query = String.format(
