@@ -39,13 +39,13 @@ public class RispostaDAOPostgres implements RispostaDAO{
              Statement stmt = conn.createStatement()) {
 //Supponiamo vocabolario essere una tabella in cui ci mettiamo parole a caso , per poter trovare la risposta corretta alla domanda : Qual è la parola che non si presenta in nessun documento
             String query = "SELECT stringa FROM vocabolario " +
-                           "WHERE stringa NOT IN (SELECT valore FROM parola) " +
+                           "WHERE LOWER(stringa) NOT IN (SELECT valore FROM parola) " +
                            "ORDER BY RANDOM() LIMIT 1";
 
             ResultSet rs = stmt.executeQuery(query);
             if(rs.next()) {
                // System.out.println("CORRECT ANSWER");
-                return new Risposta(rs.getString("stringa"), true);
+                return new Risposta(rs.getString("stringa").toLowerCase(), true);
             } else return new Risposta("Nessuna delle altre risposte è corretta", true);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -131,64 +131,143 @@ public class RispostaDAOPostgres implements RispostaDAO{
 
 
     @Override
-    public List<Risposta> selectParoleNonPiuFrequenti(Documento documento , String parola){
+    public List<Risposta> selectParoleNonPiuFrequenti(Documento documento, String parolaCorretta) {
         stopWordsDAOPostgres stopWordsDAOPostgres = new stopWordsDAOPostgres();
         Set<String> stopWords = stopWordsDAOPostgres.getStopWords();
         String stopWordsList = stopWords.stream()
-            .map(w -> "'" + w.toLowerCase().replace("'", "''") + "'")
-            .reduce((a, b) -> a + ", " + b)
-            .orElse("''");
+                .map(w -> "'" + w.toLowerCase().replace("'", "''") + "'")
+                .reduce((a, b) -> a + ", " + b)
+                .orElse("''");
 
         List<Risposta> risposteFake = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
-             Statement stmt = conn.createStatement()){
+             Statement stmt = conn.createStatement()) {
+
+            // Ottieni conteggio della parolaCorretta
+            String countQuery = "SELECT conteggio FROM parola WHERE documento = " + documento.getId() +
+                    " AND LOWER(valore) = LOWER('" + parolaCorretta.replace("'", "''") + "') LIMIT 1";
+            ResultSet rsCount = stmt.executeQuery(countQuery);
+            int countCorretta = 0;
+            if (rsCount.next()) {
+                countCorretta = rsCount.getInt("conteggio");
+            }
+
+            // Seleziona parole diverse per conteggio
             String query = "SELECT valore FROM parola WHERE documento = " + documento.getId() +
-                    " AND LOWER(valore) <> LOWER('" + parola + "') " +
+                    " AND LOWER(valore) <> LOWER('" + parolaCorretta.replace("'", "''") + "') " +
                     "AND LOWER(valore) NOT IN (" + stopWordsList + ") " +
-                    "ORDER BY RANDOM() LIMIT 3";
+                    "AND conteggio <> " + countCorretta +
+                    " ORDER BY RANDOM() LIMIT 3";
+
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 risposteFake.add(new Risposta(rs.getString("valore"), false));
             }
+
+            // Se meno di 3, prendi dal vocabolario
+            if (risposteFake.size() < 3) {
+                int remaining = 3 - risposteFake.size();
+                //SELEZIONA UNA PAROLA DAL VOCABOLARIO CHE NON È UGUALE A PAROLA CORRETTA , CHE NON È UNA STOPWORD,
+                // E CHE NON HA UN CONTEGGIO UGUALE A QUELLA CORRETTA
+                String vocQuery =
+                        "SELECT v.stringa " +
+                                "FROM vocabolario v " +
+                                "LEFT JOIN (" +
+                                "   SELECT LOWER(valore) AS valore, COUNT(*) AS conteggio " +
+                                "   FROM parola WHERE documento = " + documento.getId() +
+                                "   GROUP BY LOWER(valore)" +
+                                ") p ON LOWER(v.stringa) = p.valore " +
+                                "WHERE LOWER(v.stringa) <> LOWER('" + parolaCorretta.replace("'", "''") + "') " +
+                                "AND LOWER(v.stringa) NOT IN (" + stopWordsList + ") " +
+                                "AND (p.conteggio IS NULL OR p.conteggio < " + countCorretta + ") " +
+                                "ORDER BY RANDOM() LIMIT " + remaining;
+
+                ResultSet rsVoc = stmt.executeQuery(vocQuery);
+                while (rsVoc.next()) {
+                    risposteFake.add(new Risposta(rsVoc.getString("stringa").toLowerCase(), false));
+                }
+            }
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
         return risposteFake;
     }
 
 
 
-    public List<Risposta> selectParoleNonPiuFrequentiInTutti(List<Documento> documenti, String parolaCorretta){
-        // Caricamento delle stopwords
+
+    public List<Risposta> selectParoleNonPiuFrequentiInTutti(List<Documento> documenti, String parolaCorretta) {
         stopWordsDAOPostgres stopWordsDAOPostgres = new stopWordsDAOPostgres();
         Set<String> stopWords = stopWordsDAOPostgres.getStopWords();
         String stopWordsList = stopWords.stream()
-            .map(w -> "'" + w.toLowerCase().replace("'", "''") + "'")
-            .reduce((a, b) -> a + ", " + b)
-            .orElse("''");
+                .map(w -> "'" + w.toLowerCase().replace("'", "''") + "'")
+                .reduce((a, b) -> a + ", " + b)
+                .orElse("''");
+
         List<Risposta> risposteFake = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
              Statement stmt = conn.createStatement()) {
 
+            // Lista ID documenti
             StringBuilder idList = new StringBuilder();
             for (int i = 0; i < documenti.size(); i++) {
                 if (i > 0) idList.append(", ");
                 idList.append(documenti.get(i).getId());
             }
 
+            // Conteggio della parola corretta
+            String countQuery = "SELECT conteggio FROM parola WHERE LOWER(valore) = LOWER('" + parolaCorretta.replace("'", "''") + "') LIMIT 1";
+            ResultSet rsCount = stmt.executeQuery(countQuery);
+            int countCorretta = 0;
+            if (rsCount.next()) {
+                countCorretta = rsCount.getInt("conteggio");
+            }
+
+            // Query principale
             String query = "SELECT valore FROM parola WHERE documento IN (" + idList + ") " +
-                           "AND LOWER(valore) <> LOWER('" + parolaCorretta + "') " +
-                           "AND LOWER(valore) NOT IN (" + stopWordsList + ") ORDER BY RANDOM() LIMIT 3";
+                    "AND LOWER(valore) <> LOWER('" + parolaCorretta.replace("'", "''") + "') " +
+                    "AND LOWER(valore) NOT IN (" + stopWordsList + ") " +
+                    "AND conteggio <> " + countCorretta +
+                    " ORDER BY RANDOM() LIMIT 3";
 
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
-                risposteFake.add(new Risposta(rs.getString("valore"), false));
+                risposteFake.add(new Risposta(rs.getString("valore").toLowerCase(), false));
             }
+
+            // Se meno di 3, prendi da vocabolario
+            if (risposteFake.size() < 3) {
+                int remaining = 3 - risposteFake.size();
+                //SELEZIONA UNA PAROLA DAL VOCABOLARIO CHE NON È UGUALE A PAROLA CORRETTA , CHE NON È UNA STOPWORD,
+                // E CHE NON HA UN CONTEGGIO UGUALE A QUELLA CORRETTA
+                String vocQuery =
+                        "SELECT v.stringa " +
+                                "FROM vocabolario v " +
+                                "LEFT JOIN (" +
+                                "   SELECT LOWER(valore) AS valore, COUNT(*) AS conteggio " +
+                                "   FROM parola WHERE documento IN (" + idList + ") " +
+                                "   GROUP BY LOWER(valore)" +
+                                ") p ON LOWER(v.stringa) = p.valore " +
+                                "WHERE LOWER(v.stringa) <> LOWER('" + parolaCorretta.replace("'", "''") + "') " +
+                                "AND LOWER(v.stringa) NOT IN (" + stopWordsList + ") " +
+                                "AND (p.conteggio IS NULL OR p.conteggio < " + countCorretta + ") " +
+                                "ORDER BY RANDOM() LIMIT " + remaining;
+
+                ResultSet rsVoc = stmt.executeQuery(vocQuery);
+                while (rsVoc.next()) {
+                    risposteFake.add(new Risposta(rsVoc.getString("stringa").toLowerCase(), false));
+                }
+            }
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
         return risposteFake;
     }
+
 
 
 
@@ -215,7 +294,7 @@ public class RispostaDAOPostgres implements RispostaDAO{
                            "ORDER BY RANDOM() LIMIT 3";
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
-                risposte.add(new Risposta(rs.getString("valore"), false));
+                risposte.add(new Risposta(rs.getString("valore").toLowerCase(), false));
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
