@@ -7,7 +7,7 @@ import java.util.Random;
 public class Domanda {
     private String testo;
     private List<Risposta> risposte;
-
+    private GeneratoreRisposte generatoreRisposte = new GeneratoreRisposte();
     public Domanda(String testo, List<Risposta> risposte) {
         this.testo = testo;
         this.risposte = risposte;
@@ -25,23 +25,23 @@ public class Domanda {
     }
 
     public void setRisposteQuanteVolteSiPresentaInUnTesto(Documento documento , String parola) {
-        risposte = GeneratoreRisposte.RipetizioneParolaDocumento(documento, parola);
+        risposte = generatoreRisposte.RipetizioneParolaDocumento(documento, parola);
     }
 
 
 
     public void setRispostePiuFrequenteNelTesto(Documento documento) {
-            risposte = GeneratoreRisposte.PiuFrequenteDocumento(documento);
+            risposte = generatoreRisposte.PiuFrequenteDocumento(documento);
     }
 
     public void setRispostePiuFrequenteInTutti(List<Documento> docs){
-        this.risposte = GeneratoreRisposte.PiuFrequenteInTutti(docs);
+        this.risposte = generatoreRisposte.PiuFrequenteInTutti(docs);
 
     }
 
 
     public void setRisposteMaiPresente(List<Documento> docs){
-        risposte = GeneratoreRisposte.NonPresente(docs);
+        risposte = generatoreRisposte.NonPresente(docs);
     }
 
 

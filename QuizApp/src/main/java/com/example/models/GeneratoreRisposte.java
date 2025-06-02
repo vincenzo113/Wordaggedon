@@ -6,11 +6,11 @@ import java.util.*;
 
 public class GeneratoreRisposte {
 
-    static RispostaDAOPostgres rispostaDAOPostgres = new RispostaDAOPostgres();
+     private RispostaDAOPostgres rispostaDAOPostgres = new RispostaDAOPostgres();
 
 
 
-    public static List<Risposta> RipetizioneParolaDocumento(Documento documento, String parola) {
+    public  List<Risposta> RipetizioneParolaDocumento(Documento documento, String parola) {
 
         Risposta rispostaCorretta = rispostaDAOPostgres.selectRispostaCorrettaRipetizioneParolaDocumento(documento, parola);
         //System.out.println("Risposta corretta: "+rispostaCorretta);
@@ -35,7 +35,7 @@ public class GeneratoreRisposte {
         return risposte;
     }
 
-    public static List<Risposta> PiuFrequenteDocumento(Documento documento) {
+    public  List<Risposta> PiuFrequenteDocumento(Documento documento) {
         Risposta rispostaCorretta = rispostaDAOPostgres.selectRispostaCorrettaPiuFrequenteDocumento(documento);
        /* if (rispostaCorretta == null) {
             System.err.println("Errore: nessuna risposta corretta trovata per documento id=" + documento.getId());
@@ -49,7 +49,7 @@ public class GeneratoreRisposte {
         return fakes;
     }
 
-    public static List<Risposta>  PiuFrequenteInTutti(List<Documento> documenti) {
+    public  List<Risposta>  PiuFrequenteInTutti(List<Documento> documenti) {
         Risposta rispostaCorretta = rispostaDAOPostgres.selectRispostaCorrettaPiuFrequenteInTutti(documenti);
         List<Risposta> fakes = rispostaDAOPostgres.selectParoleNonPiuFrequentiInTutti(documenti , rispostaCorretta.getTesto());
         fakes.add(rispostaCorretta);
@@ -58,7 +58,7 @@ public class GeneratoreRisposte {
         return fakes;
     }
 
-    public static List<Risposta>  NonPresente(List<Documento> documenti) {
+    public  List<Risposta>  NonPresente(List<Documento> documenti) {
         Risposta rispostaCorretta = rispostaDAOPostgres.selectRispostaCorrettaNonPresente(documenti);
         List<Risposta> fakes = rispostaDAOPostgres.selectParolePresentiInAlmenoUnDocumento(documenti);
         fakes.add(rispostaCorretta);

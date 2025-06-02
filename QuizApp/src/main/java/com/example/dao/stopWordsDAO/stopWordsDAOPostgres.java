@@ -1,10 +1,9 @@
 package com.example.dao.stopWordsDAO;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class stopWordsDAOPostgres implements stopWordsDAO{
 
@@ -22,5 +21,21 @@ public class stopWordsDAOPostgres implements stopWordsDAO{
 
 
         }catch(SQLException ex){}
+    }
+
+
+
+    @Override
+    public Set<String> getStopWords(){
+        Set<String> allStopWords = new HashSet<>();
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+             Statement stmt = conn.createStatement()){
+            String query = "select parola from stopwords";
+            ResultSet resultSet = stmt.executeQuery(query);
+            while(resultSet.next()){
+                allStopWords.add(resultSet.getString("parola"));
+            }
+        }catch (SQLException ex){}
+        return allStopWords;
     }
 }
