@@ -301,10 +301,13 @@
                                             <Font name="System Bold" size="16.0" />
                                         </font>
                                     </Label>
-                                    <RadioButton fx:id="q1opt1" text="Milano" />
-                                    <RadioButton fx:id="q1opt2" text="Roma" />
-                                    <RadioButton fx:id="q1opt3" text="Napoli" />
-                                    <RadioButton fx:id="q1opt4" text="Torino" />
+                                    <fx:define>
+                                        <ToggleGroup fx:id="gruppoDomanda1"/>
+                                    </fx:define>
+                                    <RadioButton fx:id="q1opt1" text="Milano" toggleGroup="$gruppoDomanda1" />
+                                    <RadioButton fx:id="q1opt2" text="Roma" toggleGroup="$gruppoDomanda1" />
+                                    <RadioButton fx:id="q1opt3" text="Napoli"  toggleGroup="$gruppoDomanda1"/>
+                                    <RadioButton fx:id="q1opt4" text="Torino" toggleGroup="$gruppoDomanda1" />
                                 </children>
                             </VBox>
 
@@ -316,10 +319,13 @@
                                             <Font name="System Bold" size="16.0" />
                                         </font>
                                     </Label>
-                                    <RadioButton fx:id="q2opt1" text="5" />
-                                    <RadioButton fx:id="q2opt2" text="6" />
-                                    <RadioButton fx:id="q2opt3" text="7" />
-                                    <RadioButton fx:id="q2opt4" text="8" />
+                                    <fx:define>
+                                        <ToggleGroup fx:id="gruppoDomanda2"/>
+                                    </fx:define>
+                                    <RadioButton fx:id="q2opt1" text="5" toggleGroup="$gruppoDomanda2" />
+                                    <RadioButton fx:id="q2opt2" text="6" toggleGroup="$gruppoDomanda2"/>
+                                    <RadioButton fx:id="q2opt3" text="7" toggleGroup="$gruppoDomanda2" />
+                                    <RadioButton fx:id="q2opt4" text="8" toggleGroup="$gruppoDomanda2" />
                                 </children>
                             </VBox>
 
@@ -331,10 +337,13 @@
                                             <Font name="System Bold" size="16.0" />
                                         </font>
                                     </Label>
-                                    <RadioButton fx:id="q3opt1" text="Venere" />
-                                    <RadioButton fx:id="q3opt2" text="Mercurio" />
-                                    <RadioButton fx:id="q3opt3" text="Terra" />
-                                    <RadioButton fx:id="q3opt4" text="Marte" />
+                                    <fx:define>
+                                        <ToggleGroup fx:id="gruppoDomanda3"/>
+                                    </fx:define>
+                                    <RadioButton fx:id="q3opt1" text="Venere" toggleGroup="$gruppoDomanda3" />
+                                    <RadioButton fx:id="q3opt2" text="Mercurio" toggleGroup="$gruppoDomanda3"/>
+                                    <RadioButton fx:id="q3opt3" text="Terra" toggleGroup="$gruppoDomanda3" />
+                                    <RadioButton fx:id="q3opt4" text="Marte" toggleGroup="$gruppoDomanda3"/>
                                 </children>
                             </VBox>
 
@@ -346,10 +355,13 @@
                                             <Font name="System Bold" size="16.0" />
                                         </font>
                                     </Label>
-                                    <RadioButton fx:id="q4opt1" text="Oceano Atlantico" />
-                                    <RadioButton fx:id="q4opt2" text="Oceano Indiano" />
-                                    <RadioButton fx:id="q4opt3" text="Oceano Pacifico" />
-                                    <RadioButton fx:id="q4opt4" text="Oceano Artico" />
+                                    <fx:define>
+                                        <ToggleGroup fx:id="gruppoDomanda4"/>
+                                    </fx:define>
+                                    <RadioButton fx:id="q4opt1" text="Oceano Atlantico" toggleGroup="$gruppoDomanda4" />
+                                    <RadioButton fx:id="q4opt2" text="Oceano Indiano" toggleGroup="$gruppoDomanda4"/>
+                                    <RadioButton fx:id="q4opt3" text="Oceano Pacifico" toggleGroup="$gruppoDomanda4"/>
+                                    <RadioButton fx:id="q4opt4" text="Oceano Artico" toggleGroup="$gruppoDomanda4"/>
                                 </children>
                             </VBox>
                         </children>
