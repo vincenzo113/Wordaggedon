@@ -37,6 +37,21 @@ public class MainController {
     public ToggleButton facileButton;
     public ToggleButton medioButton;
     public ToggleButton difficileButton;
+    //Sezione di riepilogo
+    public VBox riepilogoVBox;
+    public Label domanda4Label;
+    public Label risposta4UtenteLabel;
+    public Label risposta4CorrettaLabel;
+    public Label domanda3Label;
+    public Label risposta3UtenteLabel;
+    public Label risposta3CorrettaLabel;
+    public Label domanda2Label;
+    public Label risposta2UtenteLabel;
+    public Label risposta2CorrettaLabel;
+    public Label domanda1Label;
+    public Label risposta1UtenteLabel;
+    public Label risposta1CorrettaLabel;
+    /// /////////////////////////////
     private ToggleGroup difficoltaToggleGroup;
 
     public Label punteggioMedioLabel;
@@ -493,15 +508,12 @@ public class MainController {
 
     public void finishGame(ActionEvent actionEvent) {
         //SETTA LE RISPOSTE SELEZIONATE
-        //QuizController.setRisposteSelezionate(q1Options,q2Options,q3Options,q4Options,currentQuiz);
-        QuizController.setFinalScore( q1Options , q2Options , q3Options , q4Options , currentQuiz);
+        QuizController.setRisposteSelezionate(q1Options,q2Options,q3Options,q4Options,currentQuiz);
         domandaRispostaVBox.setVisible(false);
         domandaRispostaVBox.setManaged(false);
-        finalScoreVBox.setVisible(true);
-        finalScoreVBox.setManaged(true);
-        clearQuizFields();
-        scoreLabel.setText("Il tuo punteggio finale è: " + currentQuiz.getScore());
-
+        RiepilogoController.setLabelPerRiepilogo(currentQuiz , domanda1Label , domanda2Label ,domanda3Label ,domanda4Label , risposta1UtenteLabel ,risposta2UtenteLabel,risposta3UtenteLabel,risposta4UtenteLabel,risposta1CorrettaLabel,risposta2CorrettaLabel,risposta3CorrettaLabel,risposta4CorrettaLabel);
+        riepilogoVBox.setVisible(true);
+        riepilogoVBox.setManaged(true);
 
 
     }
@@ -555,6 +567,15 @@ public class MainController {
 
 }
 
+    public void vaiAlPunteggio(ActionEvent actionEvent) {
+        QuizController.setFinalScore( q1Options , q2Options , q3Options , q4Options , currentQuiz);
+        riepilogoVBox.setManaged(false);
+        riepilogoVBox.setVisible(false);
+        finalScoreVBox.setVisible(true);
+        finalScoreVBox.setManaged(true);
+        clearQuizFields();
+        scoreLabel.setText("Il tuo punteggio finale è: " + currentQuiz.getScore());
+    }
 }
 
 

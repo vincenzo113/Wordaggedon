@@ -394,6 +394,53 @@
     </VBox>
 
 
+    <!--Sezione di riepilgo-->
+
+    <VBox fx:id="riepilogoVBox"
+          spacing="15"
+          alignment="TOP_LEFT"
+          style="-fx-padding: 20;"
+            visible="false"
+          managed="false"
+    >
+
+        <Label text="Riepilogo Risposte" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
+
+        <!-- Blocco 1 -->
+        <VBox spacing="5" style="-fx-border-color: lightgray; -fx-padding: 10;">
+            <Label fx:id="domanda1Label" text="Domanda: Qual è la capitale d'Italia?" />
+            <Label fx:id="risposta1UtenteLabel" text="Tua risposta: Milano" style="-fx-text-fill: red;" />
+            <Label fx:id="risposta1CorrettaLabel"  text="Risposta corretta: Roma"   />
+        </VBox>
+
+        <!-- Blocco 2 -->
+        <VBox spacing="5" style="-fx-border-color: lightgray; -fx-padding: 10;">
+            <Label fx:id="domanda2Label" text="Domanda: 2 + 2 = ?" />
+            <Label fx:id="risposta2UtenteLabel" text="Tua risposta: 4" style="-fx-text-fill: green;" />
+            <Label fx:id="risposta2CorrettaLabel" text="Risposta corretta: 4" />
+        </VBox>
+
+        <VBox spacing="5" style="-fx-border-color: lightgray; -fx-padding: 10;">
+            <Label fx:id="domanda3Label" text="Domanda: 2 + 2 = ?" />
+            <Label fx:id="risposta3UtenteLabel" text="Tua risposta: 4" style="-fx-text-fill: green;" />
+            <Label fx:id="risposta3CorrettaLabel" text="Risposta corretta: "  />
+        </VBox>
+
+
+        <VBox spacing="5" style="-fx-border-color: lightgray; -fx-padding: 10;">
+            <Label fx:id="domanda4Label" text="Domanda: 2 + 2 = ?" />
+            <Label fx:id="risposta4UtenteLabel" text="Tua risposta: 4" style="-fx-text-fill: green;" />
+            <Label fx:id="risposta4CorrettaLabel" text="Risposta corretta: 4  "    />
+        </VBox>
+
+        <!-- Puoi aggiungerne altri manualmente -->
+        <Button fx:id="bottoneAvanti"
+                text="Avanti"
+                style="-fx-font-size: 14px; -fx-padding: 8 16;"
+                onAction="#vaiAlPunteggio"/>
+
+    </VBox>
+
 
 
 
