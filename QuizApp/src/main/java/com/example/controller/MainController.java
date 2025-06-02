@@ -58,6 +58,7 @@ public class MainController {
     public Label risposta1UtenteLabel;
     public Label risposta1CorrettaLabel;
     public Button nextButton;
+    public VBox adminVBox;
     /// /////////////////////////////
     private ToggleGroup difficoltaToggleGroup;
 
@@ -425,13 +426,16 @@ public class MainController {
             currentUser = userToLog; // Imposta l'utente corrente
             loginVBox.setVisible(false);
             loginVBox.setManaged(false);
-            difficultyVBox.setVisible(true);
-            difficultyVBox.setManaged(true);
             if(userToLog.isAdmin()) {
-                addTestoButton.setVisible(true);
-                addTestoButton.setManaged(true);
+                adminVBox.setManaged(true);
+                adminVBox.setVisible(true);
             }
-            StartGameController.aggiornaLabel(usernameWelcomeLabel , userToLog.getUsername());
+            else {
+                difficultyVBox.setVisible(true);
+                difficultyVBox.setManaged(true);
+                StartGameController.aggiornaLabel(usernameWelcomeLabel , userToLog.getUsername());
+            }
+
         } else {
             Alert.showAlert(AlertList.LOGIN_FAILURE);
             return;
@@ -607,6 +611,14 @@ public class MainController {
         finalScoreVBox.setManaged(true);
         clearQuizFields();
         scoreLabel.setText("Il tuo punteggio finale è: " + currentQuiz.getScore());
+    }
+
+    public void goToDifficultyBox(ActionEvent actionEvent) {
+        adminVBox.setManaged(false);
+        adminVBox.setVisible(false);
+        difficultyVBox.setVisible(true);
+        difficultyVBox.setManaged(true);
+        StartGameController.aggiornaLabel(usernameWelcomeLabel , currentUser.getUsername());
     }
 }
 
