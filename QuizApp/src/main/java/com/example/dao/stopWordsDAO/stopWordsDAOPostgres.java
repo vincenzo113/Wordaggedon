@@ -15,7 +15,7 @@ public class stopWordsDAOPostgres implements stopWordsDAO{
             //Per ogni stopWord dobbiamo fare l'inserimento
             String query = "";
             for(String stopWord : stopWords){
-                query = String.format("INSERT INTO stopwords(parola) values('%s')",stopWord.toLowerCase());
+                query = String.format("INSERT INTO stopwords(parola) values('%s')",stopWord);
                 stmt.executeUpdate(query);
             }
 
