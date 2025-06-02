@@ -272,6 +272,7 @@ public class MainController {
 
         // Filtra i dati in base alla difficoltà e al checkbox
         List<SessioneQuiz> sessioni;
+        if(!soloPersonali)
             sessioni = QuizController.getScoreboard(diff);
         else sessioni = QuizController.getPersonalScoreboard(currentUser,diff);
 
