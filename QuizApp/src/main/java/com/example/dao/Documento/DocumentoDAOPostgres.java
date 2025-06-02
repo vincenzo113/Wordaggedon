@@ -1,14 +1,12 @@
 package com.example.dao.Documento;
 
+import com.example.dao.stopWordsDAO.stopWordsDAOPostgres;
 import com.example.difficultySettings.DifficultyEnum;
 import com.example.models.Documento;
 import com.example.models.User;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static java.sql.DriverManager.getConnection;
 
@@ -82,13 +80,18 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
 
     public void insertMappaturaDocumento(Documento documento) {
         Map<String,Integer> mappatura = documento.getMappaQuiz();
+        stopWordsDAOPostgres stopWordsDAO = new stopWordsDAOPostgres();
+        Set<String> stopWords = stopWordsDAO.getStopWords();
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
              Statement stmt = conn.createStatement()) {
 
             for (Map.Entry<String, Integer> entry : mappatura.entrySet()) {
-                String parola = entry.getKey();
+                String parola = entry.getKey().toLowerCase();
                 int conteggio = entry.getValue();
 
+                if( stopWords.contains(parola) || parola.isEmpty() || parola.length() < 3 ){
+                    continue; // Salta le stop words
+                }
                 String query = String.format(
                         "INSERT INTO parola (documento, valore, conteggio) VALUES ('%s', '%s', %d)",
                         documento.getId(), parola, conteggio);
