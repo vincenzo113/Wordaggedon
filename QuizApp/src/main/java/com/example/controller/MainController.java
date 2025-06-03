@@ -21,6 +21,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class MainController {
     public ToggleGroup gruppoDomanda4;
 
 
-    public Button addTestoButton;
+
 
     public ToggleButton facileButton;
     public ToggleButton medioButton;
@@ -58,7 +59,9 @@ public class MainController {
     public Label risposta1UtenteLabel;
     public Label risposta1CorrettaLabel;
     public Button nextButton;
-    public VBox adminVBox;
+
+
+
     /// /////////////////////////////
     private ToggleGroup difficoltaToggleGroup;
 
@@ -157,6 +160,12 @@ public class MainController {
     public TableColumn<SessioneQuiz,Integer> scoreColumn;
     public VBox scoreboardVBox;
     ObservableList<SessioneQuiz> sessioniQuizList;
+
+    //ADMIN
+    public VBox adminVBox;
+    public Button addTestoButton;
+    public Button addStopwordsButton;
+
 
     private TimerService timerService;
 
@@ -410,13 +419,13 @@ public class MainController {
         nextButton.disableProperty().bind(tutteRisposteDate.not());
     }
 
-    public void handleLogin() {
-
+    public void handleLogin(ActionEvent actionEvent) {
+        Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         User userToLog = null;
         try {
             userToLog = checkLogin();
         } catch (CampiNonCompilatiException e) {
-            Alert.showAlert(AlertList.FIELDS_EMPTY);
+            Alert.showAlert(AlertList.FIELDS_EMPTY,stage);
             return;
         }
 
@@ -437,34 +446,35 @@ public class MainController {
             }
 
         } else {
-            Alert.showAlert(AlertList.LOGIN_FAILURE);
+            Alert.showAlert(AlertList.LOGIN_FAILURE,stage);
             return;
         }
 
     }
 
     public void handleRegister(ActionEvent actionEvent) throws SQLException {
+        Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         User userToRegister = null;
         try {
              userToRegister = checkRegister();
         } catch (CampiNonCompilatiException e) {
-            Alert.showAlert(AlertList.FIELDS_EMPTY);
+            Alert.showAlert(AlertList.FIELDS_EMPTY,stage);
             return;
         }
         catch (PasswordDiverseException ex){
-            Alert.showAlert(AlertList.PASSWORD_MISMATCH);
+            Alert.showAlert(AlertList.PASSWORD_MISMATCH,stage);
             return;
         }
 
         if(RegisterController.hasRegisterSuccess(userToRegister)) {
-            Alert.showAlert(AlertList.REGISTER_SUCCESS);
+            Alert.showAlert(AlertList.REGISTER_SUCCESS,stage);
             registerVBox.setVisible(false);
             registerVBox.setManaged(false);
             loginVBox.setVisible(true);
             loginVBox.setManaged(true);
         }
         else {
-            Alert.showAlert(AlertList.REGISTER_FAILURE);
+            Alert.showAlert(AlertList.REGISTER_FAILURE,stage);
             return;
         }
 
@@ -509,6 +519,7 @@ public class MainController {
 
 
     public void addTesto(ActionEvent actionEvent) {
+        Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         DocumentoDAO<Documento> documentoDAO = new DocumentoDAOPostgres();
         FileChooser fc = new FileChooser();
         fc.setTitle("Seleziona un file di testo");
@@ -516,7 +527,7 @@ public class MainController {
             new FileChooser.ExtensionFilter("File di testo", "*.txt"),
             new FileChooser.ExtensionFilter("Tutti i file", "*.*")
         );
-        File selectedFile = fc.showOpenDialog(null);
+        File selectedFile = fc.showOpenDialog(stage);
         if (selectedFile != null && selectedFile.getName().endsWith(".txt")) {
             try (BufferedReader reader = new BufferedReader(new FileReader(selectedFile))) {
                 String contentClean = reader.lines()
@@ -529,7 +540,13 @@ public class MainController {
                 documentoDAO.insertDocumento(documento);
             } catch (IOException e) {
                 e.printStackTrace();
+                Alert.showAlert(AlertList.UPLOAD_FAILURE,stage);
+                return ;
             }
+            Alert.showAlert(AlertList.UPLOAD_SUCCESS,stage);
+        }
+        else {
+            Alert.showAlert(AlertList.UPLOAD_FAILURE,stage);
         }
     }
 
@@ -568,6 +585,7 @@ public class MainController {
 
     @FXML
     public void loadStopwords(ActionEvent actionEvent){
+        Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         List<String> allStopWords = new ArrayList<>();
         stopWordsDAOPostgres stopWordsDAOPostgres = new stopWordsDAOPostgres();
         FileChooser fc = new FileChooser();
@@ -577,7 +595,7 @@ public class MainController {
                 new FileChooser.ExtensionFilter("File csv", "*.csv"),
                 new FileChooser.ExtensionFilter("Tutti i file", "*.*")
         );
-        File selectedFile = fc.showOpenDialog(null);
+        File selectedFile = fc.showOpenDialog(stage);
         if (selectedFile != null && selectedFile.getName().endsWith(".csv")) {
             try (BufferedReader reader = new BufferedReader(new FileReader(selectedFile))) {
                 String line = "";
@@ -598,9 +616,16 @@ public class MainController {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
+                Alert.showAlert(AlertList.UPLOAD_STOPWORDS_FAILURE,stage);
+                return;
             }
+            stopWordsDAOPostgres.inserisciStopWords(allStopWords);
+            Alert.showAlert(AlertList.UPLOAD_STOPWORDS_SUCCESS,stage);
         }
-        stopWordsDAOPostgres.inserisciStopWords(allStopWords);
+        else {
+            Alert.showAlert(AlertList.UPLOAD_STOPWORDS_FAILURE,stage);
+        }
+
 }
 
     public void vaiAlPunteggio(ActionEvent actionEvent) {

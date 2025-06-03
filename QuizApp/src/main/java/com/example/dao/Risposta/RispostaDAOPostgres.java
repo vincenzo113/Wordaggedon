@@ -168,9 +168,9 @@ public class RispostaDAOPostgres implements RispostaDAO{
             if (risposteFake.size() < 3) {
                 int remaining = 3 - risposteFake.size();
                 //SELEZIONA UNA PAROLA DAL VOCABOLARIO CHE NON È UGUALE A PAROLA CORRETTA , CHE NON È UNA STOPWORD,
-                // E CHE NON HA UN CONTEGGIO UGUALE A QUELLA CORRETTA
+                
 
-                //MA QUESTA PAROLA POTREBBE ESSERE PRESENTE NEL DOCUMENTO
+                //MA QUESTA PAROLA POTREBBE ESSERE PRESENTE NEL DOCUMENTO (se ha un conteggio minore )
                 String vocQuery =
                         "SELECT v.stringa " +
                                 "FROM vocabolario v " +

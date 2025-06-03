@@ -530,6 +530,7 @@
                alignment="CENTER" />
 
         <Button  text="Aggiungi Testo"
+                    fx:id="addTestoButton"
                  prefWidth="160" prefHeight="40"
                  style="-fx-background-color: #6c757d; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5px; -fx-cursor: hand;"
                  onAction="#addTesto">
@@ -542,8 +543,9 @@
         </Button>
 
         <Button  text="Carica Stopwords"
+                 fx:id="addStopwordsButton"
                  prefWidth="160" prefHeight="40"
-                 style="-fx-background-color: #17a2b8; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5px; -fx-cursor: hand;"
+                 style="-fx-background-color: #dc3545; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5px; -fx-cursor: hand;"
                  onAction="#loadStopwords">
             <font>
                 <Font name="System Bold" size="14" />
