@@ -570,7 +570,7 @@
 
         <!-- Modifica Password -->
         <HBox alignment="CENTER">
-            <Button text="Modifica Password" onAction="#changePassword" styleClass="change-password-button">
+            <Button text="Modifica Dati" onAction="#changeDati" styleClass="change-password-button">
                 <padding>
                     <Insets top="10" right="20" bottom="10" left="20"/>
                 </padding>

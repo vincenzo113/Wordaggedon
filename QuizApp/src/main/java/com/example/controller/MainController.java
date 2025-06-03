@@ -60,7 +60,6 @@ public class MainController {
     public Button nextButton;
 
 
-
     /// /////////////////////////////
     private ToggleGroup difficoltaToggleGroup;
 
@@ -164,6 +163,8 @@ public class MainController {
     public VBox settingsVBox;
     public Button addTestoButton;
     public Button addStopwordsButton;
+    public TextField usernameField;
+    public PasswordField passwordField;
     public VBox adminSection;
 
 
@@ -653,6 +654,7 @@ public class MainController {
         difficultyVBox.setManaged(false);
         settingsVBox.setManaged(true);
         settingsVBox.setVisible(true);
+        usernameField.setText(currentUser.getUsername());
         if(currentUser.isAdmin()) {
             adminSection.setVisible(true);
             adminSection.setManaged(true);
@@ -676,7 +678,7 @@ public class MainController {
     public void savePassword(ActionEvent actionEvent) {
     }
 
-    public void changePassword(ActionEvent actionEvent) {
+    public void changeDati(ActionEvent actionEvent) {
     }
 }
 
