@@ -33,7 +33,7 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
             default:
                 limiteNumeroDocumenti = 1;
         }
-        String sql = "SELECT DISTINCT(contenuto) FROM documento WHERE difficolta = ? ORDER BY RANDOM() LIMIT ?" ;
+        String sql = "SELECT * FROM documento WHERE difficolta = ? ORDER BY RANDOM() LIMIT ?" ;
          try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 

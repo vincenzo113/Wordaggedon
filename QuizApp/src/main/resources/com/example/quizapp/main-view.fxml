@@ -261,11 +261,21 @@
             </VBox>
 
             <!-- Area di visualizzazione testo -->
-            <Label fx:id="displayTextLabel" alignment="CENTER" maxWidth="400.0" minHeight="150.0" prefHeight="150.0" style="-fx-background-color: #f0f0f0; -fx-border-color: #cccccc; -fx-border-width: 1px; -fx-padding: 10px;" text="Il testo apparirà qui..." textAlignment="CENTER" wrapText="true">
-                <font>
-                    <Font size="16.0" />
-                </font>
-            </Label>
+            <ScrollPane fitToWidth="true" prefHeight="350.0" maxWidth="500.0">
+                <content>
+                    <Label fx:id="displayTextLabel"
+                           alignment="CENTER"
+                           style="-fx-background-color: #f0f0f0; -fx-border-color: #cccccc; -fx-border-width: 1px; -fx-padding: 10px;"
+                           text="Il testo apparirà qui..."
+                           textAlignment="CENTER"
+                           wrapText="true">
+                        <font>
+                            <Font size="16.0" />
+                        </font>
+                    </Label>
+                </content>
+            </ScrollPane>
+
 
             <!-- Label per informazioni aggiuntive -->
 

@@ -42,7 +42,7 @@ public class  Documento {
     public void setDifficolta(DifficultyEnum difficolta) { this.difficolta = difficolta; }
 
     public Map<String, Integer> setMappaturaQuiz(){
-        Stream<String> parole = Arrays.stream(contenuto.toLowerCase().split("\\W+")); //Splitta il contenuto anche per punteggiatura
+        Stream<String> parole = Arrays.stream(contenuto.toLowerCase().split("[\\p{Punct}\\s]+")).filter(s->!s.isEmpty()); //Splitta il contenuto anche per punteggiatura
         return parole.collect(Collectors.groupingBy(String::toString,
                 Collectors.summingInt(p->1)));
     }
@@ -51,8 +51,5 @@ public class  Documento {
         return mappaQuiz;
     }
 
-    public void setMappaQuiz(Map<String, Integer> mappaQuiz) {
-        this.mappaQuiz = mappaQuiz;
-    }
 }
 

@@ -530,22 +530,22 @@ public class MainController {
         File selectedFile = fc.showOpenDialog(stage);
         if (selectedFile != null && selectedFile.getName().endsWith(".txt")) {
             try (BufferedReader reader = new BufferedReader(new FileReader(selectedFile))) {
-                String contentClean = reader.lines()
-                        .map(String::trim)
-                        .filter(line -> !line.isEmpty())
-                        .map(line -> line.replaceAll("[\\p{Punct}]", " ")) // sostituisce la punteggiatura con spazio
-                        .reduce("", (acc, line) -> acc + " " + line)
+                String content = reader.lines()
+                        .map(String::trim) //per togliere gli spazi iniziali e finali
+                        .filter(line -> !line.isEmpty()) //elimina linee vuote
+                        .map(line -> line.replaceAll("[\\s+]", " "))  //elimina spazi in più
+                        .reduce("", (acc, line) -> acc + " " + line) ;
                         // "" valore di partenza , acc contenuto accumulato in precedenza, line è la riga corrente
                         // accumulo le righe in un'unica stringa
-                        .trim()
-                        .replaceAll("\\s+", " ");
-                Documento documento = new Documento(selectedFile.getName().split("\\.")[0], contentClean);
-                if (contentClean.split(" ").length < 10) {
+
+                Documento documento = new Documento(selectedFile.getName().split("\\.")[0], content);
+                String[] contentClean = content.split("[\\p{Punct}\\s]+") ;
+                if (contentClean.length < 10) {
                     Alert.showAlert(AlertList.SHORT_TEXT, stage);
                     return;
                 }
-                if(contentClean.length()>100) documento.setDifficolta(DifficultyEnum.HARD);
-                else if(contentClean.length()>50) documento.setDifficolta(DifficultyEnum.MEDIUM);
+                if(contentClean.length>100) documento.setDifficolta(DifficultyEnum.HARD);
+                else if(contentClean.length>50) documento.setDifficolta(DifficultyEnum.MEDIUM);
                 else documento.setDifficolta(DifficultyEnum.EASY);
 
                 documentoDAO.insertDocumento(documento);
