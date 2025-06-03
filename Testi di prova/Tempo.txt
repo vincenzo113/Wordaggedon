@@ -1,0 +1,9 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2822
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 .SFNS-Regular;}
+{\colortbl;\red255\green255\blue255;\red14\green14\blue14;}
+{\*\expandedcolortbl;;\cssrgb\c6700\c6700\c6700;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\sl324\slmult1\pardirnatural\partightenfactor0
+
+\f0\fs28 \cf2 Il tempo \'e8 una delle risorse pi\'f9 preziose che abbiamo, eppure spesso viene sprecato senza che ce ne rendiamo conto. Ogni giornata \'e8 fatta di momenti che non torneranno pi\'f9, eppure li lasciamo scorrere distratti da mille impegni o da abitudini che ci allontanano da ci\'f2 che conta davvero. Imparare a gestire il tempo significa imparare a vivere meglio, a dare priorit\'e0 a ci\'f2 che ci rende felici, a ci\'f2 che arricchisce la nostra mente e il nostro cuore. Il tempo passato con le persone care, dedicato alla crescita personale o semplicemente al riposo, ha un valore enorme. Non possiamo controllare il tempo, ma possiamo scegliere come viverlo.\
+}

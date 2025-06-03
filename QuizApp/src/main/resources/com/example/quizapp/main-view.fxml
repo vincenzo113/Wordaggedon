@@ -505,7 +505,6 @@
                     <columns>
                         <TableColumn fx:id="utenteColumn" text="UTENTE" prefWidth="150"/>
                         <TableColumn fx:id="scoreColumn" text="SCORE TOTALE" prefWidth="120"/>
-                        <TableColumn fx:id="partiteColumn" text="PARTITE" prefWidth="80"/>
                     </columns>
                 </TableView>
             </VBox>
