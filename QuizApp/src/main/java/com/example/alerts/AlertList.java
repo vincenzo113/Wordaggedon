@@ -13,7 +13,8 @@ public enum AlertList {
     UPLOAD_SUCCESS("Caricamento del documento completato con successo!"),
     UPLOAD_FAILURE("Caricamento del documento fallito, riprova."),
     UPLOAD_STOPWORDS_SUCCESS("Caricamento delle stopwords completato con successo!"),
-    UPLOAD_STOPWORDS_FAILURE("Caricamento delle stopwords fallito, riprova.");
+    UPLOAD_STOPWORDS_FAILURE("Caricamento delle stopwords fallito, riprova."),
+    SHORT_TEXT("Il testo inserito è troppo corto, deve contenere almeno 10 parola");
 
     private final String message;
 
