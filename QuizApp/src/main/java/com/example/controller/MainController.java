@@ -533,7 +533,10 @@ public class MainController {
                 String contentClean = reader.lines()
                         .map(String::trim)
                         .filter(line -> !line.isEmpty())
-                        .reduce("", (acc, line) -> acc + line + " ")
+                        .map(line -> line.replaceAll("[\\p{Punct}]", " ")) // sostituisce la punteggiatura con spazio
+                        .reduce("", (acc, line) -> acc + " " + line)
+                        // "" valore di partenza , acc contenuto accumulato in precedenza, line è la riga corrente
+                        // accumulo le righe in un'unica stringa
                         .trim()
                         .replaceAll("\\s+", " ");
                 Documento documento = new Documento(selectedFile.getName().split("\\.")[0], contentClean);
@@ -546,11 +549,15 @@ public class MainController {
                 else documento.setDifficolta(DifficultyEnum.EASY);
 
                 documentoDAO.insertDocumento(documento);
+            } catch (SQLException e) {
+                System.out.println("Eccezione lanciata");
+                Alert.showAlert(AlertList.TEXT_ALREADY_EXISTS, stage);
+                return;
             } catch (IOException e) {
-                e.printStackTrace();
-                Alert.showAlert(AlertList.UPLOAD_FAILURE,stage);
-                return ;
+                Alert.showAlert(AlertList.UPLOAD_FAILURE, stage);
+                return;
             }
+
             Alert.showAlert(AlertList.UPLOAD_SUCCESS,stage);
         }
         else {
