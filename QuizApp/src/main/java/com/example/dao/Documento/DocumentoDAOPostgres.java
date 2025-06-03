@@ -33,7 +33,7 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
             default:
                 limiteNumeroDocumenti = 1;
         }
-        String sql = "SELECT * FROM documento WHERE difficolta = ? ORDER BY RANDOM() LIMIT ?" ;
+        String sql = "SELECT DISTINCT(contenuto) FROM documento WHERE difficolta = ? ORDER BY RANDOM() LIMIT ?" ;
          try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -62,14 +62,23 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
 
     @Override
     //Appena inserisce il documento , inseriamo anche la sua mappatura associata
-    public void insertDocumento(Documento  documento) {
+    public void insertDocumento(Documento  documento)  throws SQLException {
+
+        String controlQuery = "SELECT contenuto FROM documento WHERE contenuto = ?";
         String sql = "INSERT INTO documento(titolo, contenuto,difficolta) VALUES (?, ? , ?) RETURNING id";
         try(
                 Connection c = DriverManager.getConnection(URL, USER, PASS);
+                PreparedStatement stmtControl = c.prepareStatement(controlQuery);
                 PreparedStatement stmt = c.prepareStatement(sql);
         ) {
             //Query per inserire un documento , e ritornare l'id generato per quel documento
 
+            stmtControl.setString(1, documento.getContenuto());
+            ResultSet rsControl = stmtControl.executeQuery();
+            if(rsControl.next()) {
+                System.out.println("Documento già presente nel database.");
+                throw new SQLException("Documento già presente nel database.");
+            }
 
 
             stmt.setString(1, documento.getTitolo());
@@ -83,8 +92,6 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
             }
             //Ora possiamo inserire anche l'analisi per quel documento
             insertMappaturaDocumento(documento);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 

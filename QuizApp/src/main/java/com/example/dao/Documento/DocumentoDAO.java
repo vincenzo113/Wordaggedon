@@ -4,11 +4,12 @@ import com.example.dao.ConnectionConfig;
 import com.example.difficultySettings.DifficultyEnum;
 import com.example.models.Documento;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface DocumentoDAO<T> extends ConnectionConfig {
 
     public List<T> getDocumentiPerDifficolta(DifficultyEnum difficolta);
-    public void insertDocumento(Documento documento);
+    public void insertDocumento(Documento documento) throws SQLException;
 
 }
