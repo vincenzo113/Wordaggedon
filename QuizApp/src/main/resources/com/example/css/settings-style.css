@@ -1,0 +1,102 @@
+/* Contenitore principale impostazioni */
+.settings-container {
+    -fx-background-color: white;
+    -fx-border-color: #dee2e6;
+    -fx-border-width: 2;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0, 0, 2);
+    -fx-max-width: 500;
+    -fx-max-height: 600;
+}
+
+/* Titolo principale */
+.settings-title {
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+}
+
+/* Bottone indietro */
+.back-button {
+    -fx-background-color: #6c757d;
+    -fx-text-fill: white;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+}
+
+/* Separatore */
+.settings-separator {
+    -fx-background-color: #dee2e6;
+}
+
+/* Box sezioni (username/password) */
+.settings-section {
+    -fx-background-color: #f8f9fa;
+    -fx-border-color: #e9ecef;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+/* Label delle sezioni */
+.section-label {
+    -fx-font-weight: bold;
+    -fx-text-fill: #495057;
+}
+
+/* Campi di input */
+.settings-textfield {
+    -fx-border-color: #ced4da;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+}
+
+/* Bottoni salva */
+.save-button {
+    -fx-background-color: #28a745;
+    -fx-text-fill: white;
+    -fx-background-radius: 4px;
+    -fx-cursor: hand;
+}
+
+/* Bottone modifica password */
+.change-password-button {
+    -fx-background-color: #ffc107;
+    -fx-text-fill: #212529;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+}
+
+/* Sezione admin */
+.admin-section {
+    -fx-background-color: #fff3cd;
+    -fx-border-color: #ffeeba;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+/* Label admin */
+.admin-label {
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
+    -fx-text-fill: #856404;
+}
+
+/* Bottone admin grigio */
+.admin-button-gray {
+    -fx-background-color: #6c757d;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+}
+
+/* Bottone admin rosso */
+.admin-button-red {
+    -fx-background-color: #dc3545;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+}

@@ -39,11 +39,10 @@ public class MainController {
     public ToggleGroup gruppoDomanda4;
 
 
-
-
     public ToggleButton facileButton;
     public ToggleButton medioButton;
     public ToggleButton difficileButton;
+
     //Sezione di riepilogo
     public VBox riepilogoVBox;
     public Label domanda4Label;
@@ -59,7 +58,6 @@ public class MainController {
     public Label risposta1UtenteLabel;
     public Label risposta1CorrettaLabel;
     public Button nextButton;
-
 
 
     /// /////////////////////////////
@@ -161,10 +159,13 @@ public class MainController {
     public VBox scoreboardVBox;
     ObservableList<SessioneQuiz> sessioniQuizList;
 
-    //ADMIN
-    public VBox adminVBox;
+    //Settings
+    public VBox settingsVBox;
     public Button addTestoButton;
     public Button addStopwordsButton;
+    public TextField usernameField;
+    public PasswordField passwordField;
+    public VBox adminSection;
 
 
     private TimerService timerService;
@@ -435,15 +436,10 @@ public class MainController {
             currentUser = userToLog; // Imposta l'utente corrente
             loginVBox.setVisible(false);
             loginVBox.setManaged(false);
-            if(userToLog.isAdmin()) {
-                adminVBox.setManaged(true);
-                adminVBox.setVisible(true);
-            }
-            else {
-                difficultyVBox.setVisible(true);
-                difficultyVBox.setManaged(true);
-                StartGameController.aggiornaLabel(usernameWelcomeLabel , userToLog.getUsername());
-            }
+
+            difficultyVBox.setVisible(true);
+            difficultyVBox.setManaged(true);
+            StartGameController.aggiornaLabel(usernameWelcomeLabel , userToLog.getUsername());
 
         } else {
             Alert.showAlert(AlertList.LOGIN_FAILURE,stage);
@@ -653,12 +649,36 @@ public class MainController {
         scoreLabel.setText("Il tuo punteggio finale è: " + currentQuiz.getScore());
     }
 
-    public void goToDifficultyBox(ActionEvent actionEvent) {
-        adminVBox.setManaged(false);
-        adminVBox.setVisible(false);
+    public void goSettings(ActionEvent actionEvent) {
+        difficultyVBox.setVisible(false);
+        difficultyVBox.setManaged(false);
+        settingsVBox.setManaged(true);
+        settingsVBox.setVisible(true);
+        usernameField.setText(currentUser.getUsername());
+        if(currentUser.isAdmin()) {
+            adminSection.setVisible(true);
+            adminSection.setManaged(true);
+        } else {
+            adminSection.setVisible(false);
+            adminSection.setManaged(false);
+        }
+    }
+
+    public void goBack(ActionEvent actionEvent) {
+        settingsVBox.setManaged(false);
+        settingsVBox.setVisible(false);
         difficultyVBox.setVisible(true);
         difficultyVBox.setManaged(true);
         StartGameController.aggiornaLabel(usernameWelcomeLabel , currentUser.getUsername());
+    }
+
+    public void saveUsername(ActionEvent actionEvent) {
+    }
+
+    public void savePassword(ActionEvent actionEvent) {
+    }
+
+    public void changeDati(ActionEvent actionEvent) {
     }
 }
 

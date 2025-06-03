@@ -80,8 +80,6 @@
         </VBox>
     </VBox>
 
-
-
     <VBox fx:id="loginVBox" alignment="CENTER" spacing="20.0"  stylesheets="@../css/login-style.css" styleClass="login-view">
 
         <padding>
@@ -148,6 +146,14 @@
             <!-- Bottoni di controllo in alto nel container -->
             <HBox alignment="TOP_RIGHT" spacing="10.0" prefWidth="360.0">
 
+                <Button fx:id="settingsButton" text="Impostazioni"
+                        prefWidth="140.0" prefHeight="35.0"
+                        style="-fx-background-color: #6c757d; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5px; -fx-cursor: hand;"
+                        onAction="#goSettings">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                </Button>
 
                 <Button fx:id="logoutButton" text="Logout" onAction="#handleLogout"
                         prefWidth="100.0" prefHeight="35.0"
@@ -389,7 +395,6 @@
 
 
     <!--Sezione di riepilgo-->
-
     <VBox fx:id="riepilogoVBox"
           spacing="15"
           alignment="TOP_LEFT"
@@ -435,8 +440,6 @@
         </HBox>
 
     </VBox>
-
-
 
 
     <VBox fx:id="finalScoreVBox" stylesheets="@../css/login-style.css"
@@ -529,58 +532,87 @@
 
 
 
-    <VBox fx:id="adminVBox"
+    <VBox fx:id="settingsVBox"
           spacing="20" alignment="CENTER" visible="false" managed="false"
-          stylesheets="@../css/login-style.css">
+          stylesheets="@../css/settings-style.css"
+          styleClass="settings-container">
 
         <padding>
-            <Insets top="25" right="40" bottom="25" left="40"/>
+            <Insets top="30" right="30" bottom="30" left="30"/>
         </padding>
 
-        <Label text="Pannello di controllo admin"
-               style="-fx-font-size: 18px; -fx-font-weight: bold;"
-               alignment="CENTER" />
-
-        <!-- HBox per i due bottoni affiancati -->
-        <HBox spacing="15" alignment="CENTER">
-            <Button text="Aggiungi Testo"
-                    fx:id="addTestoButton"
-                    prefWidth="160" prefHeight="40"
-                    onAction="#addTesto"
-                    style="-fx-background-color: #6c757d; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5px; -fx-cursor: hand;">
-                <font>
-                    <Font name="System Bold" size="14"/>
-                </font>
+        <!-- Titolo e bottone indietro -->
+        <HBox alignment="CENTER_LEFT" spacing="20.0">
+            <Button fx:id="backButton" onAction="#goBack" text="← Indietro" styleClass="back-button">
                 <padding>
                     <Insets top="8" right="12" bottom="8" left="12"/>
                 </padding>
             </Button>
+            <Label text="Impostazioni" styleClass="settings-title" />
+        </HBox>
 
-            <Button text="Carica Stopwords"
-                    fx:id="addStopwordsButton"
-                    prefWidth="160" prefHeight="40"
-                    onAction="#loadStopwords"
-                    style="-fx-background-color: #dc3545; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5px; -fx-cursor: hand;">
-                <font>
-                    <Font name="System Bold" size="14"/>
-                </font>
+        <!-- Separatore -->
+        <Separator styleClass="settings-separator"/>
+
+        <!-- Username -->
+        <VBox spacing="8" styleClass="settings-section">
+            <padding>
+                <Insets top="15" right="15" bottom="15" left="15"/>
+            </padding>
+            <Label text="Username" styleClass="section-label"/>
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+                <TextField fx:id="usernameField" prefWidth="250" promptText="Inserisci username" styleClass="settings-textfield"/>
+                <Button text="Salva" onAction="#saveUsername" styleClass="save-button"/>
+            </HBox>
+        </VBox>
+
+        <!-- Password -->
+        <VBox spacing="8" styleClass="settings-section">
+            <padding>
+                <Insets top="15" right="15" bottom="15" left="15"/>
+            </padding>
+            <Label text="Password" styleClass="section-label"/>
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+                <PasswordField fx:id="passwordField" prefWidth="250" promptText="Inserisci password" styleClass="settings-textfield"/>
+                <Button text="Salva" onAction="#savePassword" styleClass="save-button"/>
+            </HBox>
+        </VBox>
+
+        <!-- Modifica Password -->
+        <HBox alignment="CENTER">
+            <Button text="Modifica Dati" onAction="#changeDati" styleClass="change-password-button">
                 <padding>
-                    <Insets top="8" right="12" bottom="8" left="12"/>
+                    <Insets top="10" right="20" bottom="10" left="20"/>
                 </padding>
             </Button>
         </HBox>
 
-        <!-- Bottone Avanti centrato e stilizzato -->
+        <!-- Sezione Admin (nascosta di default) -->
+        <VBox fx:id="adminSection" visible="false" managed="false" spacing="15" styleClass="admin-section">
+            <padding>
+                <Insets top="15" right="15" bottom="15" left="15"/>
+            </padding>
 
-        <Button  alignment="BOTTOM_CENTER" defaultButton="true" prefWidth="250.0" text="Avanti"
-                styleClass="primary-button" onAction="#goToDifficultyBox" />
+            <Label text="Funzioni Amministratore" styleClass="admin-label"/>
 
+            <HBox spacing="15" alignment="CENTER">
+                <Button text="Aggiungi Testo" fx:id="addTestoButton" onAction="#addTesto"
+                        prefWidth="160" prefHeight="40" styleClass="admin-button-gray">
+                    <padding>
+                        <Insets top="8" right="12" bottom="8" left="12"/>
+                    </padding>
+                </Button>
+
+                <Button text="Carica Stopwords" fx:id="addStopwordsButton" onAction="#loadStopwords"
+                        prefWidth="160" prefHeight="40" styleClass="admin-button-red">
+                    <padding>
+                        <Insets top="8" right="12" bottom="8" left="12"/>
+                    </padding>
+                </Button>
+            </HBox>
+        </VBox>
 
     </VBox>
-
-
-
-
 
 
 
