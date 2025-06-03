@@ -386,6 +386,7 @@
           style="-fx-padding: 20;"
             visible="false"
           managed="false"
+          stylesheets="@../css/login-style.css"
     >
 
         <Label text="Riepilogo Risposte" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
@@ -418,34 +419,35 @@
         </VBox>
 
         <!-- Puoi aggiungerne altri manualmente -->
-        <Button fx:id="bottoneAvanti"
-                text="Avanti"
-                style="-fx-font-size: 14px; -fx-padding: 8 16;"
-                onAction="#vaiAlPunteggio"/>
+        <HBox alignment="BOTTOM_CENTER">
+            <Button  alignment="BOTTOM_CENTER" defaultButton="true" prefWidth="250.0" text="Avanti"
+                     styleClass="primary-button" onAction="#vaiAlPunteggio" />
+        </HBox>
 
     </VBox>
 
 
 
 
-    <VBox fx:id="finalScoreVBox"
+    <VBox fx:id="finalScoreVBox" stylesheets="@../css/login-style.css"
           alignment="CENTER" prefHeight="600.0" prefWidth="700.0" spacing="20.0" visible="false" managed="false">
 
         <Label fx:id="scoreLabel"
                text="Punteggio finale: 0"
                style="-fx-font-size: 28px; -fx-text-fill: #222; -fx-alignment: center;" />
 
-        <Button text="Avanti"
-                onAction="#goToScoreboard"
-                prefWidth="150"
-                style="-fx-background-color: #007bff; -fx-text-fill: white; -fx-font-size: 16px;" />
 
+    <HBox alignment="BOTTOM_CENTER">
+        <Button  alignment="BOTTOM_CENTER" defaultButton="true" prefWidth="250.0" text="Avanti"
+                 styleClass="primary-button" onAction="#goToScoreboard" />
+    </HBox>
 
     </VBox>
 
 
 
-    <VBox spacing="15" alignment="CENTER" fx:id="scoreboardVBox" visible="false" managed="false">
+    <VBox spacing="15" alignment="CENTER" fx:id="scoreboardVBox" visible="false" managed="false"
+          stylesheets="@../css/login-style.css">
 
         <padding>
             <Insets top="20" right="20" bottom="20" left="20"/>
@@ -511,8 +513,8 @@
         </HBox>
 
         <!-- Bottone in basso -->
-        <Button fx:id="avantiButton" text="Avanti" minWidth="150" onAction="#restartGame"
-                style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-size: 14px;"/>
+        <Button  alignment="BOTTOM_CENTER" defaultButton="true" prefWidth="150.0" prefHeight="50.0" text="Ricomincia Gioco"
+                 styleClass="primary-button" onAction="#restartGame" />
 
     </VBox>
 
