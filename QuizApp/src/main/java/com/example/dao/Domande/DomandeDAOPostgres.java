@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class DomandeDAOPostgres implements DomandeDAO{
+public class DomandeDAOPostgres implements DomandeDAO {
     @Override
     public List<Domanda> selectDomande() {
         List<Domanda> domande = new ArrayList<>();
@@ -39,26 +39,22 @@ public class DomandeDAOPostgres implements DomandeDAO{
     public String selectParolaCasuale(Documento documento) {
         //Prendiamo il contenuto del documento passato e selezioniamo una parola a caso
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
-             Statement stmt = conn.createStatement()){
-            String query = String.format("select contenuto from documento where id = '%s'" , documento.getId());
+             Statement stmt = conn.createStatement()) {
+            String query = String.format(
+                    "SELECT valore FROM parola " +
+                            "WHERE documento = '%s' " +
+                            "AND valore NOT IN (SELECT parola FROM stopwords) " +
+                            "LIMIT 1;",
+                    documento.getId()
+            );
             ResultSet resultSet = stmt.executeQuery(query);
-            String content = "";
-            if(resultSet.next()) {
-                content = resultSet.getString("contenuto");
-            }
-            //Divido il contenuto del testo appositamente
-            String [] parole = content.split("\\W+");
-            //Scorro tutte le parole del testo e prendo solo quella che soddisfa le condizioni imposte(stopwords...)
-            for(String parola : parole) {
-                int indiceRandom = (int) (Math.random() * parole.length);
-                //Se la parola è accettabile , ovvero non è una stopword , allora la restituiamo , altrimenti facciamo un altro giro
-                //La condizione va cambiata con il check delle stopwords
-                if(parole[indiceRandom].length() >= 4) return parole[indiceRandom];
-            }
+            if (resultSet.next()) return resultSet.getString("valore");
 
-        }catch(SQLException sqlException){
 
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         return "";
+
     }
 }
