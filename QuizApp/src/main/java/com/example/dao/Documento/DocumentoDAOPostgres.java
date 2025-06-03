@@ -33,12 +33,14 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
             default:
                 limiteNumeroDocumenti = 1;
         }
+        String sql = "SELECT * FROM documento WHERE difficolta = ? ORDER BY RANDOM() LIMIT ?" ;
+         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
-             Statement stmt = conn.createStatement()) {
+            stmt.setString(1, difficolta.toString());
+            stmt.setInt(2, limiteNumeroDocumenti);
 
-            String query = "SELECT * FROM documento ORDER BY RANDOM() LIMIT " + limiteNumeroDocumenti;
-            ResultSet rs = stmt.executeQuery(query);
+            ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
                 Documento doc = new Documento(
@@ -61,15 +63,18 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
     @Override
     //Appena inserisce il documento , inseriamo anche la sua mappatura associata
     public void insertDocumento(Documento  documento) {
+        String sql = "INSERT INTO documento(titolo, contenuto,difficolta) VALUES (?, ? , ?) RETURNING id";
         try(
                 Connection c = DriverManager.getConnection(URL, USER, PASS);
-                Statement s = c.createStatement();
+                PreparedStatement stmt = c.prepareStatement(sql);
         ) {
             //Query per inserire un documento , e ritornare l'id generato per quel documento
-            String sql = "INSERT INTO documento(titolo, contenuto) VALUES (?, ?) RETURNING id";
-            PreparedStatement stmt = c.prepareStatement(sql);
+
+
+
             stmt.setString(1, documento.getTitolo());
             stmt.setString(2, documento.getContenuto());
+            stmt.setString(3, documento.getDifficolta().toString());
             ResultSet rs = stmt.executeQuery();
             if(rs.next()){
                 //Settiamo l'id generato sul documento corrente , altrimenti avremmo sempre il valore di default "0"

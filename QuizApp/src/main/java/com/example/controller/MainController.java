@@ -537,6 +537,11 @@ public class MainController {
                         .trim()
                         .replaceAll("\\s+", " ");
                 Documento documento = new Documento(selectedFile.getName().split("\\.")[0], contentClean);
+
+                if(contentClean.length()>100) documento.setDifficolta(DifficultyEnum.HARD);
+                else if(contentClean.length()>50) documento.setDifficolta(DifficultyEnum.MEDIUM);
+                else documento.setDifficolta(DifficultyEnum.EASY);
+
                 documentoDAO.insertDocumento(documento);
             } catch (IOException e) {
                 e.printStackTrace();

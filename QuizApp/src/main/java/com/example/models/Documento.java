@@ -1,6 +1,8 @@
 package com.example.models;
 
 
+import com.example.difficultySettings.DifficultyEnum;
+
 import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -11,6 +13,7 @@ public class  Documento {
     private String titolo;
     private String contenuto;
     private Map<String, Integer> mappaQuiz;
+    private DifficultyEnum difficolta;
 
 
     public Documento(int id, String titolo, String contenuto) {
@@ -31,10 +34,12 @@ public class  Documento {
     public int getId() { return id; }
     public String getTitolo() { return "'"+titolo+"'"; }
     public String getContenuto() { return contenuto; }
+    public DifficultyEnum getDifficolta() { return difficolta; }
 
     public void setId(int id) {this.id = id;}
     public void setTitolo(String titolo) {this.titolo = titolo;}
     public void setContenuto(String contenuto) {this.contenuto = contenuto;}
+    public void setDifficolta(DifficultyEnum difficolta) { this.difficolta = difficolta; }
 
     public Map<String, Integer> setMappaturaQuiz(){
         Stream<String> parole = Arrays.stream(contenuto.toLowerCase().split("\\W+")); //Splitta il contenuto anche per punteggiatura
