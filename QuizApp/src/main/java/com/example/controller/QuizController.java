@@ -26,6 +26,8 @@ public class QuizController {
         int timeLimit = DifficultySettings.getTimeLimit(difficolta);
         int maxTesti = DifficultySettings.getNumeroTesti(difficolta);
         //Qui bisogna settare il testo e il titolo del testo ogni volta
+        System.out.println("Documenti: "+documenti);
+
         displayText.setText(documenti.get(numeroTesto).getContenuto());
         displayTitleText.setText(documenti.get(numeroTesto).getTitolo());
 

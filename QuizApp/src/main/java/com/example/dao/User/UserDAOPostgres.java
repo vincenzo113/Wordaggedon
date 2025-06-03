@@ -1,6 +1,8 @@
 package com.example.dao.User;
 
 import com.example.difficultySettings.DifficultyEnum;
+import com.example.exceptions.UsernameGiaPreso;
+import com.example.models.Risposta;
 import com.example.models.User;
 
 import java.sql.*;
@@ -172,5 +174,45 @@ public class UserDAOPostgres implements UserDAO<User> {
             e.printStackTrace();
         }
     }
+
+
+    @Override
+    public void modificaUsername(User user , String nuovoUsername) {
+        try(
+                Connection c = DriverManager.getConnection(URL, USER, PASS);
+                Statement s = c.createStatement();
+        ){
+            String query = String.format("UPDATE users SET username = '%s' WHERE username = '%s'", nuovoUsername, user.getUsername());            System.out.println("Query: " + query);
+            System.out.println("Query per modificare: "+query);
+            if(!isUsernameTaken(nuovoUsername)){
+                s.executeUpdate(query);
+                System.out.println("Eseguendo la query...");
+                user.setUsername(nuovoUsername); //Aggiorno anche il modello
+            }
+            else {
+                throw new UsernameGiaPreso("L'username "+ nuovoUsername + "non è disponibile , prova con un altro");
+            }
+        }catch (SQLException ex){}
+    }
+
+
+
+    private boolean isUsernameTaken(String username){
+        try(
+                Connection c = DriverManager.getConnection(URL, USER, PASS);
+                Statement s = c.createStatement();
+        ){
+            String query = String.format("select * from users where username='%s'", username);
+            ResultSet resultSet =s.executeQuery(query);
+            return  resultSet.next();
+
+        }catch(SQLException ex){}
+       return false;
+    }
+
+
+
+
+
 
 }

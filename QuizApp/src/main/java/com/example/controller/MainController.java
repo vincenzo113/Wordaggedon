@@ -4,16 +4,19 @@ import com.example.alerts.Alert;
 import com.example.alerts.AlertList;
 import com.example.dao.Documento.DocumentoDAO;
 import com.example.dao.Documento.DocumentoDAOPostgres;
+import com.example.dao.User.UserDAOPostgres;
 import com.example.dao.stopWordsDAO.stopWordsDAOPostgres;
 import com.example.difficultySettings.DifficultyEnum;
 import com.example.exceptions.CampiNonCompilatiException;
 import com.example.exceptions.PasswordDiverseException;
+import com.example.exceptions.UsernameGiaPreso;
 import com.example.models.*;
 import com.example.timerService.TimerService;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -37,7 +40,7 @@ public class MainController {
     public ToggleGroup gruppoDomanda2;
     public ToggleGroup gruppoDomanda3;
     public ToggleGroup gruppoDomanda4;
-
+    private StringProperty initialUsernameProperty = new SimpleStringProperty();
 
     public ToggleButton facileButton;
     public ToggleButton medioButton;
@@ -58,6 +61,9 @@ public class MainController {
     public Label risposta1UtenteLabel;
     public Label risposta1CorrettaLabel;
     public Button nextButton;
+    public PasswordField currentPasswordField;
+    public TextField usernameFieldSettings;
+    public Button saveUsernameSettings;
 
 
     /// /////////////////////////////
@@ -403,7 +409,10 @@ public class MainController {
 
         setupToggleButtons();
         initBindings();
+
     }
+
+
 
     private void initBindings(){
         BooleanBinding tutteRisposteDate = Bindings.createBooleanBinding(
@@ -418,6 +427,7 @@ public class MainController {
         );
 
         nextButton.disableProperty().bind(tutteRisposteDate.not());
+
     }
 
     public void handleLogin(ActionEvent actionEvent) {
@@ -440,6 +450,7 @@ public class MainController {
             difficultyVBox.setVisible(true);
             difficultyVBox.setManaged(true);
             StartGameController.aggiornaLabel(usernameWelcomeLabel , userToLog.getUsername());
+            usernameFieldSettings.setText(userToLog.getUsername());
 
         } else {
             Alert.showAlert(AlertList.LOGIN_FAILURE,stage);
@@ -556,9 +567,7 @@ public class MainController {
 
             Alert.showAlert(AlertList.UPLOAD_SUCCESS,stage);
         }
-        else {
-            Alert.showAlert(AlertList.UPLOAD_FAILURE,stage);
-        }
+
     }
 
     public void finishGame(ActionEvent actionEvent) {
@@ -633,9 +642,7 @@ public class MainController {
             stopWordsDAOPostgres.inserisciStopWords(allStopWords);
             Alert.showAlert(AlertList.UPLOAD_STOPWORDS_SUCCESS,stage);
         }
-        else {
-            Alert.showAlert(AlertList.UPLOAD_STOPWORDS_FAILURE,stage);
-        }
+
 
 }
 
@@ -654,7 +661,6 @@ public class MainController {
         difficultyVBox.setManaged(false);
         settingsVBox.setManaged(true);
         settingsVBox.setVisible(true);
-        usernameField.setText(currentUser.getUsername());
         if(currentUser.isAdmin()) {
             adminSection.setVisible(true);
             adminSection.setManaged(true);
@@ -673,6 +679,29 @@ public class MainController {
     }
 
     public void saveUsername(ActionEvent actionEvent) {
+        initialUsernameProperty.set(currentUser.getUsername());
+
+        saveUsernameSettings.disableProperty().bind(
+                usernameFieldSettings.textProperty().isEqualTo(initialUsernameProperty)
+        );
+        Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+        String nuovoUsername = usernameFieldSettings.getText().trim();
+        UserDAOPostgres userDAOPostgres  = new UserDAOPostgres();
+        try {
+            System.out.println("Sto chiamando modifica...");
+            userDAOPostgres.modificaUsername(currentUser, nuovoUsername);
+            System.out.println("Dopo la chiamata a modifica...");
+
+        }catch(UsernameGiaPreso ex){
+            Alert.showAlert(AlertList.USERNAME_ALREADY_TAKEN , stage);
+            return;
+        }
+
+        //Mostra messaggio di successo ed aggiorna la label con il nuovo username
+        Alert.showAlert(AlertList.MODIFICA_USERNAME_SUCCESS , stage);
+        usernameFieldSettings.setText(nuovoUsername);
+        StartGameController.aggiornaLabel(usernameWelcomeLabel , nuovoUsername);
+
     }
 
     public void savePassword(ActionEvent actionEvent) {

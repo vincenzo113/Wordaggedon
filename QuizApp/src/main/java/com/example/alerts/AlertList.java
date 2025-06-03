@@ -15,8 +15,9 @@ public enum AlertList {
     UPLOAD_STOPWORDS_SUCCESS("Caricamento delle stopwords completato con successo!"),
     UPLOAD_STOPWORDS_FAILURE("Caricamento delle stopwords fallito, riprova."),
     SHORT_TEXT("Il testo inserito è troppo corto, deve contenere almeno 10 parola"),
-    TEXT_ALREADY_EXISTS("Testo inserito già esistente, riprova con un testo diverso.");
-
+    TEXT_ALREADY_EXISTS("Testo inserito già esistente, riprova con un testo diverso."),
+    USERNAME_ALREADY_TAKEN("Username già registrato , riprova con un altro"),
+    MODIFICA_USERNAME_SUCCESS("Hai modificato correttamente l'username");
     private final String message;
 
     AlertList(String message) {

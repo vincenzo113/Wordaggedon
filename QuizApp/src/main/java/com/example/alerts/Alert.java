@@ -28,6 +28,13 @@ public class Alert {
             case PASSWORD_MISMATCH:
                 alert.setTitle("Password non corrispondono");
                 break;
+
+            case  USERNAME_ALREADY_TAKEN:
+                alert.setTitle("Username non disponibiles");
+
+            case  MODIFICA_USERNAME_SUCCESS:
+                alert.setTitle("Modifica a buon fine");
+
             default:
                 alert.setTitle("Alert");
                 break;

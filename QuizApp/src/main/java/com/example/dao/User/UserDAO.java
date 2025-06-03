@@ -22,4 +22,6 @@ public interface UserDAO<T> extends ConnectionConfig {
     float punteggioAvg(User user, DifficultyEnum difficultyEnum);
     int punteggioBest(User user, DifficultyEnum difficultyEnum);
     int contPartite(User user);
+
+    void modificaUsername(User userLoggato , String nuovoUsername) ;
 }
