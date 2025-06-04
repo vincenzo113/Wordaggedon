@@ -17,7 +17,12 @@ public enum AlertList {
     SHORT_TEXT("Il testo inserito è troppo corto, deve contenere almeno 10 parola"),
     TEXT_ALREADY_EXISTS("Testo inserito già esistente, riprova con un testo diverso."),
     USERNAME_ALREADY_TAKEN("Username già registrato , riprova con un altro"),
-    MODIFICA_USERNAME_SUCCESS("Hai modificato correttamente l'username");
+    MODIFICA_USERNAME_SUCCESS("Hai modificato correttamente l'username"),
+    MODIFICA_USERNAME_NON_AVVENUTA("Non hai modificato nulla del tuo username , riprova"),
+    USERNAME_FORMAT_NON_CORRETTO("Formato dell'username non corretto"),
+    PASSWORD_NON_CORRETTA("Errore , la vecchia password inserita non è corretta"),
+    CAMBIO_PASSWORD_SUCCESS("Cambio password avvenuto con successo"),
+    NESSUNA_MODIFICA_DI_PASSWORD("Devi cambiare la password per poter rendere effettivo l'update");
     private final String message;
 
     AlertList(String message) {

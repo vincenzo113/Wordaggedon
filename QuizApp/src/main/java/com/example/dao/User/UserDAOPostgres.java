@@ -1,6 +1,8 @@
 package com.example.dao.User;
 
 import com.example.difficultySettings.DifficultyEnum;
+import com.example.exceptions.NessunaModificaException;
+import com.example.exceptions.PasswordNonCorrettaException;
 import com.example.exceptions.UsernameGiaPreso;
 import com.example.models.Risposta;
 import com.example.models.User;
@@ -210,6 +212,49 @@ public class UserDAOPostgres implements UserDAO<User> {
        return false;
     }
 
+
+
+    public void modificaPassword(User userLogged , String vecchiaPassInserita  , String nuovaPassInserita){
+        try(
+                Connection c = DriverManager.getConnection(URL, USER, PASS);
+                Statement s = c.createStatement();
+        ){
+            if(vecchiaPassInserita.equals(nuovaPassInserita)) throw new NessunaModificaException("");
+
+            if(!isCorrectPasswordForUser(userLogged , vecchiaPassInserita)) throw new PasswordNonCorrettaException(""); //Lancia eccezione
+
+            //Se le password corrispondono , fai l'update
+            String query = String.format("update users set password = '%s' where username = '%s'" , nuovaPassInserita , userLogged.getUsername());
+            System.out.println("Eseguendo la query di update password "+query);
+            s.executeUpdate(query);
+            userLogged.setPassword(nuovaPassInserita);
+
+
+        }catch(SQLException ex){}
+
+    }
+
+
+    private boolean isCorrectPasswordForUser(User user , String vecchiaPassInserita){
+        try(
+                Connection c = DriverManager.getConnection(URL, USER, PASS);
+                Statement s = c.createStatement();
+        )
+        {
+
+            String query = String.format("select password from users where username='%s'",user.getUsername());
+            ResultSet rs = s.executeQuery(query);
+            if(rs.next()){
+                String pass = rs.getString("password");
+                return (pass.equals(vecchiaPassInserita)) ? true : false;
+            }
+
+
+        }   catch(SQLException ex){
+
+        }
+        return false; //Callback
+    }
 
 
 

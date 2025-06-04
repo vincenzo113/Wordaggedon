@@ -7,9 +7,7 @@ import com.example.dao.Documento.DocumentoDAOPostgres;
 import com.example.dao.User.UserDAOPostgres;
 import com.example.dao.stopWordsDAO.stopWordsDAOPostgres;
 import com.example.difficultySettings.DifficultyEnum;
-import com.example.exceptions.CampiNonCompilatiException;
-import com.example.exceptions.PasswordDiverseException;
-import com.example.exceptions.UsernameGiaPreso;
+import com.example.exceptions.*;
 import com.example.models.*;
 import com.example.timerService.TimerService;
 import javafx.beans.binding.Bindings;
@@ -24,8 +22,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
+import javafx.stage.Stage;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,6 +38,9 @@ public class MainController {
     public ToggleGroup gruppoDomanda2;
     public ToggleGroup gruppoDomanda3;
     public ToggleGroup gruppoDomanda4;
+    public PasswordField passwordFieldSettings;
+    public PasswordField passwordFieldNewSettings;
+    public Button changePasswordButton;
     private StringProperty initialUsernameProperty = new SimpleStringProperty();
 
     public ToggleButton facileButton;
@@ -336,6 +337,7 @@ public class MainController {
 
     //Metodo per creare un utente dai textfields
     private User checkLogin() throws CampiNonCompilatiException {
+
         if (loginUsernameField.getText().trim().isEmpty() || loginPasswordField.getText().trim().isEmpty()) {
             throw new CampiNonCompilatiException("");
         }
@@ -344,13 +346,17 @@ public class MainController {
         String password = loginPasswordField.getText();
         return new User(username.trim(),password.trim(),false);
     }
-    private User checkRegister() throws CampiNonCompilatiException  , PasswordDiverseException {
+    private User checkRegister(Stage stage) throws CampiNonCompilatiException  , PasswordDiverseException {
         if (registerUsernameField.getText().trim().isEmpty() || registerPasswordField.getText().trim().isEmpty() || registerPasswordField.getText().trim().isEmpty()) {
             throw new CampiNonCompilatiException("");
         }
 
         if(!registerPasswordField.getText().equals(confirmRegisterPasswordField.getText())){
             throw new PasswordDiverseException("");
+        }
+
+        if(!registerUsernameField.getText().matches("^[A-Za-z0-9_]+$")){
+          throw  new UsernameFormatException("Formato dell'username non valido");
         }
 
         String username = registerUsernameField.getText();
@@ -427,6 +433,19 @@ public class MainController {
         );
 
         nextButton.disableProperty().bind(tutteRisposteDate.not());
+        saveUsernameSettings.disableProperty().bind(
+                usernameFieldSettings.textProperty().isEmpty()
+        );
+        BooleanBinding disableButtonPassword = Bindings.createBooleanBinding(() ->
+                        passwordFieldSettings.getText().trim().isEmpty() ||
+                                passwordFieldNewSettings.getText().trim().isEmpty(),
+                passwordFieldSettings.textProperty(),
+                passwordFieldNewSettings.textProperty()
+        );
+
+        changePasswordButton.disableProperty().bind(disableButtonPassword);
+
+
 
     }
 
@@ -463,13 +482,17 @@ public class MainController {
         Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         User userToRegister = null;
         try {
-             userToRegister = checkRegister();
+             userToRegister = checkRegister(stage);
         } catch (CampiNonCompilatiException e) {
             Alert.showAlert(AlertList.FIELDS_EMPTY,stage);
             return;
         }
         catch (PasswordDiverseException ex){
             Alert.showAlert(AlertList.PASSWORD_MISMATCH,stage);
+            return;
+        }
+        catch(UsernameFormatException ufx){
+            Alert.showAlert(AlertList.USERNAME_FORMAT_NON_CORRETTO , stage);
             return;
         }
 
@@ -679,18 +702,25 @@ public class MainController {
     }
 
     public void saveUsername(ActionEvent actionEvent) {
-        initialUsernameProperty.set(currentUser.getUsername());
 
         saveUsernameSettings.disableProperty().bind(
-                usernameFieldSettings.textProperty().isEqualTo(initialUsernameProperty)
-        );
+                usernameFieldSettings.textProperty().isEmpty()
+                );
         Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         String nuovoUsername = usernameFieldSettings.getText().trim();
+        if(!nuovoUsername.matches("^[A-Za-z0-9_]+$")){
+            Alert.showAlert(AlertList.USERNAME_FORMAT_NON_CORRETTO , stage);
+            return;
+        }
         UserDAOPostgres userDAOPostgres  = new UserDAOPostgres();
+        if(currentUser.getUsername().trim().equals(nuovoUsername.trim())){
+            Alert.showAlert(AlertList.MODIFICA_USERNAME_NON_AVVENUTA , stage);
+            return;
+        }
         try {
-            System.out.println("Sto chiamando modifica...");
+
             userDAOPostgres.modificaUsername(currentUser, nuovoUsername);
-            System.out.println("Dopo la chiamata a modifica...");
+
 
         }catch(UsernameGiaPreso ex){
             Alert.showAlert(AlertList.USERNAME_ALREADY_TAKEN , stage);
@@ -705,7 +735,38 @@ public class MainController {
     }
 
     public void savePassword(ActionEvent actionEvent) {
+        UserDAOPostgres userDAOPostgres  = new UserDAOPostgres();
+        Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+        try {
+
+            userDAOPostgres.modificaPassword(currentUser, passwordFieldSettings.getText(), passwordFieldNewSettings.getText());
+
+        }catch(PasswordNonCorrettaException ex){
+            Alert.showAlert(AlertList.PASSWORD_NON_CORRETTA , stage);
+            return;
+        }catch(NessunaModificaException ex){
+            Alert.showAlert(AlertList.NESSUNA_MODIFICA_DI_PASSWORD,stage);
+            return;
+        }
+        //Success
+
+        Alert.showAlert(AlertList.CAMBIO_PASSWORD_SUCCESS,stage);
+        passwordFieldSettings.clear();
+        passwordFieldNewSettings.clear();
+        logout();
+
     }
+
+    //logout dopo cambio password
+    private void logout(){
+        clearLoginFields();
+        settingsVBox.setVisible(false);
+        settingsVBox.setManaged(false);
+        loginVBox.setVisible(true);
+        loginVBox.setManaged(true);
+        currentUser = null;
+    }
+
 
     public void changeDati(ActionEvent actionEvent) {
     }

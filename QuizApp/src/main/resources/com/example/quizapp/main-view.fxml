@@ -578,19 +578,19 @@
 
             <!-- Campo Password Attuale -->
             <HBox alignment="CENTER_LEFT" spacing="10.0">
-                <PasswordField fx:id="currentPasswordField" prefWidth="250" promptText="Password attuale" styleClass="settings-textfield"/>
+                <PasswordField fx:id="passwordFieldSettings" prefWidth="250" promptText="Password attuale" styleClass="settings-textfield"/>
             </HBox>
 
             <!-- Campo Nuova Password -->
             <HBox alignment="CENTER_LEFT" spacing="10.0">
-                <PasswordField fx:id="passwordField" prefWidth="250" promptText="Nuova password" styleClass="settings-textfield"/>
-                <Button text="Salva" onAction="#savePassword" styleClass="save-button"/>
+                <PasswordField fx:id="passwordFieldNewSettings" prefWidth="250" promptText="Nuova password" styleClass="settings-textfield"/>
+                <Button fx:id="changePasswordButton" text="Salva" onAction="#savePassword" styleClass="save-button"/>
             </HBox>
         </VBox>
 
         <!-- Modifica Password -->
         <HBox alignment="CENTER">
-            <Button text="Modifica Dati" onAction="#changeDati" styleClass="change-password-button">
+            <Button text="Modifica Dati"  onAction="#changeDati" styleClass="change-password-button">
                 <padding>
                     <Insets top="10" right="20" bottom="10" left="20"/>
                 </padding>
