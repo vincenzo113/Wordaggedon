@@ -1,5 +1,7 @@
 package com.example.difficultySettings;
 
-public enum DifficultyEnum {
+import java.io.Serializable;
+
+public enum DifficultyEnum implements Serializable {
     EASY, MEDIUM ,HARD;
 }

@@ -14,7 +14,8 @@ public class SessioneQuiz implements Serializable {
         private DifficultyEnum difficolta;
         private User user;
         private int score;
-        private transient DomandeDAOPostgres domandeDAOPostgres = new DomandeDAOPostgres();
+        private transient DomandeDAOPostgres domandeDAOPostgres ;
+    private static final long serialVersionUID = 1L;
 
         public SessioneQuiz(List<Documento> documenti, DifficultyEnum difficolta, User user) {
             this.documenti = documenti;
@@ -103,5 +104,20 @@ public class SessioneQuiz implements Serializable {
 
         }
 
+    @Override
+    public String toString() {
+        return "SessioneQuiz{" +
+                "documenti=" + documenti +
+                ", domande=" + domande +
+                ", difficolta=" + difficolta +
+                ", user=" + user +
+                ", score=" + score +
+                ", domandeDAOPostgres=" + domandeDAOPostgres +
+                '}';
+    }
 
+
+    public void setDomandeDAOPostgres(DomandeDAOPostgres daoPostgres){
+            this.domandeDAOPostgres = daoPostgres;
+    }
 }

@@ -4,6 +4,7 @@ import com.example.alerts.AlertUtils;
 import com.example.alerts.AlertList;
 import com.example.dao.Documento.DocumentoDAO;
 import com.example.dao.Documento.DocumentoDAOPostgres;
+import com.example.dao.Domande.DomandeDAOPostgres;
 import com.example.dao.User.UserDAOPostgres;
 import com.example.dao.stopWordsDAO.stopWordsDAOPostgres;
 import com.example.difficultySettings.DifficultyEnum;
@@ -550,42 +551,46 @@ public class MainController {
     public void handleStartGame(ActionEvent actionEvent) {
 
         DifficultyEnum diff = getDifficoltaScelta();
-
+// Se l'utente ha una sessione in sospeso
         if(hasSessionSuspended(currentUser)){
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Vuoi riprendere la sessione salvata?", ButtonType.YES, ButtonType.NO);
             alert.setTitle("Sessione sospesa trovata");
             alert.setHeaderText(null);
             Optional<ButtonType> result = alert.showAndWait();
             //L'utente vuole procedere con la sessione recuperata
-            if(result.isPresent() && result.get() == ButtonType.OK){
+            if(result.isPresent() && result.get() == ButtonType.YES){
+                System.out.println("Current user: "+currentUser);
                 SessioneQuiz sessioneRecuperata = GestoreSalvataggioSessione.loadSessione(currentUser.getUsername());
+                sessioneRecuperata.setDomandeDAOPostgres(new DomandeDAOPostgres());
+                System.out.println("Sessione recuperata: "+sessioneRecuperata);
                 currentQuiz = sessioneRecuperata;
-                QuizController.startTimerPerTesto(sessioneRecuperata.getDocumenti() , 0 , timeLabel , timeProgressBar , sessioneRecuperata.getDifficolta() ,displayTextLabel, titleQuiz ,()->showQuestionsAndAnswers());
-                difficultyVBox.setVisible(false);
-                difficultyVBox.setManaged(false);
-                testoVBox.setVisible(true);
-                testoVBox.setManaged(true);
-                return;
+                QuizController.startTimerPerTesto(currentQuiz.getDocumenti() , 0 , timeLabel , timeProgressBar , currentQuiz.getDifficolta() ,displayTextLabel, titleQuiz ,()->showQuestionsAndAnswers());
+
             }
             else{
                 //Se non vuole continuare , eliminiamo la sessione vecchia e ne creiamo una nuova
                 GestoreSalvataggioSessione.eliminaSessione(currentUser.getUsername());
                 List<Documento> testiDaMostrare = documentoDAOPostgres.getDocumentiPerDifficolta(diff);
-                currentQuiz = new SessioneQuiz(testiDaMostrare, diff, currentUser); // Inizializza la sessione quiz con difficoltà scelta
+                SessioneQuiz sessioneQuiz = new SessioneQuiz(testiDaMostrare,diff,currentUser);
+                sessioneQuiz.setDomandeDAOPostgres(new DomandeDAOPostgres());
+                currentQuiz = sessioneQuiz; // Inizializza la sessione quiz con difficoltà scelta
                 QuizController.startTimerPerTesto(testiDaMostrare ,0, timeLabel , timeProgressBar , diff, displayTextLabel , titleQuiz ,()->showQuestionsAndAnswers());
-                difficultyVBox.setVisible(false);
-                difficultyVBox.setManaged(false);
-                testoVBox.setVisible(true);
-                testoVBox.setManaged(true);
-                return;
 
             }
+            //Setta le view
+            difficultyVBox.setVisible(false);
+            difficultyVBox.setManaged(false);
+            testoVBox.setVisible(true);
+            testoVBox.setManaged(true);
+            return;
 
 
         }
         //Non aveva una sessione da recuperare , quindi va normalmente
         List<Documento> testiDaMostrare = documentoDAOPostgres.getDocumentiPerDifficolta(diff);
-        currentQuiz = new SessioneQuiz(testiDaMostrare, diff, currentUser); // Inizializza la sessione quiz con difficoltà scelta
+        SessioneQuiz sessioneQuiz = new SessioneQuiz(testiDaMostrare,diff,currentUser);
+        sessioneQuiz.setDomandeDAOPostgres(new DomandeDAOPostgres());
+        currentQuiz = sessioneQuiz; 
         QuizController.startTimerPerTesto(testiDaMostrare ,0, timeLabel , timeProgressBar , diff, displayTextLabel , titleQuiz ,()->showQuestionsAndAnswers());
         difficultyVBox.setVisible(false);
         difficultyVBox.setManaged(false);

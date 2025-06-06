@@ -1,13 +1,14 @@
 package com.example.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-public class Domanda {
+public class Domanda implements Serializable {
     private String testo;
     private List<Risposta> risposte;
-    private GeneratoreRisposte generatoreRisposte = new GeneratoreRisposte();
+    private  transient  GeneratoreRisposte generatoreRisposte = new GeneratoreRisposte();
     public Domanda(String testo, List<Risposta> risposte) {
         this.testo = testo;
         this.risposte = risposte;

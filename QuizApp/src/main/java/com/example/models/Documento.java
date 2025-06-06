@@ -3,12 +3,15 @@ package com.example.models;
 
 import com.example.difficultySettings.DifficultyEnum;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class  Documento {
+public class  Documento implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private int id;
     private String titolo;
     private String contenuto;
