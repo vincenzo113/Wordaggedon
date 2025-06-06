@@ -15,6 +15,8 @@ public class SessioneQuiz implements Serializable {
         private User user;
         private int score;
         private transient DomandeDAOPostgres domandeDAOPostgres ;
+        private boolean isCompleta;
+
     private static final long serialVersionUID = 1L;
 
         public SessioneQuiz(List<Documento> documenti, DifficultyEnum difficolta, User user) {
@@ -119,5 +121,14 @@ public class SessioneQuiz implements Serializable {
 
     public void setDomandeDAOPostgres(DomandeDAOPostgres daoPostgres){
             this.domandeDAOPostgres = daoPostgres;
+    }
+
+
+    public void setIsCompleta(Boolean value){
+            this.isCompleta = value;
+    }
+
+    public boolean getIsCompleta(){
+            return  this.isCompleta;
     }
 }

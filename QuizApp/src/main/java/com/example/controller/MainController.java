@@ -652,6 +652,8 @@ public class MainController {
         domandaRispostaVBox.setVisible(false);
         domandaRispostaVBox.setManaged(false);
         RiepilogoController.setLabelPerRiepilogo(currentQuiz , domanda1Label , domanda2Label ,domanda3Label ,domanda4Label , risposta1UtenteLabel ,risposta2UtenteLabel,risposta3UtenteLabel,risposta4UtenteLabel,risposta1CorrettaLabel,risposta2CorrettaLabel,risposta3CorrettaLabel,risposta4CorrettaLabel);
+        //Imposta la sessione come completa , per evitare che salvi la sessione come incompleta
+        currentQuiz.setIsCompleta(true);
         riepilogoVBox.setVisible(true);
         riepilogoVBox.setManaged(true);
 
