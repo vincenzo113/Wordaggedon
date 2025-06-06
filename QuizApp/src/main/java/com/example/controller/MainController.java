@@ -565,6 +565,8 @@ public class MainController {
                 System.out.println("Sessione recuperata: "+sessioneRecuperata);
                 currentQuiz = sessioneRecuperata;
                 QuizController.startTimerPerTesto(currentQuiz.getDocumenti() , 0 , timeLabel , timeProgressBar , currentQuiz.getDifficolta() ,displayTextLabel, titleQuiz ,()->showQuestionsAndAnswers());
+                //Elimino la sessione salvata dopo averla ripresa
+                GestoreSalvataggioSessione.eliminaSessione(currentUser.getUsername());
 
             }
             else{
@@ -590,7 +592,7 @@ public class MainController {
         List<Documento> testiDaMostrare = documentoDAOPostgres.getDocumentiPerDifficolta(diff);
         SessioneQuiz sessioneQuiz = new SessioneQuiz(testiDaMostrare,diff,currentUser);
         sessioneQuiz.setDomandeDAOPostgres(new DomandeDAOPostgres());
-        currentQuiz = sessioneQuiz; 
+        currentQuiz = sessioneQuiz;
         QuizController.startTimerPerTesto(testiDaMostrare ,0, timeLabel , timeProgressBar , diff, displayTextLabel , titleQuiz ,()->showQuestionsAndAnswers());
         difficultyVBox.setVisible(false);
         difficultyVBox.setManaged(false);
