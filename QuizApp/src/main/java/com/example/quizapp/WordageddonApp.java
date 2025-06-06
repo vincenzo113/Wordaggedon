@@ -1,5 +1,8 @@
 package com.example.quizapp;
 
+import com.example.controller.MainController;
+import com.example.models.SessioneQuiz;
+import com.example.utils.GestoreSalvataggioSessione;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -18,6 +21,16 @@ public class WordageddonApp extends Application {
         stage.setMinWidth(800);
         stage.setTitle("Wordageddon");
         stage.setScene(scene);
+        stage.setOnCloseRequest(event -> {
+            // Sostituisci questa riga con la tua sessione corrente, ad esempio:
+            MainController controller = fxmlLoader.getController();
+
+            SessioneQuiz sessioneCorrente  = controller.getSessioneCorrente();
+            if (sessioneCorrente != null) {
+                GestoreSalvataggioSessione.salvaSessione(sessioneCorrente);
+                System.out.println("Sessione salvata prima della chiusura.");
+            }
+        });
         stage.show();
 
     }

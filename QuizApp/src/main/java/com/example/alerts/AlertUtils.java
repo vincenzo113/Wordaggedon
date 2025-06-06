@@ -2,7 +2,7 @@ package com.example.alerts;
 
 import javafx.stage.Stage;
 
-public class Alert {
+public class AlertUtils {
 
     public static void showAlert(AlertList alertType, Stage stage) {
         javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.INFORMATION);

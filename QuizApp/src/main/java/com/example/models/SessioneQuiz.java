@@ -3,16 +3,18 @@ package com.example.models;
 import com.example.dao.Domande.DomandeDAOPostgres;
 import com.example.difficultySettings.DifficultyEnum;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Random;
 
-public class SessioneQuiz {
+//Implementiamo serializable per permettere il salvataggio della sessione di gioco
+public class SessioneQuiz implements Serializable {
         private List<Documento> documenti;
         private List<Domanda>  domande ;
         private DifficultyEnum difficolta;
         private User user;
         private int score;
-        private DomandeDAOPostgres domandeDAOPostgres = new DomandeDAOPostgres();
+        private transient DomandeDAOPostgres domandeDAOPostgres = new DomandeDAOPostgres();
 
         public SessioneQuiz(List<Documento> documenti, DifficultyEnum difficolta, User user) {
             this.documenti = documenti;

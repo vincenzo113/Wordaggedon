@@ -1,6 +1,6 @@
 package com.example.controller;
 
-import com.example.alerts.Alert;
+import com.example.alerts.AlertUtils;
 import com.example.alerts.AlertList;
 import com.example.dao.Documento.DocumentoDAO;
 import com.example.dao.Documento.DocumentoDAOPostgres;
@@ -10,6 +10,7 @@ import com.example.difficultySettings.DifficultyEnum;
 import com.example.exceptions.*;
 import com.example.models.*;
 import com.example.timerService.TimerService;
+import com.example.utils.GestoreSalvataggioSessione;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -32,6 +33,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Optional;
 
 public class MainController {
     public ToggleGroup gruppoDomanda1;
@@ -248,6 +250,11 @@ public class MainController {
     }
 
 
+    public SessioneQuiz getSessioneCorrente(){
+        return currentQuiz;
+    }
+
+
     /*Metodi privati*/
 
     private void setupToggleButtons() {
@@ -455,7 +462,7 @@ public class MainController {
         try {
             userToLog = checkLogin();
         } catch (CampiNonCompilatiException e) {
-            Alert.showAlert(AlertList.FIELDS_EMPTY,stage);
+            AlertUtils.showAlert(AlertList.FIELDS_EMPTY,stage);
             return;
         }
 
@@ -472,7 +479,7 @@ public class MainController {
             usernameFieldSettings.setText(userToLog.getUsername());
 
         } else {
-            Alert.showAlert(AlertList.LOGIN_FAILURE,stage);
+            AlertUtils.showAlert(AlertList.LOGIN_FAILURE,stage);
             return;
         }
 
@@ -484,27 +491,27 @@ public class MainController {
         try {
              userToRegister = checkRegister(stage);
         } catch (CampiNonCompilatiException e) {
-            Alert.showAlert(AlertList.FIELDS_EMPTY,stage);
+            AlertUtils.showAlert(AlertList.FIELDS_EMPTY,stage);
             return;
         }
         catch (PasswordDiverseException ex){
-            Alert.showAlert(AlertList.PASSWORD_MISMATCH,stage);
+            AlertUtils.showAlert(AlertList.PASSWORD_MISMATCH,stage);
             return;
         }
         catch(UsernameFormatException ufx){
-            Alert.showAlert(AlertList.USERNAME_FORMAT_NON_CORRETTO , stage);
+            AlertUtils.showAlert(AlertList.USERNAME_FORMAT_NON_CORRETTO , stage);
             return;
         }
 
         if(RegisterController.hasRegisterSuccess(userToRegister)) {
-            Alert.showAlert(AlertList.REGISTER_SUCCESS,stage);
+            AlertUtils.showAlert(AlertList.REGISTER_SUCCESS,stage);
             registerVBox.setVisible(false);
             registerVBox.setManaged(false);
             loginVBox.setVisible(true);
             loginVBox.setManaged(true);
         }
         else {
-            Alert.showAlert(AlertList.REGISTER_FAILURE,stage);
+            AlertUtils.showAlert(AlertList.REGISTER_FAILURE,stage);
             return;
         }
 
@@ -535,16 +542,55 @@ public class MainController {
         currentUser = null;
     }
 
+    private boolean hasSessionSuspended(User user){
+        File file = new File("salvataggio_"+user.getUsername()+".dat");
+        return file.exists();
+    }
+
     public void handleStartGame(ActionEvent actionEvent) {
+
+        DifficultyEnum diff = getDifficoltaScelta();
+
+        if(hasSessionSuspended(currentUser)){
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Vuoi riprendere la sessione salvata?", ButtonType.YES, ButtonType.NO);
+            alert.setTitle("Sessione sospesa trovata");
+            alert.setHeaderText(null);
+            Optional<ButtonType> result = alert.showAndWait();
+            //L'utente vuole procedere con la sessione recuperata
+            if(result.isPresent() && result.get() == ButtonType.OK){
+                SessioneQuiz sessioneRecuperata = GestoreSalvataggioSessione.loadSessione(currentUser.getUsername());
+                currentQuiz = sessioneRecuperata;
+                QuizController.startTimerPerTesto(sessioneRecuperata.getDocumenti() , 0 , timeLabel , timeProgressBar , sessioneRecuperata.getDifficolta() ,displayTextLabel, titleQuiz ,()->showQuestionsAndAnswers());
+                difficultyVBox.setVisible(false);
+                difficultyVBox.setManaged(false);
+                testoVBox.setVisible(true);
+                testoVBox.setManaged(true);
+                return;
+            }
+            else{
+                //Se non vuole continuare , eliminiamo la sessione vecchia e ne creiamo una nuova
+                GestoreSalvataggioSessione.eliminaSessione(currentUser.getUsername());
+                List<Documento> testiDaMostrare = documentoDAOPostgres.getDocumentiPerDifficolta(diff);
+                currentQuiz = new SessioneQuiz(testiDaMostrare, diff, currentUser); // Inizializza la sessione quiz con difficoltà scelta
+                QuizController.startTimerPerTesto(testiDaMostrare ,0, timeLabel , timeProgressBar , diff, displayTextLabel , titleQuiz ,()->showQuestionsAndAnswers());
+                difficultyVBox.setVisible(false);
+                difficultyVBox.setManaged(false);
+                testoVBox.setVisible(true);
+                testoVBox.setManaged(true);
+                return;
+
+            }
+
+
+        }
+        //Non aveva una sessione da recuperare , quindi va normalmente
+        List<Documento> testiDaMostrare = documentoDAOPostgres.getDocumentiPerDifficolta(diff);
+        currentQuiz = new SessioneQuiz(testiDaMostrare, diff, currentUser); // Inizializza la sessione quiz con difficoltà scelta
+        QuizController.startTimerPerTesto(testiDaMostrare ,0, timeLabel , timeProgressBar , diff, displayTextLabel , titleQuiz ,()->showQuestionsAndAnswers());
         difficultyVBox.setVisible(false);
         difficultyVBox.setManaged(false);
         testoVBox.setVisible(true);
         testoVBox.setManaged(true);
-        DifficultyEnum diff = getDifficoltaScelta();
-
-        List<Documento> testiDaMostrare = documentoDAOPostgres.getDocumentiPerDifficolta(diff);
-        currentQuiz = new SessioneQuiz(testiDaMostrare, diff, currentUser); // Inizializza la sessione quiz con difficoltà scelta
-        QuizController.startTimerPerTesto(testiDaMostrare ,0, timeLabel , timeProgressBar , diff, displayTextLabel , titleQuiz ,()->showQuestionsAndAnswers());
     }
 
 
@@ -571,7 +617,7 @@ public class MainController {
                 Documento documento = new Documento(selectedFile.getName().split("\\.")[0], content);
                 String[] contentClean = content.split("[\\p{Punct}\\s]+") ;
                 if (contentClean.length < 10) {
-                    Alert.showAlert(AlertList.SHORT_TEXT, stage);
+                    AlertUtils.showAlert(AlertList.SHORT_TEXT, stage);
                     return;
                 }
                 if(contentClean.length>100) documento.setDifficolta(DifficultyEnum.HARD);
@@ -581,14 +627,14 @@ public class MainController {
                 documentoDAO.insertDocumento(documento);
             } catch (SQLException e) {
                 System.out.println("Eccezione lanciata");
-                Alert.showAlert(AlertList.TEXT_ALREADY_EXISTS, stage);
+                AlertUtils.showAlert(AlertList.TEXT_ALREADY_EXISTS, stage);
                 return;
             } catch (IOException e) {
-                Alert.showAlert(AlertList.UPLOAD_FAILURE, stage);
+                AlertUtils.showAlert(AlertList.UPLOAD_FAILURE, stage);
                 return;
             }
 
-            Alert.showAlert(AlertList.UPLOAD_SUCCESS,stage);
+            AlertUtils.showAlert(AlertList.UPLOAD_SUCCESS,stage);
         }
 
     }
@@ -659,11 +705,11 @@ public class MainController {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                Alert.showAlert(AlertList.UPLOAD_STOPWORDS_FAILURE,stage);
+                AlertUtils.showAlert(AlertList.UPLOAD_STOPWORDS_FAILURE,stage);
                 return;
             }
             stopWordsDAOPostgres.inserisciStopWords(allStopWords);
-            Alert.showAlert(AlertList.UPLOAD_STOPWORDS_SUCCESS,stage);
+            AlertUtils.showAlert(AlertList.UPLOAD_STOPWORDS_SUCCESS,stage);
         }
 
 
@@ -709,12 +755,12 @@ public class MainController {
         Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         String nuovoUsername = usernameFieldSettings.getText().trim();
         if(!nuovoUsername.matches("^[A-Za-z0-9_]+$")){
-            Alert.showAlert(AlertList.USERNAME_FORMAT_NON_CORRETTO , stage);
+            AlertUtils.showAlert(AlertList.USERNAME_FORMAT_NON_CORRETTO , stage);
             return;
         }
         UserDAOPostgres userDAOPostgres  = new UserDAOPostgres();
         if(currentUser.getUsername().trim().equals(nuovoUsername.trim())){
-            Alert.showAlert(AlertList.MODIFICA_USERNAME_NON_AVVENUTA , stage);
+            AlertUtils.showAlert(AlertList.MODIFICA_USERNAME_NON_AVVENUTA , stage);
             return;
         }
         try {
@@ -723,12 +769,12 @@ public class MainController {
 
 
         }catch(UsernameGiaPreso ex){
-            Alert.showAlert(AlertList.USERNAME_ALREADY_TAKEN , stage);
+            AlertUtils.showAlert(AlertList.USERNAME_ALREADY_TAKEN , stage);
             return;
         }
 
         //Mostra messaggio di successo ed aggiorna la label con il nuovo username
-        Alert.showAlert(AlertList.MODIFICA_USERNAME_SUCCESS , stage);
+        AlertUtils.showAlert(AlertList.MODIFICA_USERNAME_SUCCESS , stage);
         usernameFieldSettings.setText(nuovoUsername);
         StartGameController.aggiornaLabel(usernameWelcomeLabel , nuovoUsername);
 
@@ -742,15 +788,15 @@ public class MainController {
             userDAOPostgres.modificaPassword(currentUser, passwordFieldSettings.getText(), passwordFieldNewSettings.getText());
 
         }catch(PasswordNonCorrettaException ex){
-            Alert.showAlert(AlertList.PASSWORD_NON_CORRETTA , stage);
+            AlertUtils.showAlert(AlertList.PASSWORD_NON_CORRETTA , stage);
             return;
         }catch(NessunaModificaException ex){
-            Alert.showAlert(AlertList.NESSUNA_MODIFICA_DI_PASSWORD,stage);
+            AlertUtils.showAlert(AlertList.NESSUNA_MODIFICA_DI_PASSWORD,stage);
             return;
         }
         //Success
 
-        Alert.showAlert(AlertList.CAMBIO_PASSWORD_SUCCESS,stage);
+        AlertUtils.showAlert(AlertList.CAMBIO_PASSWORD_SUCCESS,stage);
         passwordFieldSettings.clear();
         passwordFieldNewSettings.clear();
         logout();
