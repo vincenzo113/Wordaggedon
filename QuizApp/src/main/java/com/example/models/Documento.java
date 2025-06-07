@@ -51,8 +51,19 @@ public class  Documento implements Serializable {
     }
 
     public Map<String, Integer> getMappaQuiz() {
+
         return mappaQuiz;
     }
 
+    @Override
+    public String toString() {
+        return "Documento{" +
+                "id=" + id +
+                ", titolo='" + titolo + '\'' +
+                ", contenuto='" + contenuto + '\'' +
+                ", mappaQuiz=" + mappaQuiz +
+                ", difficolta=" + difficolta +
+                '}';
+    }
 }
 

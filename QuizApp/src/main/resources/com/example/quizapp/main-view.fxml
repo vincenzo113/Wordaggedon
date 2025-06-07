@@ -619,9 +619,44 @@
                         <Insets top="8" right="12" bottom="8" left="12"/>
                     </padding>
                 </Button>
+                <Button text="Gestisci documenti" fx:id="" onAction="#goToDocuments"
+                        prefWidth="160" prefHeight="40" styleClass="admin-button-red">
+                    <padding>
+                        <Insets top="8" right="12" bottom="8" left="12"/>
+                    </padding>
+                </Button>
             </HBox>
         </VBox>
+    </VBox>
 
+
+
+
+    <VBox fx:id="sezioneDocumenti" visible="false" managed="false" spacing="15" styleClass="user-documents-section">
+        <padding>
+            <Insets top="15" right="15" bottom="15" left="15"/>
+        </padding>
+
+        <Label text="Documenti Caricati" styleClass="section-label"/>
+
+        <!-- Contenitore dei documenti, uno per riga -->
+        <VBox fx:id="documentsList" spacing="10" >                <!--
+                    Qui dentro andranno aggiunti dinamicamente gli HBox con i documenti:
+                    <HBox spacing="15" alignment="CENTER_LEFT">
+                        <Label text="NomeDocumento.pdf" styleClass="document-label"/>
+                        <Button text="Elimina" onAction="#deleteDocument" styleClass="delete-button" prefWidth="80" prefHeight="30"/>
+                    </HBox>
+                -->
+        </VBox>
+
+        <HBox spacing="15" alignment="CENTER">
+            <Button text="Indietro"  onAction="#goBackToSettingsFromDocuments" >
+                prefWidth="180" prefHeight="40" styleClass="upload-button">
+                <padding>
+                    <Insets top="8" right="12" bottom="8" left="12"/>
+                </padding>
+            </Button>
+        </HBox>
     </VBox>
 
 

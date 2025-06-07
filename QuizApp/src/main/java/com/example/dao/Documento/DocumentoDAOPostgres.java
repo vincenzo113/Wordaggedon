@@ -114,4 +114,35 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
         }
     }
 
+    @Override
+    public List<Documento> getAllDocuments(){
+        List<Documento> allDocuments = new ArrayList<>();
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+             Statement stmt = conn.createStatement()){
+
+            String query = "select * from documento;";
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()){
+                allDocuments.add(new Documento(rs.getInt("id"),rs.getString("titolo") ,  rs.getString("contenuto")));
+            }
+
+        }catch(SQLException ex){
+
+        }
+        return allDocuments;
+    }
+
+
+    public void eliminaDocumento(int idDocumento){
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+             Statement stmt = conn.createStatement()){
+
+            String query = "delete from documento where id="+idDocumento;
+            stmt.executeUpdate(query);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 }

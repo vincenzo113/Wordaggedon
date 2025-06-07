@@ -21,11 +21,20 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.FileChooser;
 
 import javafx.stage.Stage;
+
+import javax.swing.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,6 +53,8 @@ public class MainController {
     public PasswordField passwordFieldSettings;
     public PasswordField passwordFieldNewSettings;
     public Button changePasswordButton;
+    public VBox sezioneDocumenti;
+    public VBox documentsList;
     private StringProperty initialUsernameProperty = new SimpleStringProperty();
 
     public ToggleButton facileButton;
@@ -53,6 +64,7 @@ public class MainController {
     //Sezione di riepilogo
     public VBox riepilogoVBox;
     public Label domanda4Label;
+
     public Label risposta4UtenteLabel;
     public Label risposta4CorrettaLabel;
     public Label domanda3Label;
@@ -108,10 +120,10 @@ public class MainController {
     public Label titleLabel;
 
     //DOMANDE
-    public Label q1 ;
-    public Label q2 ;
-    public Label q3 ;
-    public Label q4 ;
+    public Label q1;
+    public Label q2;
+    public Label q3;
+    public Label q4;
     //OPZIONI RISPOSTE
     public RadioButton q1opt1;
     public RadioButton q1opt2;
@@ -164,8 +176,8 @@ public class MainController {
 
     //SCOREBOARD
     public TableView<SessioneQuiz> tableView;
-    public TableColumn<SessioneQuiz,String> utenteColumn;
-    public TableColumn<SessioneQuiz,Integer> scoreColumn;
+    public TableColumn<SessioneQuiz, String> utenteColumn;
+    public TableColumn<SessioneQuiz, Integer> scoreColumn;
     public VBox scoreboardVBox;
     ObservableList<SessioneQuiz> sessioniQuizList;
 
@@ -181,16 +193,18 @@ public class MainController {
     private TimerService timerService;
 
 
-    private void clearRegisterFields(){
+    private void clearRegisterFields() {
         registerUsernameField.clear();
         registerPasswordField.clear();
         confirmRegisterPasswordField.clear();
     }
-    private void  clearLoginFields(){
+
+    private void clearLoginFields() {
         loginUsernameField.clear();
         loginPasswordField.clear();
     }
-    private void clearQuizFields(){
+
+    private void clearQuizFields() {
         q1opt1.setSelected(false);
         q1opt2.setSelected(false);
         q1opt3.setSelected(false);
@@ -227,22 +241,22 @@ public class MainController {
         q4.setText(domande.get(3).getTesto());
 
         int i = 0;
-        for(RadioButton q1opt : q1Options) {
+        for (RadioButton q1opt : q1Options) {
             q1opt.setText(domande.get(0).getRisposte().get(i).getTesto());
             i++;
         }
-        i=0;
-        for(RadioButton q2opt : q2Options) {
+        i = 0;
+        for (RadioButton q2opt : q2Options) {
             q2opt.setText(domande.get(1).getRisposte().get(i).getTesto());
             i++;
         }
-        i=0;
-        for(RadioButton q3opt : q3Options) {
+        i = 0;
+        for (RadioButton q3opt : q3Options) {
             q3opt.setText(domande.get(2).getRisposte().get(i).getTesto());
             i++;
         }
-        i=0;
-        for(RadioButton q4opt : q4Options) {
+        i = 0;
+        for (RadioButton q4opt : q4Options) {
             q4opt.setText(domande.get(3).getRisposte().get(i).getTesto());
             i++;
         }
@@ -251,7 +265,7 @@ public class MainController {
     }
 
 
-    public SessioneQuiz getSessioneCorrente(){
+    public SessioneQuiz getSessioneCorrente() {
         return currentQuiz;
     }
 
@@ -320,9 +334,9 @@ public class MainController {
 
         // Filtra i dati in base alla difficoltà e al checkbox
         List<SessioneQuiz> sessioni;
-        if(!soloPersonali)
+        if (!soloPersonali)
             sessioni = QuizController.getScoreboard(diff);
-        else sessioni = QuizController.getPersonalScoreboard(currentUser,diff);
+        else sessioni = QuizController.getPersonalScoreboard(currentUser, diff);
 
         // Aggiorna la tabella
         aggiornaTableView(sessioni);
@@ -331,15 +345,15 @@ public class MainController {
         aggiornaStats(diff);
     }
 
-    private void aggiornaTableView(List<SessioneQuiz> sessioni){
+    private void aggiornaTableView(List<SessioneQuiz> sessioni) {
         sessioniQuizList = FXCollections.observableList(sessioni);
         tableView.setItems(sessioniQuizList);
         tableView.refresh();
     }
 
     private void aggiornaStats(DifficultyEnum difficultyEnum) {
-        punteggioMedioLabel.setText(QuizController.getPunteggioMedio(currentUser,difficultyEnum));
-        migliorPunteggioLabel.setText(QuizController.getMigliorPunteggio(currentUser,difficultyEnum));
+        punteggioMedioLabel.setText(QuizController.getPunteggioMedio(currentUser, difficultyEnum));
+        migliorPunteggioLabel.setText(QuizController.getMigliorPunteggio(currentUser, difficultyEnum));
         numeroPartiteLabel.setText(QuizController.getPartite(currentUser));
     }
 
@@ -352,33 +366,34 @@ public class MainController {
 
         String username = loginUsernameField.getText();
         String password = loginPasswordField.getText();
-        return new User(username.trim(),password.trim(),false);
+        return new User(username.trim(), password.trim(), false);
     }
-    private User checkRegister(Stage stage) throws CampiNonCompilatiException  , PasswordDiverseException {
+
+    private User checkRegister(Stage stage) throws CampiNonCompilatiException, PasswordDiverseException {
         if (registerUsernameField.getText().trim().isEmpty() || registerPasswordField.getText().trim().isEmpty() || registerPasswordField.getText().trim().isEmpty()) {
             throw new CampiNonCompilatiException("");
         }
 
-        if(!registerPasswordField.getText().equals(confirmRegisterPasswordField.getText())){
+        if (!registerPasswordField.getText().equals(confirmRegisterPasswordField.getText())) {
             throw new PasswordDiverseException("");
         }
 
-        if(!registerUsernameField.getText().matches("^[A-Za-z0-9_]+$")){
-          throw  new UsernameFormatException("Formato dell'username non valido");
+        if (!registerUsernameField.getText().matches("^[A-Za-z0-9_]+$")) {
+            throw new UsernameFormatException("Formato dell'username non valido");
         }
 
         String username = registerUsernameField.getText();
         String password = registerPasswordField.getText();
-        return new User(username.trim(),password.trim(),false);
+        return new User(username.trim(), password.trim(), false);
     }
 
-    private DifficultyEnum getDifficoltaScelta(){
-        if(easyRadio.isSelected()) return DifficultyEnum.EASY;
-        else if(mediumRadio.isSelected()) return DifficultyEnum.MEDIUM;
-        else return  DifficultyEnum.HARD;
+    private DifficultyEnum getDifficoltaScelta() {
+        if (easyRadio.isSelected()) return DifficultyEnum.EASY;
+        else if (mediumRadio.isSelected()) return DifficultyEnum.MEDIUM;
+        else return DifficultyEnum.HARD;
     }
 
-    private void initTableView(){
+    private void initTableView() {
         sessioniQuizList = FXCollections.observableArrayList();
         tableView.setItems(sessioniQuizList);
         utenteColumn.setCellValueFactory(cellData ->
@@ -397,40 +412,37 @@ public class MainController {
         tableView.sort();
 
 
-
-
     }
+
     /***********/
 
 
-
-
     @FXML
-    public void initialize(){
-     initTableView();
-          q1Options = new RadioButton[]{
+    public void initialize() {
+        initTableView();
+        q1Options = new RadioButton[]{
                 q1opt1, q1opt2, q1opt3, q1opt4
         };
-          q2Options = new RadioButton[]{
+        q2Options = new RadioButton[]{
                 q2opt1, q2opt2, q2opt3, q2opt4
         };
-          q3Options = new RadioButton[] {
+        q3Options = new RadioButton[]{
                 q3opt1, q3opt2, q3opt3, q3opt4
         };
-          q4Options = new RadioButton[]{
+        q4Options = new RadioButton[]{
                 q4opt1, q4opt2, q4opt3, q4opt4
         };
 
         setupToggleButtons();
         initBindings();
 
+
     }
 
 
-
-    private void initBindings(){
+    private void initBindings() {
         BooleanBinding tutteRisposteDate = Bindings.createBooleanBinding(
-                () ->  gruppoDomanda1.getSelectedToggle() != null &&
+                () -> gruppoDomanda1.getSelectedToggle() != null &&
                         gruppoDomanda2.getSelectedToggle() != null &&
                         gruppoDomanda3.getSelectedToggle() != null &&
                         gruppoDomanda4.getSelectedToggle() != null,
@@ -454,7 +466,6 @@ public class MainController {
         changePasswordButton.disableProperty().bind(disableButtonPassword);
 
 
-
     }
 
     public void handleLogin(ActionEvent actionEvent) {
@@ -463,24 +474,24 @@ public class MainController {
         try {
             userToLog = checkLogin();
         } catch (CampiNonCompilatiException e) {
-            AlertUtils.showAlert(AlertList.FIELDS_EMPTY,stage);
+            AlertUtils.showAlert(AlertList.FIELDS_EMPTY, stage);
             return;
         }
 
         userToLog = LoginController.hasLoginSuccess(userToLog);
 
-        if(userToLog != null) {
+        if (userToLog != null) {
             currentUser = userToLog; // Imposta l'utente corrente
             loginVBox.setVisible(false);
             loginVBox.setManaged(false);
 
             difficultyVBox.setVisible(true);
             difficultyVBox.setManaged(true);
-            StartGameController.aggiornaLabel(usernameWelcomeLabel , userToLog.getUsername());
+            StartGameController.aggiornaLabel(usernameWelcomeLabel, userToLog.getUsername());
             usernameFieldSettings.setText(userToLog.getUsername());
 
         } else {
-            AlertUtils.showAlert(AlertList.LOGIN_FAILURE,stage);
+            AlertUtils.showAlert(AlertList.LOGIN_FAILURE, stage);
             return;
         }
 
@@ -490,29 +501,26 @@ public class MainController {
         Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         User userToRegister = null;
         try {
-             userToRegister = checkRegister(stage);
+            userToRegister = checkRegister(stage);
         } catch (CampiNonCompilatiException e) {
-            AlertUtils.showAlert(AlertList.FIELDS_EMPTY,stage);
+            AlertUtils.showAlert(AlertList.FIELDS_EMPTY, stage);
             return;
-        }
-        catch (PasswordDiverseException ex){
-            AlertUtils.showAlert(AlertList.PASSWORD_MISMATCH,stage);
+        } catch (PasswordDiverseException ex) {
+            AlertUtils.showAlert(AlertList.PASSWORD_MISMATCH, stage);
             return;
-        }
-        catch(UsernameFormatException ufx){
-            AlertUtils.showAlert(AlertList.USERNAME_FORMAT_NON_CORRETTO , stage);
+        } catch (UsernameFormatException ufx) {
+            AlertUtils.showAlert(AlertList.USERNAME_FORMAT_NON_CORRETTO, stage);
             return;
         }
 
-        if(RegisterController.hasRegisterSuccess(userToRegister)) {
-            AlertUtils.showAlert(AlertList.REGISTER_SUCCESS,stage);
+        if (RegisterController.hasRegisterSuccess(userToRegister)) {
+            AlertUtils.showAlert(AlertList.REGISTER_SUCCESS, stage);
             registerVBox.setVisible(false);
             registerVBox.setManaged(false);
             loginVBox.setVisible(true);
             loginVBox.setManaged(true);
-        }
-        else {
-            AlertUtils.showAlert(AlertList.REGISTER_FAILURE,stage);
+        } else {
+            AlertUtils.showAlert(AlertList.REGISTER_FAILURE, stage);
             return;
         }
 
@@ -543,8 +551,8 @@ public class MainController {
         currentUser = null;
     }
 
-    private boolean hasSessionSuspended(User user){
-        File file = new File("salvataggio_"+user.getUsername()+".dat");
+    private boolean hasSessionSuspended(User user) {
+        File file = new File("salvataggio_" + user.getUsername() + ".dat");
         return file.exists();
     }
 
@@ -552,31 +560,30 @@ public class MainController {
 
         DifficultyEnum diff = getDifficoltaScelta();
 // Se l'utente ha una sessione in sospeso
-        if(hasSessionSuspended(currentUser)){
+        if (hasSessionSuspended(currentUser)) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Vuoi riprendere la sessione salvata?", ButtonType.YES, ButtonType.NO);
             alert.setTitle("Sessione sospesa trovata");
             alert.setHeaderText(null);
             Optional<ButtonType> result = alert.showAndWait();
             //L'utente vuole procedere con la sessione recuperata
-            if(result.isPresent() && result.get() == ButtonType.YES){
-                System.out.println("Current user: "+currentUser);
+            if (result.isPresent() && result.get() == ButtonType.YES) {
+                System.out.println("Current user: " + currentUser);
                 SessioneQuiz sessioneRecuperata = GestoreSalvataggioSessione.loadSessione(currentUser.getUsername());
                 sessioneRecuperata.setDomandeDAOPostgres(new DomandeDAOPostgres());
-                System.out.println("Sessione recuperata: "+sessioneRecuperata);
+                System.out.println("Sessione recuperata: " + sessioneRecuperata);
                 currentQuiz = sessioneRecuperata;
-                QuizController.startTimerPerTesto(currentQuiz.getDocumenti() , 0 , timeLabel , timeProgressBar , currentQuiz.getDifficolta() ,displayTextLabel, titleQuiz ,()->showQuestionsAndAnswers());
+                QuizController.startTimerPerTesto(currentQuiz.getDocumenti(), 0, timeLabel, timeProgressBar, currentQuiz.getDifficolta(), displayTextLabel, titleQuiz, () -> showQuestionsAndAnswers());
                 //Elimino la sessione salvata dopo averla ripresa
                 GestoreSalvataggioSessione.eliminaSessione(currentUser.getUsername());
 
-            }
-            else{
+            } else {
                 //Se non vuole continuare , eliminiamo la sessione vecchia e ne creiamo una nuova
                 GestoreSalvataggioSessione.eliminaSessione(currentUser.getUsername());
                 List<Documento> testiDaMostrare = documentoDAOPostgres.getDocumentiPerDifficolta(diff);
-                SessioneQuiz sessioneQuiz = new SessioneQuiz(testiDaMostrare,diff,currentUser);
+                SessioneQuiz sessioneQuiz = new SessioneQuiz(testiDaMostrare, diff, currentUser);
                 sessioneQuiz.setDomandeDAOPostgres(new DomandeDAOPostgres());
                 currentQuiz = sessioneQuiz; // Inizializza la sessione quiz con difficoltà scelta
-                QuizController.startTimerPerTesto(testiDaMostrare ,0, timeLabel , timeProgressBar , diff, displayTextLabel , titleQuiz ,()->showQuestionsAndAnswers());
+                QuizController.startTimerPerTesto(testiDaMostrare, 0, timeLabel, timeProgressBar, diff, displayTextLabel, titleQuiz, () -> showQuestionsAndAnswers());
 
             }
             //Setta le view
@@ -590,10 +597,10 @@ public class MainController {
         }
         //Non aveva una sessione da recuperare , quindi va normalmente
         List<Documento> testiDaMostrare = documentoDAOPostgres.getDocumentiPerDifficolta(diff);
-        SessioneQuiz sessioneQuiz = new SessioneQuiz(testiDaMostrare,diff,currentUser);
+        SessioneQuiz sessioneQuiz = new SessioneQuiz(testiDaMostrare, diff, currentUser);
         sessioneQuiz.setDomandeDAOPostgres(new DomandeDAOPostgres());
         currentQuiz = sessioneQuiz;
-        QuizController.startTimerPerTesto(testiDaMostrare ,0, timeLabel , timeProgressBar , diff, displayTextLabel , titleQuiz ,()->showQuestionsAndAnswers());
+        QuizController.startTimerPerTesto(testiDaMostrare, 0, timeLabel, timeProgressBar, diff, displayTextLabel, titleQuiz, () -> showQuestionsAndAnswers());
         difficultyVBox.setVisible(false);
         difficultyVBox.setManaged(false);
         testoVBox.setVisible(true);
@@ -607,8 +614,8 @@ public class MainController {
         FileChooser fc = new FileChooser();
         fc.setTitle("Seleziona un file di testo");
         fc.getExtensionFilters().addAll(
-            new FileChooser.ExtensionFilter("File di testo", "*.txt"),
-            new FileChooser.ExtensionFilter("Tutti i file", "*.*")
+                new FileChooser.ExtensionFilter("File di testo", "*.txt"),
+                new FileChooser.ExtensionFilter("Tutti i file", "*.*")
         );
         File selectedFile = fc.showOpenDialog(stage);
         if (selectedFile != null && selectedFile.getName().endsWith(".txt")) {
@@ -617,18 +624,18 @@ public class MainController {
                         .map(String::trim) //per togliere gli spazi iniziali e finali
                         .filter(line -> !line.isEmpty()) //elimina linee vuote
                         .map(line -> line.replaceAll("[\\s+]", " "))  //elimina spazi in più
-                        .reduce("", (acc, line) -> acc + " " + line) ;
-                        // "" valore di partenza , acc contenuto accumulato in precedenza, line è la riga corrente
-                        // accumulo le righe in un'unica stringa
+                        .reduce("", (acc, line) -> acc + " " + line);
+                // "" valore di partenza , acc contenuto accumulato in precedenza, line è la riga corrente
+                // accumulo le righe in un'unica stringa
 
                 Documento documento = new Documento(selectedFile.getName().split("\\.")[0], content);
-                String[] contentClean = content.split("[\\p{Punct}\\s]+") ;
+                String[] contentClean = content.split("[\\p{Punct}\\s]+");
                 if (contentClean.length < 10) {
                     AlertUtils.showAlert(AlertList.SHORT_TEXT, stage);
                     return;
                 }
-                if(contentClean.length>100) documento.setDifficolta(DifficultyEnum.HARD);
-                else if(contentClean.length>50) documento.setDifficolta(DifficultyEnum.MEDIUM);
+                if (contentClean.length > 100) documento.setDifficolta(DifficultyEnum.HARD);
+                else if (contentClean.length > 50) documento.setDifficolta(DifficultyEnum.MEDIUM);
                 else documento.setDifficolta(DifficultyEnum.EASY);
 
                 documentoDAO.insertDocumento(documento);
@@ -641,17 +648,17 @@ public class MainController {
                 return;
             }
 
-            AlertUtils.showAlert(AlertList.UPLOAD_SUCCESS,stage);
+            AlertUtils.showAlert(AlertList.UPLOAD_SUCCESS, stage);
         }
 
     }
 
     public void finishGame(ActionEvent actionEvent) {
         //SETTA LE RISPOSTE SELEZIONATE
-        QuizController.setRisposteSelezionate(q1Options,q2Options,q3Options,q4Options,currentQuiz);
+        QuizController.setRisposteSelezionate(q1Options, q2Options, q3Options, q4Options, currentQuiz);
         domandaRispostaVBox.setVisible(false);
         domandaRispostaVBox.setManaged(false);
-        RiepilogoController.setLabelPerRiepilogo(currentQuiz , domanda1Label , domanda2Label ,domanda3Label ,domanda4Label , risposta1UtenteLabel ,risposta2UtenteLabel,risposta3UtenteLabel,risposta4UtenteLabel,risposta1CorrettaLabel,risposta2CorrettaLabel,risposta3CorrettaLabel,risposta4CorrettaLabel);
+        RiepilogoController.setLabelPerRiepilogo(currentQuiz, domanda1Label, domanda2Label, domanda3Label, domanda4Label, risposta1UtenteLabel, risposta2UtenteLabel, risposta3UtenteLabel, risposta4UtenteLabel, risposta1CorrettaLabel, risposta2CorrettaLabel, risposta3CorrettaLabel, risposta4CorrettaLabel);
         //Imposta la sessione come completa , per evitare che salvi la sessione come incompleta
         currentQuiz.setIsCompleta(true);
         riepilogoVBox.setVisible(true);
@@ -682,7 +689,7 @@ public class MainController {
 
 
     @FXML
-    public void loadStopwords(ActionEvent actionEvent){
+    public void loadStopwords(ActionEvent actionEvent) {
         Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         List<String> allStopWords = new ArrayList<>();
         stopWordsDAOPostgres stopWordsDAOPostgres = new stopWordsDAOPostgres();
@@ -697,35 +704,35 @@ public class MainController {
         if (selectedFile != null && selectedFile.getName().endsWith(".csv")) {
             try (BufferedReader reader = new BufferedReader(new FileReader(selectedFile))) {
                 String line = "";
-                while((line = reader.readLine()) != null){
+                while ((line = reader.readLine()) != null) {
                     String[] campi = line.split("[,;\\t ]+");
-                   for(String parola : campi) allStopWords.add(parola);
+                    for (String parola : campi) allStopWords.add(parola);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
-    }
+        }
         if (selectedFile != null && selectedFile.getName().endsWith(".txt")) {
             try (BufferedReader reader = new BufferedReader(new FileReader(selectedFile))) {
                 String line = "";
-                while((line = reader.readLine()) != null){
+                while ((line = reader.readLine()) != null) {
                     String[] campi = line.split("[,;\\t ]+");
-                    for(String parola : campi) allStopWords.add(parola);
+                    for (String parola : campi) allStopWords.add(parola);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                AlertUtils.showAlert(AlertList.UPLOAD_STOPWORDS_FAILURE,stage);
+                AlertUtils.showAlert(AlertList.UPLOAD_STOPWORDS_FAILURE, stage);
                 return;
             }
             stopWordsDAOPostgres.inserisciStopWords(allStopWords);
-            AlertUtils.showAlert(AlertList.UPLOAD_STOPWORDS_SUCCESS,stage);
+            AlertUtils.showAlert(AlertList.UPLOAD_STOPWORDS_SUCCESS, stage);
         }
 
 
-}
+    }
 
     public void vaiAlPunteggio(ActionEvent actionEvent) {
-        QuizController.setFinalScore( q1Options , q2Options , q3Options , q4Options , currentQuiz);
+        QuizController.setFinalScore(q1Options, q2Options, q3Options, q4Options, currentQuiz);
         riepilogoVBox.setManaged(false);
         riepilogoVBox.setVisible(false);
         finalScoreVBox.setVisible(true);
@@ -739,7 +746,7 @@ public class MainController {
         difficultyVBox.setManaged(false);
         settingsVBox.setManaged(true);
         settingsVBox.setVisible(true);
-        if(currentUser.isAdmin()) {
+        if (currentUser.isAdmin()) {
             adminSection.setVisible(true);
             adminSection.setManaged(true);
         } else {
@@ -753,23 +760,23 @@ public class MainController {
         settingsVBox.setVisible(false);
         difficultyVBox.setVisible(true);
         difficultyVBox.setManaged(true);
-        StartGameController.aggiornaLabel(usernameWelcomeLabel , currentUser.getUsername());
+        StartGameController.aggiornaLabel(usernameWelcomeLabel, currentUser.getUsername());
     }
 
     public void saveUsername(ActionEvent actionEvent) {
 
         saveUsernameSettings.disableProperty().bind(
                 usernameFieldSettings.textProperty().isEmpty()
-                );
+        );
         Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         String nuovoUsername = usernameFieldSettings.getText().trim();
-        if(!nuovoUsername.matches("^[A-Za-z0-9_]+$")){
-            AlertUtils.showAlert(AlertList.USERNAME_FORMAT_NON_CORRETTO , stage);
+        if (!nuovoUsername.matches("^[A-Za-z0-9_]+$")) {
+            AlertUtils.showAlert(AlertList.USERNAME_FORMAT_NON_CORRETTO, stage);
             return;
         }
-        UserDAOPostgres userDAOPostgres  = new UserDAOPostgres();
-        if(currentUser.getUsername().trim().equals(nuovoUsername.trim())){
-            AlertUtils.showAlert(AlertList.MODIFICA_USERNAME_NON_AVVENUTA , stage);
+        UserDAOPostgres userDAOPostgres = new UserDAOPostgres();
+        if (currentUser.getUsername().trim().equals(nuovoUsername.trim())) {
+            AlertUtils.showAlert(AlertList.MODIFICA_USERNAME_NON_AVVENUTA, stage);
             return;
         }
         try {
@@ -777,35 +784,35 @@ public class MainController {
             userDAOPostgres.modificaUsername(currentUser, nuovoUsername);
 
 
-        }catch(UsernameGiaPreso ex){
-            AlertUtils.showAlert(AlertList.USERNAME_ALREADY_TAKEN , stage);
+        } catch (UsernameGiaPreso ex) {
+            AlertUtils.showAlert(AlertList.USERNAME_ALREADY_TAKEN, stage);
             return;
         }
 
         //Mostra messaggio di successo ed aggiorna la label con il nuovo username
-        AlertUtils.showAlert(AlertList.MODIFICA_USERNAME_SUCCESS , stage);
+        AlertUtils.showAlert(AlertList.MODIFICA_USERNAME_SUCCESS, stage);
         usernameFieldSettings.setText(nuovoUsername);
-        StartGameController.aggiornaLabel(usernameWelcomeLabel , nuovoUsername);
+        StartGameController.aggiornaLabel(usernameWelcomeLabel, nuovoUsername);
 
     }
 
     public void savePassword(ActionEvent actionEvent) {
-        UserDAOPostgres userDAOPostgres  = new UserDAOPostgres();
+        UserDAOPostgres userDAOPostgres = new UserDAOPostgres();
         Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         try {
 
             userDAOPostgres.modificaPassword(currentUser, passwordFieldSettings.getText(), passwordFieldNewSettings.getText());
 
-        }catch(PasswordNonCorrettaException ex){
-            AlertUtils.showAlert(AlertList.PASSWORD_NON_CORRETTA , stage);
+        } catch (PasswordNonCorrettaException ex) {
+            AlertUtils.showAlert(AlertList.PASSWORD_NON_CORRETTA, stage);
             return;
-        }catch(NessunaModificaException ex){
-            AlertUtils.showAlert(AlertList.NESSUNA_MODIFICA_DI_PASSWORD,stage);
+        } catch (NessunaModificaException ex) {
+            AlertUtils.showAlert(AlertList.NESSUNA_MODIFICA_DI_PASSWORD, stage);
             return;
         }
         //Success
 
-        AlertUtils.showAlert(AlertList.CAMBIO_PASSWORD_SUCCESS,stage);
+        AlertUtils.showAlert(AlertList.CAMBIO_PASSWORD_SUCCESS, stage);
         passwordFieldSettings.clear();
         passwordFieldNewSettings.clear();
         logout();
@@ -813,7 +820,7 @@ public class MainController {
     }
 
     //logout dopo cambio password
-    private void logout(){
+    private void logout() {
         clearLoginFields();
         settingsVBox.setVisible(false);
         settingsVBox.setManaged(false);
@@ -824,6 +831,61 @@ public class MainController {
 
 
     public void changeDati(ActionEvent actionEvent) {
+    }
+
+
+    @FXML
+    public void goToDocuments(ActionEvent actionEvent) {
+        settingsVBox.setManaged(false);
+        settingsVBox.setVisible(false);
+        sezioneDocumenti.setVisible(true);
+        sezioneDocumenti.setManaged(true);
+        List<Documento> allDocuments = documentoDAOPostgres.getAllDocuments();
+        for(Documento documento : allDocuments) addDocumentToUI(documento);
+    }
+
+
+    private void addDocumentToUI(Documento documento) {
+        HBox documentRow = new HBox(15);
+        documentRow.setAlignment(Pos.CENTER_LEFT);
+        documentRow.setPadding(new Insets(10)); // padding interno
+        documentRow.setStyle("-fx-background-color: #f9f9f9; -fx-background-radius: 5;");
+
+        // Cambio colore sfondo al passaggio mouse
+        documentRow.setOnMouseEntered(e -> documentRow.setStyle("-fx-background-color: #e0e0e0; -fx-background-radius: 5;"));
+        documentRow.setOnMouseExited(e -> documentRow.setStyle("-fx-background-color: #f9f9f9; -fx-background-radius: 5;"));
+
+        Label nameLabel = new Label(documento.getTitolo());
+        nameLabel.getStyleClass().add("document-label");
+        nameLabel.setFont(Font.font("Segoe UI", FontWeight.SEMI_BOLD, 14));
+
+        Button deleteButton = new Button("Elimina");
+        deleteButton.getStyleClass().add("delete-button");
+        deleteButton.setPrefSize(80, 30);
+        deleteButton.setStyle(
+                "-fx-background-color: #ff4c4c; " +  // rosso acceso
+                        "-fx-text-fill: white; " +
+                        "-fx-background-radius: 5;"
+        );
+
+        deleteButton.setOnAction(event -> {
+            documentsList.getChildren().remove(documentRow);
+          documentoDAOPostgres.eliminaDocumento(documento.getId());
+        });
+
+        // Aggiungo uno spazio flessibile tra label e bottone
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        documentRow.getChildren().addAll(nameLabel, spacer, deleteButton);
+        documentsList.getChildren().add(documentRow);
+    }
+
+    public void goBackToSettingsFromDocuments(ActionEvent actionEvent) {
+        sezioneDocumenti.setManaged(false);
+        sezioneDocumenti.setVisible(false);
+        settingsVBox.setVisible(true);
+        settingsVBox.setManaged(true);
     }
 }
 

@@ -11,5 +11,6 @@ public interface DocumentoDAO<T> extends ConnectionConfig {
 
     public List<T> getDocumentiPerDifficolta(DifficultyEnum difficolta);
     public void insertDocumento(Documento documento) throws SQLException;
+    public List<Documento> getAllDocuments();
 
 }
