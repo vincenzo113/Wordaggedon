@@ -57,6 +57,9 @@ public class AlertUtils {
                 alert.setTitle("Non hai fatto alcuna modifica");
                 break;
 
+            case NON_ABBASTANZA_DOCUMENTI:
+                alert.setTitle("Errore , riprova");
+
             default:
                 alert.setTitle("Alert");
                 break;

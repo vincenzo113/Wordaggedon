@@ -1,6 +1,7 @@
 package com.example.dao.Documento;
 
 import com.example.difficultySettings.DifficultyEnum;
+import com.example.exceptions.NotEnoughDocuments;
 import com.example.models.Documento;
 import com.example.models.User;
 
@@ -17,7 +18,7 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
 
     //Metodo per ottenere il numero di documenti da mostrare all'utente in base alla difficolta scelta dall'utente stesso
     @Override
-    public List<Documento> getDocumentiPerDifficolta(DifficultyEnum difficolta) {
+    public List<Documento> getDocumentiPerDifficolta(DifficultyEnum difficolta) throws NotEnoughDocuments {
         List<Documento> documenti = new ArrayList<>();
         int limiteNumeroDocumenti;
         switch (difficolta) {
@@ -49,9 +50,14 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
                     rs.getString("contenuto")
                 );
                 documenti.add(doc);
+
             }
 
-        } catch (Exception e) {
+
+            
+             if(documenti.size() < limiteNumeroDocumenti) throw new NotEnoughDocuments("Non hai caricato abbastanza documenti per la difficoltà: "+difficolta);
+
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 

@@ -554,7 +554,8 @@ public class MainController {
     }
 
     public void handleStartGame(ActionEvent actionEvent) {
-
+        Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+        List<Documento> testiDaMostrare = new ArrayList<>();
         DifficultyEnum diff = getDifficoltaScelta();
 // Se l'utente ha una sessione in sospeso
         if (hasSessionSuspended(currentUser)) {
@@ -576,7 +577,13 @@ public class MainController {
             } else {
                 //Se non vuole continuare , eliminiamo la sessione vecchia e ne creiamo una nuova
                 GestoreSalvataggioSessione.eliminaSessione(currentUser.getUsername());
-                List<Documento> testiDaMostrare = documentoDAOPostgres.getDocumentiPerDifficolta(diff);
+                try {
+                     testiDaMostrare = documentoDAOPostgres.getDocumentiPerDifficolta(diff);
+                }catch (NotEnoughDocuments ex){
+                    System.out.println("[DEBUG] Non abbastanza documenti per difficoltà " + diff);
+                    AlertUtils.showAlert(AlertList.NON_ABBASTANZA_DOCUMENTI,stage);
+                    return;
+                }
                 SessioneQuiz sessioneQuiz = new SessioneQuiz(testiDaMostrare, diff, currentUser);
                 sessioneQuiz.setDomandeDAOPostgres(new DomandeDAOPostgres());
                 currentQuiz = sessioneQuiz; // Inizializza la sessione quiz con difficoltà scelta
@@ -593,10 +600,19 @@ public class MainController {
 
         }
         //Non aveva una sessione da recuperare , quindi va normalmente
-        List<Documento> testiDaMostrare = documentoDAOPostgres.getDocumentiPerDifficolta(diff);
+
+        try {
+            testiDaMostrare = documentoDAOPostgres.getDocumentiPerDifficolta(diff);
+        } catch (NotEnoughDocuments e) {
+            System.out.println("[DEBUG] Non abbastanza documenti per difficoltà " + diff);
+            AlertUtils.showAlert(AlertList.NON_ABBASTANZA_DOCUMENTI , stage);
+            System.out.println("Eccezione "+e.getMessage()+" lanciata");
+            return;
+        }
         SessioneQuiz sessioneQuiz = new SessioneQuiz(testiDaMostrare, diff, currentUser);
         sessioneQuiz.setDomandeDAOPostgres(new DomandeDAOPostgres());
         currentQuiz = sessioneQuiz;
+        System.out.println("Eccezione non lanciata");
         QuizController.startTimerPerTesto(testiDaMostrare, 0, timeLabel, timeProgressBar, diff, displayTextLabel, titleQuiz, () -> showQuestionsAndAnswers());
         difficultyVBox.setVisible(false);
         difficultyVBox.setManaged(false);

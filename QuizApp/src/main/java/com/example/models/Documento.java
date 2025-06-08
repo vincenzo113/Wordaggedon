@@ -66,7 +66,7 @@ public class  Documento implements Serializable {
                 '}';
     }
 
-
+//Metodi per poter far capire al contains di set , che si deve basare solo sull'id del documento
     @Override
     public boolean equals(Object obj){
         if(obj == null) return false;
@@ -74,7 +74,7 @@ public class  Documento implements Serializable {
         if(!(obj instanceof Documento))return false;
 
         Documento doc = (Documento) obj;
-        return doc.getId() == this.id; 
+        return doc.getId() == this.id;
 
     }
 
