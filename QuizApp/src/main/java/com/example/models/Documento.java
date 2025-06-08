@@ -65,5 +65,22 @@ public class  Documento implements Serializable {
                 ", difficolta=" + difficolta +
                 '}';
     }
+
+
+    @Override
+    public boolean equals(Object obj){
+        if(obj == null) return false;
+        if(this == obj) return true;
+        if(!(obj instanceof Documento))return false;
+
+        Documento doc = (Documento) obj;
+        return doc.getId() == this.id; 
+
+    }
+
+    @Override
+    public int hashCode() {
+        return Integer.hashCode(id);
+    }
 }
 

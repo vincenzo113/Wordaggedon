@@ -36,14 +36,11 @@ import javafx.stage.Stage;
 
 import javax.swing.*;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Optional;
 
 public class MainController {
     public ToggleGroup gruppoDomanda1;
@@ -56,7 +53,7 @@ public class MainController {
     public VBox sezioneDocumenti;
     public VBox documentsList;
     private StringProperty initialUsernameProperty = new SimpleStringProperty();
-
+    private Set<Documento> documentiAggiunti = new HashSet<>();
     public ToggleButton facileButton;
     public ToggleButton medioButton;
     public ToggleButton difficileButton;
@@ -846,6 +843,8 @@ public class MainController {
 
 
     private void addDocumentToUI(Documento documento) {
+        //Se gia mappato return
+        if(documentiAggiunti.contains(documento)) return;
         HBox documentRow = new HBox(15);
         documentRow.setAlignment(Pos.CENTER_LEFT);
         documentRow.setPadding(new Insets(10)); // padding interno
@@ -871,6 +870,7 @@ public class MainController {
         deleteButton.setOnAction(event -> {
             documentsList.getChildren().remove(documentRow);
           documentoDAOPostgres.eliminaDocumento(documento.getId());
+          documentiAggiunti.remove(documento);
         });
 
         // Aggiungo uno spazio flessibile tra label e bottone
@@ -879,6 +879,7 @@ public class MainController {
 
         documentRow.getChildren().addAll(nameLabel, spacer, deleteButton);
         documentsList.getChildren().add(documentRow);
+        documentiAggiunti.add(documento);
     }
 
     public void goBackToSettingsFromDocuments(ActionEvent actionEvent) {
