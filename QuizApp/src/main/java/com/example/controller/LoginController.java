@@ -11,8 +11,8 @@ public class LoginController {
         UserDAO<User> userDAOPostgres = new UserDAOPostgres();
         try {
             return userDAOPostgres.login(user);
-    } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+                e.printStackTrace();
         }
 
         return null;
