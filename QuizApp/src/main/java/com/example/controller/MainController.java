@@ -511,7 +511,6 @@ public class MainController {
         }
 
         if (RegisterController.hasRegisterSuccess(userToRegister)) {
-            AlertUtils.showAlert(AlertList.REGISTER_SUCCESS, stage);
             registerVBox.setVisible(false);
             registerVBox.setManaged(false);
             loginVBox.setVisible(true);
