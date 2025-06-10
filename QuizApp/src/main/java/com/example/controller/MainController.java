@@ -10,7 +10,6 @@ import com.example.dao.stopWordsDAO.StopWordsDAOPostgres;
 import com.example.difficultySettings.DifficultyEnum;
 import com.example.exceptions.*;
 import com.example.models.*;
-import com.example.timerService.TimerService;
 import com.example.utils.GestoreSalvataggioSessione;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
@@ -34,7 +33,6 @@ import javafx.stage.FileChooser;
 
 import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.sql.SQLException;
 import java.util.*;
 import java.io.BufferedReader;
@@ -343,7 +341,7 @@ public class MainController {
     }
 
     //Metodo per creare un utente dai textfields
-    private User checkLogin() throws CampiNonCompilatiException {
+    private User getLoggedUser() throws CampiNonCompilatiException {
 
         if (loginUsernameField.getText().trim().isEmpty() || loginPasswordField.getText().trim().isEmpty()) {
             throw new CampiNonCompilatiException("");
@@ -457,7 +455,7 @@ public class MainController {
         Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         User userToLog = null;
         try {
-            userToLog = checkLogin();
+            userToLog = getLoggedUser();
         } catch (CampiNonCompilatiException e) {
             AlertUtils.showAlert(AlertList.FIELDS_EMPTY, stage);
             return;
@@ -542,7 +540,7 @@ public class MainController {
 
     public void handleStartGame(ActionEvent actionEvent) {
         Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-        List<Documento> testiDaMostrare = new ArrayList<>();
+        List<Documento> testiDaMostrare;
         DifficultyEnum diff = getDifficoltaScelta();
         // Se l'utente ha una sessione in sospeso
         if (hasSessionSuspended(currentUser)) {
