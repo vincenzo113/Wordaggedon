@@ -231,7 +231,7 @@ public class RispostaDAOPostgres implements RispostaDAO{
             String query = "SELECT valore FROM parola WHERE documento IN (" + idList + ") " +
                     "AND LOWER(valore) <> LOWER('" + parolaCorretta.replace("'", "''") + "') " +
                     "AND LOWER(valore) NOT IN (" + stopWordsList + ") " +
-                    "AND conteggio <> " + countCorretta +
+                    "AND conteggio < " + countCorretta +
                     " ORDER BY RANDOM() LIMIT 3";
 
             ResultSet rs = stmt.executeQuery(query);

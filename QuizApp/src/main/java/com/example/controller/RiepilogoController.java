@@ -73,7 +73,7 @@ public class RiepilogoController {
             if (risposta.isSelected()) {
                 rispostaUtenteLabel.setText("Hai risposto: " + risposta.getTesto());
                 //Se è corretta la setti verde
-                if (risposta.getCorretta()) {
+                if (risposta.isCorretta()) {
                     rispostaUtenteLabel.setStyle("-fx-text-fill: green; ");
                 } else {
                     rispostaUtenteLabel.setStyle("-fx-text-fill: red ");
@@ -92,7 +92,7 @@ public class RiepilogoController {
      */
     private static void setRispostaCorretta(List<Risposta> opzioni, Label rispostaCorrettaLabel) {
         for (Risposta risposta : opzioni) {
-            if (risposta.getCorretta()) {
+            if (risposta.isCorretta()) {
                 rispostaCorrettaLabel.setText("La risposta corretta era: " + risposta.getTesto());
                 break;
             }

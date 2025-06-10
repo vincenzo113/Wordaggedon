@@ -24,4 +24,5 @@ public interface UserDAO<T> extends ConnectionConfig {
     int contPartite(User user);
 
     void modificaUsername(User userLoggato , String nuovoUsername) ;
+
 }

@@ -58,7 +58,7 @@ public class QuizController {
         setRisposteSelezionate(q1Options, q2Options, q3Options, q4Options, sessioneQuiz);
         for (Domanda domanda : sessioneQuiz.getDomande()) {
             for (Risposta risposta : domanda.getRisposte()) {
-                if (risposta.isSelected() && risposta.getCorretta()) {
+                if (risposta.isSelected() && risposta.isCorretta()) {
                     score++;
                 }
             }

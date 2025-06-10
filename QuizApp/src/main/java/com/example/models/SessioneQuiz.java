@@ -23,8 +23,6 @@ public class SessioneQuiz implements Serializable {
             this.documenti = documenti;
             this.difficolta = difficolta;
             this.user = user;
-            this.score = 0; // Inizializza il punteggio a 0
-            this.domande = null; // Inizializza la lista delle domande a null
         }
 
         public SessioneQuiz(User user, DifficultyEnum difficolta, int score) {
@@ -128,7 +126,7 @@ public class SessioneQuiz implements Serializable {
             this.isCompleta = value;
     }
 
-    public boolean getIsCompleta(){
+    public boolean isCompleta(){
             return  this.isCompleta;
     }
 }

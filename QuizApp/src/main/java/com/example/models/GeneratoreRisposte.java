@@ -37,15 +37,8 @@ public class GeneratoreRisposte {
 
     public  List<Risposta> PiuFrequenteDocumento(Documento documento) {
         Risposta rispostaCorretta = rispostaDAOPostgres.selectRispostaCorrettaPiuFrequenteDocumento(documento);
-       /* if (rispostaCorretta == null) {
-            System.err.println("Errore: nessuna risposta corretta trovata per documento id=" + documento.getId());
-            return Collections.emptyList(); // oppure ritorna una lista con risposte placeholder
-        }*/
-
-        //System.out.println("Risposta piu frequente nel documento: " + rispostaCorretta);
         List<Risposta> fakes = rispostaDAOPostgres.selectParoleNonPiuFrequenti(documento, rispostaCorretta.getTesto());
         fakes.add(rispostaCorretta);
-        //System.out.println("Risposte piu frequente" + fakes);
         return fakes;
     }
 
@@ -53,7 +46,7 @@ public class GeneratoreRisposte {
         Risposta rispostaCorretta = rispostaDAOPostgres.selectRispostaCorrettaPiuFrequenteInTutti(documenti);
         List<Risposta> fakes = rispostaDAOPostgres.selectParoleNonPiuFrequentiInTutti(documenti , rispostaCorretta.getTesto());
         fakes.add(rispostaCorretta);
-       // System.out.println("Risposte piu frequente in tutti "+fakes);
+
 
         return fakes;
     }

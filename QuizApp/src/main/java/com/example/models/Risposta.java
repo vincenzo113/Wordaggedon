@@ -16,7 +16,7 @@ public class Risposta implements Serializable {
     public String getTesto() {
         return testo;
     }
-    public boolean getCorretta() {
+    public boolean isCorretta() {
         return corretta;
     }
     public boolean isSelected() {

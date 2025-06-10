@@ -11,7 +11,7 @@ public class GestoreSalvataggioSessione {
     //Metodo per salvare la sessione su file , solo se la sessione non è già completata , quindi quando si va al riepilogo è già completata
     public static void salvaSessione(SessioneQuiz sessioneQuiz) {
         String filename = "salvataggio_" + sessioneQuiz.getUser().getUsername() + ".dat";
-        if (!sessioneQuiz.getIsCompleta()) {
+        if (!sessioneQuiz.isCompleta()) {
             try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(filename))) {
                 objectOutputStream.writeObject(sessioneQuiz);
             } catch (IOException ex) {
