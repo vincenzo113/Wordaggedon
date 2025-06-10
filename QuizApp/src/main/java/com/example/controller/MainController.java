@@ -642,7 +642,7 @@ public class MainController {
                 else documento.setDifficolta(DifficultyEnum.EASY);
 
                 documentoDAO.insertDocumento(documento);
-            } catch (SQLException e) {
+            } catch (DatabaseException e) {
                 System.out.println("Eccezione lanciata");
                 AlertUtils.showAlert(AlertList.TEXT_ALREADY_EXISTS, stage);
                 return;
