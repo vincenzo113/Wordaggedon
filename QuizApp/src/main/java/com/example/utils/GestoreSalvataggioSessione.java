@@ -1,5 +1,6 @@
 package com.example.utils;
 
+import com.example.exceptions.SessioneNonCaricataException;
 import com.example.models.SessioneQuiz;
 
 import java.io.*;
@@ -20,22 +21,19 @@ public class GestoreSalvataggioSessione {
 
 
     //Metodo per leggere la sessione da file
-    public static SessioneQuiz loadSessione(String username) {
+    public static SessioneQuiz loadSessione(String username) throws SessioneNonCaricataException {
         String filename = "salvataggio_" + username + ".dat";
         SessioneQuiz sessioneQuiz = null;
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename))) {
             sessioneQuiz = (SessioneQuiz) ois.readObject();
         } catch (FileNotFoundException e) {
-            System.out.println("File di salvataggio non trovato: " + filename);
+            throw new SessioneNonCaricataException("File di salvataggio non trovato: " + filename);
         } catch (IOException e) {
-            System.out.println("Errore di I/O durante il caricamento della sessione:");
-            e.printStackTrace();
+            throw new SessioneNonCaricataException("Errore di I/O durante il caricamento della sessione");
         } catch (ClassNotFoundException e) {
-            System.out.println("Classe SessioneQuiz non trovata durante il caricamento:");
-            e.printStackTrace();
+            throw new SessioneNonCaricataException("Classe SessioneQuiz non trovata durante il caricamento");
         } catch (Exception e) {
-            System.out.println("Errore generico durante il caricamento della sessione:");
-            e.printStackTrace();
+            throw new SessioneNonCaricataException("Errore generico durante il caricamento della sessione");
         }
         System.out.println("Ho trovato la sessione: " + sessioneQuiz);
         return sessioneQuiz;

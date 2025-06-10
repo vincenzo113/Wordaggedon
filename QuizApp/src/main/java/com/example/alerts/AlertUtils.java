@@ -43,8 +43,6 @@ public class AlertUtils {
                     alert.setTitle("Inserisci correttamente l'username , sono ammessi solo caratteri alfanumerici");
                     break;
 
-
-
             case PASSWORD_NON_CORRETTA:
                 alert.setTitle("La vecchia password inserita non è corretta");
                 break;
@@ -59,6 +57,11 @@ public class AlertUtils {
 
             case NON_ABBASTANZA_DOCUMENTI:
                 alert.setTitle("Errore , riprova");
+                break;
+
+            case SESSIONE_NON_CARICATA:
+                alert.setTitle("Sessione non caricata");
+                break;
 
             default:
                 alert.setTitle("Alert");

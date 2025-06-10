@@ -565,13 +565,18 @@ public class MainController {
             //L'utente vuole procedere con la sessione recuperata
             if (result.isPresent() && result.get() == ButtonType.YES) {
                 System.out.println("Current user: " + currentUser);
-                SessioneQuiz sessioneRecuperata = GestoreSalvataggioSessione.loadSessione(currentUser.getUsername());
-                sessioneRecuperata.setDomandeDAOPostgres(new DomandeDAOPostgres());
-                System.out.println("Sessione recuperata: " + sessioneRecuperata);
-                currentQuiz = sessioneRecuperata;
-                QuizController.startTimerPerTesto(currentQuiz.getDocumenti(), 0, timeLabel, timeProgressBar, currentQuiz.getDifficolta(), displayTextLabel, titleQuiz, () -> showQuestionsAndAnswers());
-                //Elimino la sessione salvata dopo averla ripresa
-                GestoreSalvataggioSessione.eliminaSessione(currentUser.getUsername());
+                try {
+                    SessioneQuiz sessioneRecuperata = GestoreSalvataggioSessione.loadSessione(currentUser.getUsername());
+                    sessioneRecuperata.setDomandeDAOPostgres(new DomandeDAOPostgres());
+                    System.out.println("Sessione recuperata: " + sessioneRecuperata);
+                    currentQuiz = sessioneRecuperata;
+                    QuizController.startTimerPerTesto(currentQuiz.getDocumenti(), 0, timeLabel, timeProgressBar, currentQuiz.getDifficolta(), displayTextLabel, titleQuiz, () -> showQuestionsAndAnswers());
+                    //Elimino la sessione salvata dopo averla ripresa
+                    GestoreSalvataggioSessione.eliminaSessione(currentUser.getUsername());
+                } catch (SessioneNonCaricataException ex) {
+                    AlertUtils.showAlert(AlertList.SESSIONE_NON_CARICATA, stage);
+                    return;
+                }
 
             } else {
                 //Se non vuole continuare , eliminiamo la sessione vecchia e ne creiamo una nuova
