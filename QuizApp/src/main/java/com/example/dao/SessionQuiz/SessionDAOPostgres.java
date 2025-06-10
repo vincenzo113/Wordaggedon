@@ -10,7 +10,25 @@ import java.util.ArrayList;
 
 import java.sql.*;
 
+/**
+ * Implementazione dell'interfaccia {@link SessionDAO} per l'interazione con un database PostgreSQL.
+ * Questa classe gestisce le operazioni CRUD (Create, Read, Update, Delete) relative alle sessioni di quiz,
+ * permettendo di recuperare le classifiche e inserire nuove sessioni.
+ */
 public class SessionDAOPostgres implements SessionDAO {
+
+
+
+    /**
+     * Recupera un elenco di sessioni di quiz ordinate per punteggio in ordine decrescente,
+     * filtrate per la difficoltà specificata. Questo metodo è utile per visualizzare le
+     * classifiche dei punteggi più alti per una data difficoltà.
+     *
+     * @param difficolta L'enumerazione {@link DifficultyEnum} che rappresenta il livello di difficoltà delle sessioni da recuperare.
+     * @return Una {@link List} di oggetti {@link SessioneQuiz} che contengono i dettagli delle sessioni,
+     * ordinate per punteggio dal più alto al più basso.
+     * @throws SQLException se si verifica un errore durante l'accesso al database.
+     */
     @Override
     public List<SessioneQuiz> selectSessionsWithTopScores(DifficultyEnum difficolta) throws SQLException {
         List<SessioneQuiz> sessions = new ArrayList<>();
@@ -21,29 +39,26 @@ public class SessionDAOPostgres implements SessionDAO {
             ResultSet rs = stmt.executeQuery(query);
 
             while (rs.next()) {
-                //CREAZIONE USER
+                // Creazione dell'oggetto User
                 String username = rs.getString("utente");
                 User user = new User(username);
 
-
                 int punteggio = rs.getInt("punteggio");
 
-                /*
-                //OTTENGO DIFFICOLTA'
-                String difficolta = rs.getString("difficolta");
-                DifficultyEnum difficulty = null;
-                if ("EASY".equalsIgnoreCase(difficolta)) difficulty = DifficultyEnum.EASY;
-                else if ("MEDIUM".equalsIgnoreCase(difficolta)) difficulty = DifficultyEnum.MEDIUM;
-                else if ("HARD".equalsIgnoreCase(difficolta)) difficulty = DifficultyEnum.HARD;*/
-
-                //CREAZIONE SESSIONE QUIZ
+                // Creazione e aggiunta della SessioneQuiz alla lista
                 sessions.add(new SessioneQuiz(user, difficolta, punteggio));
-
             }
         }
         return sessions;
     }
 
+    /**
+     * Inserisce una nuova sessione di quiz nel database.
+     *
+     * @param currentQuiz L'oggetto {@link SessioneQuiz} che rappresenta la sessione da salvare.
+     * Deve contenere l'utente, la difficoltà e il punteggio.
+     * @throws RuntimeException se si verifica un errore SQL durante l'operazione di inserimento.
+     */
     @Override
     public void insertSessione(SessioneQuiz currentQuiz) {
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
@@ -61,6 +76,16 @@ public class SessionDAOPostgres implements SessionDAO {
         }
     }
 
+    /**
+     * Recupera la classifica personale di un utente per una specifica difficoltà del quiz.
+     * Le sessioni sono ordinate per punteggio in ordine decrescente.
+     *
+     * @param user L'oggetto {@link User} per cui si desidera recuperare la classifica.
+     * @param difficultyEnum L'enumerazione {@link DifficultyEnum} che rappresenta la difficoltà delle sessioni da cercare.
+     * @return Una {@link List} di oggetti {@link SessioneQuiz} che rappresentano le sessioni completate dall'utente
+     * per quella specifica difficoltà, ordinate per punteggio.
+     * @throws SQLException se si verifica un errore durante l'accesso al database.
+     */
     @Override
     public List<SessioneQuiz> selectPersonalScoreboard(User user, DifficultyEnum difficultyEnum) throws SQLException {
         List<SessioneQuiz> sessions = new ArrayList<>();
@@ -76,20 +101,10 @@ public class SessionDAOPostgres implements SessionDAO {
             while (rs.next()) {
                 int punteggio = rs.getInt("punteggio");
 
-                /*
-                //OTTENGO DIFFICOLTA'
-                String difficolta = rs.getString("difficolta");
-                DifficultyEnum difficulty = null;
-                if ("EASY".equalsIgnoreCase(difficolta)) difficulty = DifficultyEnum.EASY;
-                else if ("MEDIUM".equalsIgnoreCase(difficolta)) difficulty = DifficultyEnum.MEDIUM;
-                else if ("HARD".equalsIgnoreCase(difficolta)) difficulty = DifficultyEnum.HARD;*/
-
-                //CREAZIONE SESSIONE QUIZ
+                // Creazione e aggiunta della SessioneQuiz alla lista
                 sessions.add(new SessioneQuiz(user, difficultyEnum, punteggio));
-
             }
         }
         return sessions;
     }
 }
-
