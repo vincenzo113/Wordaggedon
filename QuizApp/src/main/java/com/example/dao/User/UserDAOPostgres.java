@@ -1,263 +1,247 @@
 package com.example.dao.User;
 
 import com.example.difficultySettings.DifficultyEnum;
-import com.example.exceptions.NessunaModificaException;
-import com.example.exceptions.PasswordNonCorrettaException;
-import com.example.exceptions.UsernameGiaPreso;
-import com.example.models.Risposta;
+import com.example.exceptions.*;
 import com.example.models.User;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
+/**
+ * Implementazione PostgreSQL del DAO per la gestione degli utenti.
+ * Questa classe gestisce tutte le operazioni CRUD relative agli utenti nel database,
+ * incluse registrazione, login, modifica dei dati e statistiche di gioco.
+ */
 public class UserDAOPostgres implements UserDAO<User> {
 
-    private final String USER = "postgres";
-    private final String PASS = "tw2024";
+    private static final String USER = "postgres";
+    private static final String PASS = "tw2024";
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Optional<User> select(String username) {
-        return Optional.empty();
-    }
-
-    public boolean register(User user) throws SQLException {
-        ResultSet rs = null;
-        try(
-                Connection c = DriverManager.getConnection(URL, USER, PASS);
-                Statement s = c.createStatement();
-        ){
-            String query = String.format("select * from public.users where username = '%s'" , user.getUsername());
-            rs = s.executeQuery(query);
-            //Se non è già registrato ok
-            if(!rs.next()) {
-                insert(user);
-                return true;
+    public boolean register(User user) throws DatabaseException {
+        String checkQuery = "SELECT * FROM public.users WHERE username = ?";
+        
+        try (Connection c = DriverManager.getConnection(URL, USER, PASS);
+             PreparedStatement ps = c.prepareStatement(checkQuery)) {
+            ps.setString(1, user.getUsername());
+            
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) {
+                    insert(user);
+                    return true;
+                }
+                return false;
             }
-
-        }catch(Exception ex){
-            ex.printStackTrace();
+        } catch (SQLException ex) {
+            throw new DatabaseException("Errore durante la registrazione dell'utente", ex);
         }
-
-        return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public float punteggioAvg(User user, DifficultyEnum difficultyEnum) {
-        ResultSet rs = null;
-        try(
-                Connection c = DriverManager.getConnection(URL, USER, PASS);
-                Statement s = c.createStatement();
-        ){
-            String query = String.format("select avg(punteggio) as media from sessione where utente = '%s' and difficolta = '%s'" , user.getUsername(), difficultyEnum.toString() );
-            rs = s.executeQuery(query);
+    public float punteggioAvg(User user, DifficultyEnum difficultyEnum) throws DatabaseException {
+        String query = "SELECT AVG(punteggio) as media FROM sessione WHERE utente = ? AND difficolta = ?";
 
-            if(rs.next()) {
-                return rs.getFloat("media");
+        try (Connection c = DriverManager.getConnection(URL, USER, PASS);
+             PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1, user.getUsername());
+            ps.setString(2, difficultyEnum.toString());
+            
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getFloat("media");
+                }
+                return 0;
             }
-
-        }catch(Exception ex){
-            ex.printStackTrace();
+        } catch (SQLException ex) {
+            throw new DatabaseException("Errore nel calcolo del punteggio medio", ex);
         }
-        return 0;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public int punteggioBest(User user, DifficultyEnum difficultyEnum) {
-        ResultSet rs = null;
-        try(
-                Connection c = DriverManager.getConnection(URL, USER, PASS);
-                Statement s = c.createStatement();
-        ){
-            String query = String.format("select max(punteggio) as massimo from sessione where utente = '%s' and difficolta = '%s'" , user.getUsername(), difficultyEnum.toString() );
-            rs = s.executeQuery(query);
+    public int punteggioBest(User user, DifficultyEnum difficultyEnum) throws DatabaseException {
+        String query = "SELECT MAX(punteggio) as massimo FROM sessione WHERE utente = ? AND difficolta = ?";
 
-            if(rs.next()) {
-                return rs.getInt("massimo");
+        try (Connection c = DriverManager.getConnection(URL, USER, PASS);
+             PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1, user.getUsername());
+            ps.setString(2, difficultyEnum.toString());
+            
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("massimo");
+                }
+                return 0;
             }
-
-        }catch(Exception ex){
-            ex.printStackTrace();
+        } catch (SQLException ex) {
+            throw new DatabaseException("Errore nel recupero del punteggio migliore", ex);
         }
-        return 0;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public int contPartite(User user) {
-        ResultSet rs = null;
-        try(
-                Connection c = DriverManager.getConnection(URL, USER, PASS);
-                Statement s = c.createStatement();
-        ){
-            String query = String.format("select count(*) as numpartite from sessione where utente = '%s'" , user.getUsername());
-            rs = s.executeQuery(query);
+    public int contPartite(User user) throws DatabaseException {
+        String query = "SELECT COUNT(*) as numpartite FROM sessione WHERE utente = ?";
 
-            if(rs.next()) {
-                return rs.getInt("numpartite");
+        try (Connection c = DriverManager.getConnection(URL, USER, PASS);
+             PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1, user.getUsername());
+            
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("numpartite");
+                }
+                return 0;
             }
-
-        }catch(Exception ex){
-            ex.printStackTrace();
+        } catch (SQLException ex) {
+            throw new DatabaseException("Errore nel conteggio delle partite", ex);
         }
-        return 0;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public User login(User user) throws SQLException {
-        ResultSet rs = null;
-        try(
-                Connection c = DriverManager.getConnection(URL, USER, PASS);
-                Statement s = c.createStatement()
-        ){
-            String query = String.format("select * from users where username = '%s' and password = '%s' ", user.getUsername(), user.getPassword());
-            rs = s.executeQuery(query);
+    public User login(User user) throws DatabaseException {
+        String query = "SELECT * FROM users WHERE username = ? AND password = ?";
 
-            if(rs.next()) {
-                boolean admin = rs.getBoolean("admin");
-                user.setAdmin(admin);
-                return user;
+        try (Connection c = DriverManager.getConnection(URL, USER, PASS);
+             PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1, user.getUsername());
+            ps.setString(2, user.getPassword());
+            
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    user.setAdmin(rs.getBoolean("admin"));
+                    return user;
+                }
+                return null;
             }
-
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }
-        return null;
-    }
-
-
-
-
-    @Override
-    public List<User> selectAll() throws SQLException {
-        ResultSet rs = null;
-        List<User> users = new ArrayList<>();
-        try(
-                Connection c = DriverManager.getConnection(URL, USER, PASS);
-                Statement s = c.createStatement();
-        ) {
-            String select = String.format("SELECT * FROM public.users");
-            s.executeUpdate(select);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        while (rs.next()) {
-            String username = rs.getString("username");
-            String password = rs.getString("password");
-            Boolean admin = rs.getBoolean("admin");
-            User user = new User(username, password, admin);
-            users.add(user);
-        }
-        return users ;
-    }
-
-    @Override
-    public void insert(User user) {
-        try(
-                Connection c = DriverManager.getConnection(URL, USER, PASS);
-                Statement s = c.createStatement();
-        ) {
-            String insert = String.format("INSERT INTO public.users(username, password, admin) VALUES ('%s', '%s', '%s')", user.getUsername(), user.getPassword(), user.isAdmin());
-            s.executeUpdate(insert);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            throw new DatabaseException("Errore durante il login", ex);
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void delete(User user) {
-        try(
-                Connection c = DriverManager.getConnection(URL, USER, PASS);
-                Statement s = c.createStatement();
-        ) {
-            String delete = String.format("DELETE FROM public.users WHERE username = '%s'", user.getUsername());
-            s.executeUpdate(delete);
-        } catch (Exception e) {
-            e.printStackTrace();
+    public void insert(User user) throws DatabaseException {
+        String insert = "INSERT INTO public.users(username, password, admin) VALUES (?, ?, ?)";
+
+        try (Connection c = DriverManager.getConnection(URL, USER, PASS);
+             PreparedStatement ps = c.prepareStatement(insert)) {
+            ps.setString(1, user.getUsername());
+            ps.setString(2, user.getPassword());
+            ps.setBoolean(3, user.isAdmin());
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DatabaseException("Errore durante l'inserimento dell'utente", ex);
         }
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void modificaUsername(User user , String nuovoUsername) {
-        try(
-                Connection c = DriverManager.getConnection(URL, USER, PASS);
-                Statement s = c.createStatement();
-        ){
-            String query = String.format("UPDATE users SET username = '%s' WHERE username = '%s'", nuovoUsername, user.getUsername());            System.out.println("Query: " + query);
-            System.out.println("Query per modificare: "+query);
-            if(!isUsernameTaken(nuovoUsername)){
-                s.executeUpdate(query);
-                System.out.println("Eseguendo la query...");
-                user.setUsername(nuovoUsername); //Aggiorno anche il modello
+    public void modificaUsername(User user, String nuovoUsername) throws DatabaseException, UsernameGiaPreso {
+        if (isUsernameTaken(nuovoUsername)) {
+            throw new UsernameGiaPreso("L'username " + nuovoUsername + " non è disponibile, prova con un altro");
+        }
+
+        String query = "UPDATE users SET username = ? WHERE username = ?";
+
+        try (Connection c = DriverManager.getConnection(URL, USER, PASS);
+             PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1, nuovoUsername);
+            ps.setString(2, user.getUsername());
+            ps.executeUpdate();
+            user.setUsername(nuovoUsername);
+        } catch (SQLException ex) {
+            throw new DatabaseException("Errore durante la modifica dell'username", ex);
+        }
+    }
+
+    /**
+     * Verifica se un username è già presente nel database.
+     *
+     * @param username l'username da verificare
+     * @return true se l'username è già in uso, false altrimenti
+     * @throws DatabaseException se si verifica un errore durante l'accesso al database
+     */
+    private boolean isUsernameTaken(String username) throws DatabaseException {
+        String query = "SELECT * FROM users WHERE username = ?";
+
+        try (Connection c = DriverManager.getConnection(URL, USER, PASS);
+             PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1, username);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
             }
-            else {
-                throw new UsernameGiaPreso("L'username "+ nuovoUsername + "non è disponibile , prova con un altro");
-            }
-        }catch (SQLException ex){}
+        } catch (SQLException ex) {
+            throw new DatabaseException("Errore durante la verifica dell'username", ex);
+        }
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void modificaPassword(User userLogged, String vecchiaPassInserita, String nuovaPassInserita) 
+            throws DatabaseException, NessunaModificaException, PasswordNonCorrettaException {
+        if (vecchiaPassInserita.equals(nuovaPassInserita)) {
+            throw new NessunaModificaException("La nuova password deve essere diversa dalla precedente");
+        }
 
+        if (!isCorrectPasswordForUser(userLogged, vecchiaPassInserita)) {
+            throw new PasswordNonCorrettaException("La password inserita non è corretta");
+        }
 
-    private boolean isUsernameTaken(String username){
-        try(
-                Connection c = DriverManager.getConnection(URL, USER, PASS);
-                Statement s = c.createStatement();
-        ){
-            String query = String.format("select * from users where username='%s'", username);
-            ResultSet resultSet =s.executeQuery(query);
-            return  resultSet.next();
+        String query = "UPDATE users SET password = ? WHERE username = ?";
 
-        }catch(SQLException ex){}
-       return false;
-    }
-
-
-
-    public void modificaPassword(User userLogged , String vecchiaPassInserita  , String nuovaPassInserita){
-        try(
-                Connection c = DriverManager.getConnection(URL, USER, PASS);
-                Statement s = c.createStatement();
-        ){
-            if(vecchiaPassInserita.equals(nuovaPassInserita)) throw new NessunaModificaException("");
-
-            if(!isCorrectPasswordForUser(userLogged , vecchiaPassInserita)) throw new PasswordNonCorrettaException(""); //Lancia eccezione
-
-            //Se le password corrispondono , fai l'update
-            String query = String.format("update users set password = '%s' where username = '%s'" , nuovaPassInserita , userLogged.getUsername());
-            System.out.println("Eseguendo la query di update password "+query);
-            s.executeUpdate(query);
+        try (Connection c = DriverManager.getConnection(URL, USER, PASS);
+             PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1, nuovaPassInserita);
+            ps.setString(2, userLogged.getUsername());
+            ps.executeUpdate();
             userLogged.setPassword(nuovaPassInserita);
-
-
-        }catch(SQLException ex){}
-
-    }
-
-
-    private boolean isCorrectPasswordForUser(User user , String vecchiaPassInserita){
-        try(
-                Connection c = DriverManager.getConnection(URL, USER, PASS);
-                Statement s = c.createStatement();
-        )
-        {
-
-            String query = String.format("select password from users where username='%s'",user.getUsername());
-            ResultSet rs = s.executeQuery(query);
-            if(rs.next()){
-                String pass = rs.getString("password");
-                return (pass.equals(vecchiaPassInserita)) ? true : false;
-            }
-
-
-        }   catch(SQLException ex){
-
+        } catch (SQLException ex) {
+            throw new DatabaseException("Errore durante la modifica della password", ex);
         }
-        return false; //Callback
     }
 
+    /**
+     * Verifica se la password inserita corrisponde alla password dell'utente.
+     *
+     * @param user l'utente di cui verificare la password
+     * @param vecchiaPassInserita la password inserita da verificare
+     * @return true se la password è corretta, false altrimenti
+     * @throws DatabaseException se si verifica un errore durante l'accesso al database
+     */
+    private boolean isCorrectPasswordForUser(User user, String vecchiaPassInserita) throws DatabaseException {
+        String query = "SELECT password FROM users WHERE username = ?";
 
-
-
-
+        try (Connection c = DriverManager.getConnection(URL, USER, PASS);
+             PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1, user.getUsername());
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    String pass = rs.getString("password");
+                    return pass.equals(vecchiaPassInserita);
+                }
+                return false;
+            }
+        } catch (SQLException ex) {
+            throw new DatabaseException("Errore durante la verifica della password", ex);
+        }
+    }
 }
