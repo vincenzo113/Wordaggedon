@@ -7,8 +7,15 @@ import com.example.models.User;
 import javax.xml.crypto.Data;
 import java.sql.SQLException;
 
+/**
+ *
+ */
 public class LoginController {
-
+    /**
+     *
+     * @param user
+     * @return
+     */
     public static User hasLoginSuccess(User user) {
         UserDAO<User> userDAOPostgres = new UserDAOPostgres();
         try {
