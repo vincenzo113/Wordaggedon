@@ -61,6 +61,8 @@ public class MainController {
     //Sezione di riepilogo
     public VBox riepilogoVBox;
     public Label domanda4Label;
+    public Button restartGameButton;
+    public Button goBackButton;
 
     public Label risposta4UtenteLabel;
     public Label risposta4CorrettaLabel;
@@ -556,7 +558,7 @@ public class MainController {
         Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         List<Documento> testiDaMostrare = new ArrayList<>();
         DifficultyEnum diff = getDifficoltaScelta();
-// Se l'utente ha una sessione in sospeso
+        // Se l'utente ha una sessione in sospeso
         if (hasSessionSuspended(currentUser)) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Vuoi riprendere la sessione salvata?", ButtonType.YES, ButtonType.NO);
             alert.setTitle("Sessione sospesa trovata");
@@ -907,6 +909,30 @@ public class MainController {
         sezioneDocumenti.setVisible(false);
         settingsVBox.setVisible(true);
         settingsVBox.setManaged(true);
+    }
+
+    public void goLeaderboard(ActionEvent actionEvent) {
+        difficultyVBox.setVisible(false);
+        difficultyVBox.setManaged(false);
+        scoreboardVBox.setVisible(true);
+        scoreboardVBox.setManaged(true);
+        updateDisplayedData();
+        updateToggleButtonStyles();
+        restartGameButton.setVisible(false);
+        restartGameButton.setManaged(false);
+        goBackButton.setVisible(true);
+        goBackButton.setManaged(true);
+    }
+
+    public void goBack2(ActionEvent actionEvent) {
+        restartGameButton.setVisible(true);
+        restartGameButton.setManaged(true);
+        goBackButton.setVisible(false);
+        goBackButton.setManaged(false);
+        scoreboardVBox.setVisible(false);
+        scoreboardVBox.setManaged(false);
+        difficultyVBox.setVisible(true);
+        difficultyVBox.setManaged(true);
     }
 }
 

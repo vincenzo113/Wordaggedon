@@ -146,6 +146,15 @@
             <!-- Bottoni di controllo in alto nel container -->
             <HBox alignment="TOP_RIGHT" spacing="10.0" prefWidth="360.0">
 
+                <Button fx:id="leaderboardButton" text="Leaderboard"
+                        prefWidth="140.0" prefHeight="35.0"
+                        style="-fx-background-color: #8cc184; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5px; -fx-cursor: hand;"
+                        onAction="#goLeaderboard">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                </Button>
+
                 <Button fx:id="settingsButton" text="Impostazioni"
                         prefWidth="140.0" prefHeight="35.0"
                         style="-fx-background-color: #6c757d; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5px; -fx-cursor: hand;"
@@ -526,8 +535,11 @@
         </HBox>
 
         <!-- Bottone in basso -->
-        <Button  alignment="BOTTOM_CENTER" defaultButton="true" prefWidth="150.0" prefHeight="50.0" text="Ricomincia Gioco"
+        <Button fx:id="restartGameButton" alignment="BOTTOM_CENTER" defaultButton="true" prefWidth="150.0" prefHeight="50.0" text="Ricomincia Gioco"
                  styleClass="primary-button" onAction="#restartGame" />
+
+        <Button fx:id="goBackButton" alignment="BOTTOM_CENTER" defaultButton="true" prefWidth="150.0" prefHeight="50.0" text="Indietro"
+                 styleClass="primary-button" managed="false" visible="false" onAction="#goBack2" />
 
     </VBox>
 
