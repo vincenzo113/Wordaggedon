@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.example.dao.User.UserDAO;
 import com.example.dao.User.UserDAOPostgres;
+import com.example.exceptions.DatabaseException;
 import com.example.models.User;
 import java.sql.SQLException;
 
@@ -13,7 +14,7 @@ public class RegisterController {
 
         try {
             successRegistrazione = userDAOPostgres.register(user);
-        } catch (SQLException e) {
+        } catch (DatabaseException e) {
             e.printStackTrace();
         }
 

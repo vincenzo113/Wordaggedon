@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.example.dao.SessionQuiz.SessionDAOPostgres;
 import com.example.dao.User.UserDAOPostgres;
+import com.example.exceptions.DatabaseException;
 import com.example.models.*;
 
 import com.example.difficultySettings.DifficultyEnum;
@@ -74,7 +75,7 @@ public class QuizController {
         List<SessioneQuiz> sessioni = null;
         try {
             sessioni = sessionDAOPostgres.selectSessionsWithTopScores(difficolta);
-        } catch (SQLException e) {
+        } catch (DatabaseException e) {
             throw new RuntimeException(e);
         }
         return sessioni;
@@ -102,7 +103,7 @@ public class QuizController {
         List<SessioneQuiz> sessioni = null;
         try {
             sessioni = sessionDAOPostgres.selectPersonalScoreboard(user, difficolta);
-        } catch (SQLException e) {
+        } catch (DatabaseException e) {
             throw new RuntimeException(e);
         }
         return sessioni;

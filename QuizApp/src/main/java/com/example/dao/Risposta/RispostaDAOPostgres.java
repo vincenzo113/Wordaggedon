@@ -1,6 +1,6 @@
 package com.example.dao.Risposta;
 
-import com.example.dao.stopWordsDAO.stopWordsDAOPostgres;
+import com.example.dao.stopWordsDAO.StopWordsDAOPostgres;
 import com.example.models.Documento;
 import com.example.models.Risposta;
 
@@ -57,7 +57,7 @@ public class RispostaDAOPostgres implements RispostaDAO{
     @Override
     public Risposta selectRispostaCorrettaPiuFrequenteInTutti(List<Documento> documenti) {
         // Caricamento delle stopwords
-        stopWordsDAOPostgres stopWordsDAOPostgres = new stopWordsDAOPostgres();
+        StopWordsDAOPostgres stopWordsDAOPostgres = new StopWordsDAOPostgres();
         Set<String> stopWords = stopWordsDAOPostgres.getStopWords();
         String stopWordsList = stopWords.stream()
             .map(w -> "'" + w.toLowerCase().replace("'", "''") + "'")
@@ -96,7 +96,7 @@ public class RispostaDAOPostgres implements RispostaDAO{
 
     @Override
     public Risposta selectRispostaCorrettaPiuFrequenteDocumento(Documento documento) {
-        stopWordsDAOPostgres stopWordsDAOPostgres = new stopWordsDAOPostgres();
+        StopWordsDAOPostgres stopWordsDAOPostgres = new StopWordsDAOPostgres();
         Set<String> stopWords = stopWordsDAOPostgres.getStopWords();
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
              Statement stmt = conn.createStatement())
@@ -132,7 +132,7 @@ public class RispostaDAOPostgres implements RispostaDAO{
 
     @Override
     public List<Risposta> selectParoleNonPiuFrequenti(Documento documento, String parolaCorretta) {
-        stopWordsDAOPostgres stopWordsDAOPostgres = new stopWordsDAOPostgres();
+        StopWordsDAOPostgres stopWordsDAOPostgres = new StopWordsDAOPostgres();
         Set<String> stopWords = stopWordsDAOPostgres.getStopWords();
         String stopWordsList = stopWords.stream()
                 .map(w -> "'" + w.toLowerCase().replace("'", "''") + "'")
@@ -201,7 +201,7 @@ public class RispostaDAOPostgres implements RispostaDAO{
 
 
     public List<Risposta> selectParoleNonPiuFrequentiInTutti(List<Documento> documenti, String parolaCorretta) {
-        stopWordsDAOPostgres stopWordsDAOPostgres = new stopWordsDAOPostgres();
+        StopWordsDAOPostgres stopWordsDAOPostgres = new StopWordsDAOPostgres();
         Set<String> stopWords = stopWordsDAOPostgres.getStopWords();
         String stopWordsList = stopWords.stream()
                 .map(w -> "'" + w.toLowerCase().replace("'", "''") + "'")
@@ -278,7 +278,7 @@ public class RispostaDAOPostgres implements RispostaDAO{
     @Override
     public List<Risposta> selectParolePresentiInAlmenoUnDocumento(List<Documento> docs){
         // Caricamento delle stopwords
-        stopWordsDAOPostgres stopWordsDAOPostgres = new stopWordsDAOPostgres();
+        StopWordsDAOPostgres stopWordsDAOPostgres = new StopWordsDAOPostgres();
         Set<String> stopWords = stopWordsDAOPostgres.getStopWords();
         String stopWordsList = stopWords.stream()
             .map(w -> "'" + w.toLowerCase().replace("'", "''") + "'")

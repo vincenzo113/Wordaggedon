@@ -1,8 +1,10 @@
 package com.example.controller;
 import com.example.dao.User.UserDAO;
 import com.example.dao.User.UserDAOPostgres;
+import com.example.exceptions.DatabaseException;
 import com.example.models.User;
 
+import javax.xml.crypto.Data;
 import java.sql.SQLException;
 
 public class LoginController {
@@ -11,7 +13,7 @@ public class LoginController {
         UserDAO<User> userDAOPostgres = new UserDAOPostgres();
         try {
             return userDAOPostgres.login(user);
-        } catch (SQLException e) {
+        } catch (DatabaseException e) {
                 e.printStackTrace();
         }
 

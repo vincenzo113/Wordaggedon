@@ -6,7 +6,7 @@ import com.example.dao.Documento.DocumentoDAO;
 import com.example.dao.Documento.DocumentoDAOPostgres;
 import com.example.dao.Domande.DomandeDAOPostgres;
 import com.example.dao.User.UserDAOPostgres;
-import com.example.dao.stopWordsDAO.stopWordsDAOPostgres;
+import com.example.dao.stopWordsDAO.StopWordsDAOPostgres;
 import com.example.difficultySettings.DifficultyEnum;
 import com.example.exceptions.*;
 import com.example.models.*;
@@ -711,7 +711,7 @@ public class MainController {
     public void loadStopwords(ActionEvent actionEvent) {
         Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         List<String> allStopWords = new ArrayList<>();
-        stopWordsDAOPostgres stopWordsDAOPostgres = new stopWordsDAOPostgres();
+        StopWordsDAOPostgres stopWordsDAOPostgres = new StopWordsDAOPostgres();
         FileChooser fc = new FileChooser();
         fc.setTitle("Seleziona un file csv");
         fc.getExtensionFilters().addAll(
