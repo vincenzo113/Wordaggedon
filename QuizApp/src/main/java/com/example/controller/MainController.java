@@ -98,7 +98,6 @@ public class MainController {
     public TextField loginUsernameField;
     public PasswordField loginPasswordField;
     public VBox loginVBox;
-    private LoginController loginController;
     //***********
     //REGISTRAZIONE
     public Button registerButton;
@@ -110,12 +109,11 @@ public class MainController {
 
     //TIMER
     public Label timeLabel;
-    public Label timeInfoLabel;
     public ProgressBar timeProgressBar;
 
 
     public Label displayTextLabel;
-    public Label statusLabel;
+
     public Label titleLabel;
 
     //DOMANDE
@@ -144,7 +142,7 @@ public class MainController {
     public RadioButton q4opt3;
     public RadioButton q4opt4;
 
-    //ARRAY DI RISPOSTE
+    //4 opzioni per domanda
     private RadioButton[] q1Options;
     private RadioButton[] q2Options;
     private RadioButton[] q3Options;
@@ -157,7 +155,6 @@ public class MainController {
     public RadioButton mediumRadio;
     public RadioButton hardRadio;
     public Button startGameButton;
-    private Label welcomeText;
     //*******
 
 
@@ -165,7 +162,6 @@ public class MainController {
     public VBox testoVBox;
     public VBox domandaRispostaVBox;
     public Label titleQuiz;
-    private QuizController QuizController;
     private SessioneQuiz currentQuiz;
     private User currentUser;
 
@@ -184,12 +180,9 @@ public class MainController {
     public VBox settingsVBox;
     public Button addTestoButton;
     public Button addStopwordsButton;
-    public TextField usernameField;
-    public PasswordField passwordField;
     public VBox adminSection;
 
 
-    private TimerService timerService;
 
 
     private void clearRegisterFields() {
@@ -234,30 +227,23 @@ public class MainController {
 
         List<Domanda> domande = currentQuiz.getDomande();
 
-        q1.setText(domande.get(0).getTesto());
-        q2.setText(domande.get(1).getTesto());
-        q3.setText(domande.get(2).getTesto());
-        q4.setText(domande.get(3).getTesto());
+        //Setta il testo per le domande
+        List<Label> domandeLabels =Arrays.asList(q1,q2,q3,q4);
+        for(int i = 0 ; i < domandeLabels.size() ; i++){
+            domandeLabels.get(i).setText(domande.get(i).getTesto());
+        }
 
-        int i = 0;
-        for (RadioButton q1opt : q1Options) {
-            q1opt.setText(domande.get(0).getRisposte().get(i).getTesto());
-            i++;
-        }
-        i = 0;
-        for (RadioButton q2opt : q2Options) {
-            q2opt.setText(domande.get(1).getRisposte().get(i).getTesto());
-            i++;
-        }
-        i = 0;
-        for (RadioButton q3opt : q3Options) {
-            q3opt.setText(domande.get(2).getRisposte().get(i).getTesto());
-            i++;
-        }
-        i = 0;
-        for (RadioButton q4opt : q4Options) {
-            q4opt.setText(domande.get(3).getRisposte().get(i).getTesto());
-            i++;
+        //Struttura che mantiene , per ogni domanda
+        RadioButton[][] allOptions = { q1Options, q2Options, q3Options, q4Options };
+
+        //Per ogni domanda , settiamo l'array di opzioni associati
+        for (int i = 0; i < allOptions.length; i++) {
+            List<Risposta> risposte = domande.get(i).getRisposte();
+            RadioButton[] opzioni = allOptions[i];
+            //Settiamo le risposte a tutte le opzioni della i-esima domanda
+            for (int j = 0; j < opzioni.length; j++) {
+                opzioni[j].setText(risposte.get(j).getTesto());
+            }
         }
 
 

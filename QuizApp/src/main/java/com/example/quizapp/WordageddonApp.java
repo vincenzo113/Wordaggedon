@@ -21,14 +21,13 @@ public class WordageddonApp extends Application {
         stage.setMinWidth(800);
         stage.setTitle("Wordageddon");
         stage.setScene(scene);
+        //Impostiamo il comportamento che deve adottare la piattaforma quando si chiude l'applicazione
         stage.setOnCloseRequest(event -> {
-            // Sostituisci questa riga con la tua sessione corrente, ad esempio:
             MainController controller = fxmlLoader.getController();
-
             SessioneQuiz sessioneCorrente  = controller.getSessioneCorrente();
-            if (sessioneCorrente != null) {
+            //Controllo , anche se futile sul fatto che la sessione non dev'essere completata
+            if (sessioneCorrente != null && !sessioneCorrente.isCompleta()) {
                 GestoreSalvataggioSessione.salvaSessione(sessioneCorrente);
-                System.out.println("Sessione salvata prima della chiusura.");
             }
         });
         stage.show();
