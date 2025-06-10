@@ -1,12 +1,11 @@
 package com.example.alerts;
 
-import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 public class AlertUtils {
 
     public static void showAlert(AlertList alertType, Stage stage) {
-         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
         alert.initOwner(stage);
         alert.setHeaderText(null);
 
