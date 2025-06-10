@@ -2,82 +2,79 @@ package com.example.dao.Domande;
 
 import com.example.models.Documento;
 import com.example.models.Domanda;
+import com.example.exceptions.DatabaseException;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Implementazione dell'interfaccia {@link DomandeDAO} per il database PostgreSQL.
+ * Implementazione PostgreSQL dell'interfaccia {@link DomandeDAO}.
+ * Gestisce le operazioni di accesso ai dati per le domande e le parole
+ * utilizzando un database PostgreSQL.
  *
- * Questa classe gestisce le operazioni di accesso ai dati relativi alle domande
- * e alle parole casuali associate ai documenti.
+ * @author [Il tuo nome]
+ * @version 1.0
+ * @since 1.0
+ * @see DomandeDAO
+ * @see Domanda
+ * @see Documento
  */
 public class DomandeDAOPostgres implements DomandeDAO {
 
-    /**
-     * Recupera una lista di 4 domande casuali dal database.
-     *
-     * Effettua una query sulla tabella "domanda" per selezionare 4 record casuali
-     * e costruisce una lista di oggetti {@link Domanda} con il testo della domanda.
-     *
-     * @return una lista di {@link Domanda} contenente 4 domande casuali.
-     */
+    /** {@inheritDoc} */
     @Override
-    public List<Domanda> selectDomande() {
+    public List<Domanda> selectDomande() throws DatabaseException {
         List<Domanda> domande = new ArrayList<>();
+        String query = "SELECT * FROM domanda ORDER BY RANDOM() LIMIT 4";
 
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
-             Statement stmt = conn.createStatement()) {
+             PreparedStatement stmt = conn.prepareStatement(query)) {
 
-            String query = "SELECT * FROM domanda ORDER BY RANDOM() LIMIT 4";
-            ResultSet rs = stmt.executeQuery(query);
-
-            while (rs.next()) {
-                Domanda domanda = new Domanda(
-                        rs.getString("testoDomanda"),
-                        null
-                );
-                domande.add(domanda);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Domanda domanda = new Domanda(
+                            rs.getString("testoDomanda"),
+                            null
+                    );
+                    domande.add(domanda);
+                }
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            throw new DatabaseException("Errore durante il recupero delle domande", e);
         }
 
         return domande;
     }
 
-    /**
-     * Seleziona una parola casuale dal contenuto di un documento specifico,
-     * escludendo le parole presenti nella tabella delle stopwords.
-     *
-     * La parola viene estratta dalla tabella "parola" filtrando per documento
-     * e ignorando le stopwords.
-     *
-     * @param documento il documento da cui estrarre la parola casuale.
-     * @return una parola casuale presente nel documento;
-     *         una stringa vuota se non viene trovata alcuna parola.
-     */
+    /** {@inheritDoc} */
     @Override
-    public String selectParolaCasuale(Documento documento) {
+    public String selectParolaCasuale(Documento documento) throws DatabaseException {
+        if (documento == null || documento.getId() <= 0) {
+            throw new IllegalArgumentException("Documento non valido o ID non impostato");
+        }
+
+        String query = "SELECT valore FROM parola " +
+                      "WHERE documento = ? " +
+                      "AND valore NOT IN (SELECT parola FROM stopwords) " +
+                      "ORDER BY RANDOM() LIMIT 1";
+
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
-             Statement stmt = conn.createStatement()) {
-            String query = String.format(
-                    "SELECT valore FROM parola " +
-                            "WHERE documento = '%s' " +
-                            "AND valore NOT IN (SELECT parola FROM stopwords) " +
-                            "LIMIT 1;",
-                    documento.getId()
-            );
-            ResultSet resultSet = stmt.executeQuery(query);
-            if (resultSet.next()) {
-                return resultSet.getString("valore");
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, documento.getId());
+            
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getString("valore");
+                }
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException("Errore durante la selezione della parola casuale", e);
         }
+
         return "";
     }
 }

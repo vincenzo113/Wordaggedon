@@ -1,6 +1,7 @@
 package com.example.dao.Documento;
 
 import com.example.difficultySettings.DifficultyEnum;
+import com.example.exceptions.DatabaseException;
 import com.example.exceptions.NotEnoughDocuments;
 import com.example.models.Documento;
 import com.example.models.User;
@@ -20,13 +21,7 @@ import static java.sql.DriverManager.getConnection;
 public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
 
 
-    /**
-     * Restituisce una lista di documenti in base alla difficoltà specificata.
-     *
-     * @param difficolta la difficoltà selezionata dall'utente
-     * @return lista di documenti corrispondenti alla difficoltà
-     * @throws NotEnoughDocuments se non ci sono abbastanza documenti per la difficoltà richiesta
-     */
+    /** {@inheritDoc} */
     @Override
     public List<Documento> getDocumentiPerDifficolta(DifficultyEnum difficolta) throws NotEnoughDocuments {
         List<Documento> documenti = new ArrayList<>();
@@ -64,53 +59,40 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
     }
 
 
-    /**
-     * Inserisce un nuovo documento nel database. Se il documento è già presente,
-     * viene generata un'eccezione. Inoltre, inserisce anche la mappatura delle parole.
-     *
-     * @param documento il documento da inserire
-     * @throws SQLException se si verifica un errore durante l'inserimento
-     */
+    /** {@inheritDoc} */
     @Override
-    //Appena inserisce il documento , inseriamo anche la sua mappatura associata
-    public void insertDocumento(Documento  documento)  throws SQLException {
+    public void insertDocumento(Documento documento) throws DatabaseException {
+    String controlQuery = "SELECT contenuto FROM documento WHERE contenuto = ?";
+    String sql = "INSERT INTO documento(titolo, contenuto,difficolta) VALUES (?, ? , ?) RETURNING id";
 
-        String controlQuery = "SELECT contenuto FROM documento WHERE contenuto = ?";
-        String sql = "INSERT INTO documento(titolo, contenuto,difficolta) VALUES (?, ? , ?) RETURNING id";
-        try(
-                Connection c = DriverManager.getConnection(URL, USER, PASS);
-                PreparedStatement stmtControl = c.prepareStatement(controlQuery);
-                PreparedStatement stmt = c.prepareStatement(sql);
-        ) {
-            //Query per inserire un documento , e ritornare l'id generato per quel documento
+    try (Connection c = DriverManager.getConnection(URL, USER, PASS);
+         PreparedStatement stmtControl = c.prepareStatement(controlQuery);
+         PreparedStatement stmt = c.prepareStatement(sql)) {
 
-            stmtControl.setString(1, documento.getContenuto());
-            ResultSet rsControl = stmtControl.executeQuery();
-            if(rsControl.next()) {
-                System.out.println("Documento già presente nel database.");
-                throw new SQLException("Documento già presente nel database.");
-            }
-
-
-            stmt.setString(1, documento.getTitolo());
-            stmt.setString(2, documento.getContenuto());
-            stmt.setString(3, documento.getDifficolta().toString());
-            ResultSet rs = stmt.executeQuery();
-            if(rs.next()){
-                //Settiamo l'id generato sul documento corrente , altrimenti avremmo sempre il valore di default "0"
-                int generatedIdForDocument = rs.getInt("id");
-                documento.setId(generatedIdForDocument);
-            }
-            //Ora possiamo inserire anche l'analisi per quel documento
-            insertMappaturaDocumento(documento);
+        stmtControl.setString(1, documento.getContenuto());
+        ResultSet rsControl = stmtControl.executeQuery();
+        if (rsControl.next()) {
+            throw new DatabaseException("Documento già presente nel database.");
         }
-    }
 
-    /**
-     * Inserisce nel database la mappatura delle parole associate a un documento.
-     *
-     * @param documento il documento contenente la mappatura da inserire
-     */
+        stmt.setString(1, documento.getTitolo());
+        stmt.setString(2, documento.getContenuto());
+        stmt.setString(3, documento.getDifficolta().toString());
+        ResultSet rs = stmt.executeQuery();
+
+        if (rs.next()) {
+            int generatedIdForDocument = rs.getInt("id");
+            documento.setId(generatedIdForDocument);
+        }
+
+        insertMappaturaDocumento(documento);
+
+    } catch (SQLException e) {
+        throw new DatabaseException("Errore durante l'inserimento del documento nel database", e);
+    }
+}
+
+    /** {@inheritDoc} */
     public void insertMappaturaDocumento(Documento documento) {
         Map<String,Integer> mappatura = documento.getMappaQuiz();
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
@@ -130,11 +112,7 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
         }
     }
 
-    /**
-     * Recupera tutti i documenti presenti nel database.
-     *
-     * @return lista di tutti i documenti
-     */
+    /** {@inheritDoc} */
     @Override
     public List<Documento> getAllDocuments(){
         List<Documento> allDocuments = new ArrayList<>();
@@ -154,11 +132,7 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
     }
 
 
-    /**
-     * Elimina un documento dal database dato il suo ID.
-     *
-     * @param idDocumento l'identificativo del documento da eliminare
-     */
+    /** {@inheritDoc} */
     public void eliminaDocumento(int idDocumento){
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
              Statement stmt = conn.createStatement()){
