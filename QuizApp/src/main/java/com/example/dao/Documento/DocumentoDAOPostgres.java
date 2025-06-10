@@ -13,27 +13,25 @@ import java.util.Map;
 
 import static java.sql.DriverManager.getConnection;
 
+/**
+ * Implementazione dell'interfaccia DocumentoDAO per la gestione dei documenti
+ * utilizzando un database PostgreSQL.
+ */
 public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
 
 
-    //Metodo per ottenere il numero di documenti da mostrare all'utente in base alla difficolta scelta dall'utente stesso
+    /**
+     * Restituisce una lista di documenti in base alla difficoltà specificata.
+     *
+     * @param difficolta la difficoltà selezionata dall'utente
+     * @return lista di documenti corrispondenti alla difficoltà
+     * @throws NotEnoughDocuments se non ci sono abbastanza documenti per la difficoltà richiesta
+     */
     @Override
     public List<Documento> getDocumentiPerDifficolta(DifficultyEnum difficolta) throws NotEnoughDocuments {
         List<Documento> documenti = new ArrayList<>();
-        int limiteNumeroDocumenti;
-        switch (difficolta) {
-            case EASY:
-                limiteNumeroDocumenti = 1;
-                break;
-            case MEDIUM:
-                limiteNumeroDocumenti = 3;
-                break;
-            case HARD:
-                limiteNumeroDocumenti = 5;
-                break;
-            default:
-                limiteNumeroDocumenti = 1;
-        }
+        int limiteNumeroDocumenti = 3 ;
+
         String sql = "SELECT * FROM documento WHERE difficolta = ? ORDER BY RANDOM() LIMIT ?" ;
          try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -54,7 +52,7 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
             }
 
 
-            
+
              if(documenti.size() < limiteNumeroDocumenti) throw new NotEnoughDocuments("Non hai caricato abbastanza documenti per la difficoltà: "+difficolta);
 
         } catch (SQLException e) {
@@ -66,6 +64,13 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
     }
 
 
+    /**
+     * Inserisce un nuovo documento nel database. Se il documento è già presente,
+     * viene generata un'eccezione. Inoltre, inserisce anche la mappatura delle parole.
+     *
+     * @param documento il documento da inserire
+     * @throws SQLException se si verifica un errore durante l'inserimento
+     */
     @Override
     //Appena inserisce il documento , inseriamo anche la sua mappatura associata
     public void insertDocumento(Documento  documento)  throws SQLException {
@@ -101,6 +106,11 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
         }
     }
 
+    /**
+     * Inserisce nel database la mappatura delle parole associate a un documento.
+     *
+     * @param documento il documento contenente la mappatura da inserire
+     */
     public void insertMappaturaDocumento(Documento documento) {
         Map<String,Integer> mappatura = documento.getMappaQuiz();
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
@@ -120,6 +130,11 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
         }
     }
 
+    /**
+     * Recupera tutti i documenti presenti nel database.
+     *
+     * @return lista di tutti i documenti
+     */
     @Override
     public List<Documento> getAllDocuments(){
         List<Documento> allDocuments = new ArrayList<>();
@@ -139,6 +154,11 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
     }
 
 
+    /**
+     * Elimina un documento dal database dato il suo ID.
+     *
+     * @param idDocumento l'identificativo del documento da eliminare
+     */
     public void eliminaDocumento(int idDocumento){
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
              Statement stmt = conn.createStatement()){
