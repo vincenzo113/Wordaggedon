@@ -7,6 +7,11 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Rappresenta una sessione di quiz contenente documenti, domande, difficoltà, utente e punteggio.
+ * Gestisce la generazione delle domande basate sui documenti e la difficoltà selezionata.
+ * Implementa Serializable per permettere il salvataggio dello stato della sessione.
+ */
 //Implementiamo serializable per permettere il salvataggio della sessione di gioco
 public class SessioneQuiz implements Serializable {
         private List<Documento> documenti;
@@ -19,12 +24,26 @@ public class SessioneQuiz implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+        /**
+         * Costruisce una nuova sessione di quiz con i documenti, la difficoltà e l'utente specificati.
+         *
+         * @param documenti La lista di documenti da utilizzare nel quiz.
+         * @param difficolta Il livello di difficoltà della sessione.
+         * @param user L'utente associato alla sessione.
+         */
         public SessioneQuiz(List<Documento> documenti, DifficultyEnum difficolta, User user) {
             this.documenti = documenti;
             this.difficolta = difficolta;
             this.user = user;
         }
 
+        /**
+         * Costruisce una nuova sessione di quiz con utente, difficoltà e punteggio.
+         *
+         * @param user L'utente associato alla sessione.
+         * @param difficolta Il livello di difficoltà della sessione.
+         * @param score Il punteggio corrente della sessione.
+         */
         public SessioneQuiz(User user, DifficultyEnum difficolta, int score) {
         this.difficolta = difficolta;
         this.user = user;
@@ -32,29 +51,63 @@ public class SessioneQuiz implements Serializable {
         }
 
 
+        /**
+         * Restituisce la lista dei documenti della sessione.
+         *
+         * @return La lista di documenti.
+         */
         public List<Documento> getDocumenti() {
             return documenti;
         }
 
+        /**
+         * Restituisce la lista delle domande della sessione.
+         *
+         * @return La lista di domande.
+         */
         public List<Domanda> getDomande() {
             return domande;
         }
 
+        /**
+         * Restituisce il livello di difficoltà della sessione.
+         *
+         * @return La difficoltà selezionata.
+         */
         public DifficultyEnum getDifficolta() {
             return difficolta;
         }
 
+        /**
+         * Restituisce l'utente associato alla sessione.
+         *
+         * @return L'utente della sessione.
+         */
         public User getUser() {
             return user;
         }
 
+        /**
+         * Restituisce il punteggio corrente della sessione.
+         *
+         * @return Il punteggio.
+         */
         public int getScore() {
             return score;
         }
 
+        /**
+         * Imposta il punteggio della sessione.
+         *
+         * @param score Il punteggio da impostare.
+         */
         public void setScore(int score) { this.score = score; }
 
 
+        /**
+         * Genera le domande per la sessione basate sui documenti e sul tipo di domanda.
+         * Modifica il testo delle domande e imposta le risposte in base ai documenti.
+         */
         public void generaDomande() {
             //PRELIEVO DI DOMANDE BASE DAL DATABASE
 
@@ -104,6 +157,11 @@ public class SessioneQuiz implements Serializable {
 
         }
 
+    /**
+     * Restituisce una rappresentazione in stringa della sessione di quiz.
+     *
+     * @return Una stringa che rappresenta la sessione.
+     */
     @Override
     public String toString() {
         return "SessioneQuiz{" +
@@ -117,15 +175,30 @@ public class SessioneQuiz implements Serializable {
     }
 
 
+    /**
+     * Imposta il DAO per l'accesso alle domande nel database Postgres.
+     *
+     * @param daoPostgres Il DAO da utilizzare.
+     */
     public void setDomandeDAOPostgres(DomandeDAOPostgres daoPostgres){
             this.domandeDAOPostgres = daoPostgres;
     }
 
 
+    /**
+     * Imposta lo stato di completamento della sessione.
+     *
+     * @param value true se la sessione è completa, false altrimenti.
+     */
     public void setIsCompleta(Boolean value){
             this.isCompleta = value;
     }
 
+    /**
+     * Indica se la sessione è stata completata.
+     *
+     * @return true se completa, false altrimenti.
+     */
     public boolean isCompleta(){
             return  this.isCompleta;
     }

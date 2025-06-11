@@ -5,10 +5,17 @@ import com.example.models.SessioneQuiz;
 
 import java.io.*;
 
+/**
+ * Classe utility per la gestione del salvataggio, caricamento e cancellazione
+ * delle sessioni di quiz su file.
+ */
 public class GestoreSalvataggioSessione {
 
-
-    //Metodo per salvare la sessione su file , solo se la sessione non è già completata , quindi quando si va al riepilogo è già completata
+    /**
+     * Salva la sessione di quiz su file, solo se la sessione non è già completata.
+     *
+     * @param sessioneQuiz La sessione da salvare.
+     */
     public static void salvaSessione(SessioneQuiz sessioneQuiz) {
         String filename = "salvataggio_" + sessioneQuiz.getUser().getUsername() + ".dat";
         if (!sessioneQuiz.isCompleta()) {
@@ -19,8 +26,13 @@ public class GestoreSalvataggioSessione {
         }
     }
 
-
-    //Metodo per leggere la sessione da file
+    /**
+     * Carica una sessione di quiz da file in base allo username fornito.
+     *
+     * @param username Lo username associato alla sessione da caricare.
+     * @return La sessione caricata.
+     * @throws SessioneNonCaricataException Se si verifica un errore durante il caricamento o se il file non è trovato.
+     */
     public static SessioneQuiz loadSessione(String username) throws SessioneNonCaricataException {
         String filename = "salvataggio_" + username + ".dat";
         SessioneQuiz sessioneQuiz = null;
@@ -39,7 +51,11 @@ public class GestoreSalvataggioSessione {
         return sessioneQuiz;
     }
 
-
+    /**
+     * Elimina il file di salvataggio della sessione associato allo username fornito.
+     *
+     * @param username Lo username della sessione da eliminare.
+     */
     public static  void eliminaSessione(String username){
         String filename = "salvataggio_"+username+".dat";
         File file = new File(filename);

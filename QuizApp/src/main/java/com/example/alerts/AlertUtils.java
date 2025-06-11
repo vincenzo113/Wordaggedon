@@ -1,9 +1,21 @@
+
 package com.example.alerts;
 
 import javafx.stage.Stage;
 
+/**
+ * Classe di utilità per mostrare finestre di dialogo di avviso predefinite
+ * basate su diversi tipi di errore o stato dell'applicazione.
+ * Utilizza {@link AlertList} per determinare il messaggio e il titolo da visualizzare.
+ */
 public class AlertUtils {
 
+    /**
+     * Mostra una finestra di dialogo di avviso in base al tipo di alert specificato.
+     *
+     * @param alertType Il tipo di avviso da mostrare. Determina il titolo e il messaggio dell'avviso.
+     * @param stage Lo stage a cui è associata la finestra di dialogo dell'avviso.
+     */
     public static void showAlert(AlertList alertType, Stage stage) {
         javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
         alert.initOwner(stage);

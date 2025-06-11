@@ -1,5 +1,10 @@
 package com.example.alerts;
 
+/**
+ * Enum che rappresenta una lista di messaggi di avviso utilizzati all'interno dell'applicazione.
+ * Ogni costante enum fornisce un messaggio testuale specifico che può essere mostrato all'utente
+ * in seguito a varie azioni o errori durante l'utilizzo dell'applicazione.
+ */
 public enum AlertList {
 
     LOGIN_FAILURE("Username o password errati , riprova."),
@@ -29,6 +34,11 @@ public enum AlertList {
         this.message = message;
     }
 
+    /**
+     * Restituisce il messaggio associato all'enum.
+     *
+     * @return Il messaggio di avviso da visualizzare.
+     */
     public String getMessage() {
         return message;
     }

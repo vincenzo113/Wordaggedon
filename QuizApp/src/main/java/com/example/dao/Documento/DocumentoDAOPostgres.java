@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import static com.example.difficultySettings.DifficultyEnum.*;
 import static java.sql.DriverManager.getConnection;
 
 /**
@@ -122,7 +123,23 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
             String query = "select * from documento;";
             ResultSet rs = stmt.executeQuery(query);
             while(rs.next()){
-                allDocuments.add(new Documento(rs.getInt("id"),rs.getString("titolo") ,  rs.getString("contenuto")));
+                String difficolta = rs.getString("difficolta") ;
+                DifficultyEnum diffUtilToInstance ;
+                switch (difficolta){
+                    case "EASY": diffUtilToInstance = EASY;
+                    break;
+
+                    case "MEDIUM": diffUtilToInstance=MEDIUM;
+                    break;
+
+                    case "HARD" : diffUtilToInstance=HARD;
+                            break;
+
+                    default: diffUtilToInstance = EASY;
+                    break;
+
+                }
+                allDocuments.add(new Documento(rs.getInt("id"),rs.getString("titolo") ,  rs.getString("contenuto") , diffUtilToInstance));
             }
 
         }catch(SQLException ex){

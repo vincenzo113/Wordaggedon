@@ -51,7 +51,7 @@ public class QuizController {
         displayText.setText(documenti.get(numeroTesto).getContenuto());
         displayTitleText.setText(documenti.get(numeroTesto).getTitolo());
 
-        TimerService timerService = new TimerService(1, () -> {
+        TimerService timerService = new TimerService(timeLimit, () -> {
             Platform.runLater(() -> {
                 if (numeroTesto + 1 < maxTesti) {
                     startTimerPerTesto(documenti, numeroTesto + 1, timeLabel, timeProgressBar, 
