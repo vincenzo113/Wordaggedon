@@ -30,7 +30,7 @@
     -fx-border-width: 1;
 }
 
-/* Timer label */
+
 #timeLabel {
     -fx-font-family: 'Consolas', 'Monaco', monospace;
     -fx-font-size: 24px;
@@ -41,7 +41,7 @@
     -fx-background-color: rgba(99, 102, 241, 0.1);
 }
 
-/* Progress Bar personalizzata */
+
 .progress-bar {
     -fx-pref-height: 8;
     -fx-background-radius: 4;
@@ -59,7 +59,7 @@
     -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.3), 8, 0, 0, 2);
 }
 
-/* ScrollPane personalizzato */
+
 .scroll-pane {
     -fx-background-color: transparent;
     -fx-background: transparent;
@@ -92,7 +92,7 @@
     -fx-background-color: transparent;
 }
 
-/* Label del testo principale */
+
 #displayTextLabel {
     -fx-font-family: 'Segoe UI', system-ui, -apple-system;
     -fx-font-size: 20px;
