@@ -1,102 +1,143 @@
-/* Contenitore principale impostazioni */
-.settings-container {
-    -fx-background-color: white;
-    -fx-border-color: #dee2e6;
-    -fx-border-width: 2;
-    -fx-border-radius: 10;
-    -fx-background-radius: 10;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0, 0, 2);
-    -fx-max-width: 500;
-    -fx-max-height: 600;
+.settingsVBox {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #667eea 0%, #764ba2 100%);
 }
 
-/* Titolo principale */
+.settings-container {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #667eea 0%, #764ba2 100%);
+}
+
+.settings-content {
+    -fx-background-color: white;
+    -fx-border-radius: 16;
+    -fx-background-radius: 16;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 20, 0, 0, 8);
+    -fx-max-width: 500;
+    -fx-padding: 30;
+}
+
 .settings-title {
     -fx-font-size: 20;
     -fx-font-weight: bold;
-    -fx-text-fill: #333;
+    -fx-text-fill: #1a1a1a;
 }
 
-/* Bottone indietro */
 .back-button {
     -fx-background-color: #6c757d;
     -fx-text-fill: white;
-    -fx-background-radius: 5px;
+    -fx-background-radius: 8;
     -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(108,117,125,0.3), 6, 0, 0, 2);
 }
 
-/* Separatore */
+.back-button:hover {
+    -fx-background-color: #5a6268;
+    -fx-effect: dropshadow(gaussian, rgba(108,117,125,0.4), 8, 0, 0, 3);
+}
+
 .settings-separator {
-    -fx-background-color: #dee2e6;
+    -fx-background-color: #e5e7eb;
 }
 
-/* Box sezioni (username/password) */
 .settings-section {
-    -fx-background-color: #f8f9fa;
-    -fx-border-color: #e9ecef;
+    -fx-background-color: transparent;
+    -fx-border-color: #e5e7eb;
     -fx-border-radius: 8;
     -fx-background-radius: 8;
+    -fx-border-width: 1.5;
+    -fx-padding: 15;
 }
 
-/* Label delle sezioni */
 .section-label {
     -fx-font-weight: bold;
-    -fx-text-fill: #495057;
+    -fx-text-fill: #374151;
+    -fx-font-size: 13;
 }
 
-/* Campi di input */
 .settings-textfield {
-    -fx-border-color: #ced4da;
-    -fx-border-radius: 4;
-    -fx-background-radius: 4;
-}
-
-/* Bottoni salva */
-.save-button {
-    -fx-background-color: #28a745;
-    -fx-text-fill: white;
-    -fx-background-radius: 4px;
-    -fx-cursor: hand;
-}
-
-/* Bottone modifica password */
-.change-password-button {
-    -fx-background-color: #ffc107;
-    -fx-text-fill: #212529;
-    -fx-background-radius: 5px;
-    -fx-cursor: hand;
-    -fx-font-weight: bold;
-}
-
-/* Sezione admin */
-.admin-section {
-    -fx-background-color: #fff3cd;
-    -fx-border-color: #ffeeba;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e5e7eb;
     -fx-border-radius: 8;
     -fx-background-radius: 8;
+    -fx-border-width: 1.5;
+    -fx-padding: 12 16 12 16;
+    -fx-font-size: 14;
+    -fx-text-fill: #1f2937;
+    -fx-prompt-text-fill: #9ca3af;
 }
 
-/* Label admin */
+.settings-textfield:focused {
+    -fx-border-color: #3b82f6;
+    -fx-effect: dropshadow(gaussian, rgba(59,130,246,0.15), 8, 0, 0, 0);
+}
+
+.save-button {
+    -fx-background-color: #22c55e;
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+    -fx-padding: 8 16 8 16;
+    -fx-effect: dropshadow(gaussian, rgba(34,197,94,0.3), 6, 0, 0, 2);
+}
+
+.save-button:hover {
+    -fx-background-color: #16a34a;
+    -fx-effect: dropshadow(gaussian, rgba(34,197,94,0.4), 8, 0, 0, 3);
+}
+
+.change-password-button {
+    -fx-background-color: #f59e0b;
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(245,158,11,0.3), 6, 0, 0, 2);
+}
+
+.change-password-button:hover {
+    -fx-background-color: #d97706;
+    -fx-effect: dropshadow(gaussian, rgba(245,158,11,0.4), 8, 0, 0, 3);
+}
+
+.admin-section {
+    -fx-background-color: transparent;
+    -fx-border-color: #fbbf24;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-border-width: 1.5;
+    -fx-padding: 15;
+}
+
 .admin-label {
     -fx-font-weight: bold;
     -fx-font-size: 14;
-    -fx-text-fill: #856404;
+    -fx-text-fill: #92400e;
 }
 
-/* Bottone admin grigio */
 .admin-button-gray {
-    -fx-background-color: #6c757d;
+    -fx-background-color: #6b7280;
     -fx-text-fill: white;
     -fx-font-weight: bold;
-    -fx-background-radius: 5px;
+    -fx-background-radius: 8;
     -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(107,114,128,0.3), 6, 0, 0, 2);
 }
 
-/* Bottone admin rosso */
+.admin-button-gray:hover {
+    -fx-background-color: #4b5563;
+    -fx-effect: dropshadow(gaussian, rgba(107,114,128,0.4), 8, 0, 0, 3);
+}
+
 .admin-button-red {
-    -fx-background-color: #dc3545;
+    -fx-background-color: #ef4444;
     -fx-text-fill: white;
     -fx-font-weight: bold;
-    -fx-background-radius: 5px;
+    -fx-background-radius: 8;
     -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(239,68,68,0.3), 6, 0, 0, 2);
+}
+
+.admin-button-red:hover {
+    -fx-background-color: #dc2626;
+    -fx-effect: dropshadow(gaussian, rgba(239,68,68,0.4), 8, 0, 0, 3);
 }

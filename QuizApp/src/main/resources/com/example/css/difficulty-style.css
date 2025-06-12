@@ -1,5 +1,72 @@
-.login-view {
+.difficulty-view {
     -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #667eea 0%, #764ba2 100%);
+}
+
+.username-welcome {
+    -fx-text-fill: #3b82f6;
+    -fx-font-size: 16;
+    -fx-font-weight: bold;
+}
+
+.difficulty-radio {
+    -fx-text-fill: #374151;
+    -fx-font-size: 14;
+    -fx-padding: 8 12 8 12;
+    -fx-background-color: #f9fafb;
+    -fx-background-radius: 8;
+    -fx-border-color: #e5e7eb;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 8;
+}
+
+.difficulty-radio:selected {
+    -fx-background-color: #eff6ff;
+    -fx-border-color: #3b82f6;
+    -fx-text-fill: #1e40af;
+}
+
+.difficulty-radio:hover {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #d1d5db;
+}
+
+.easy-level:selected {
+    -fx-background-color: #f0fdf4;
+    -fx-border-color: #22c55e;
+    -fx-text-fill: #15803d;
+}
+
+.medium-level:selected {
+    -fx-background-color: #fef3c7;
+    -fx-border-color: #f59e0b;
+    -fx-text-fill: #d97706;
+}
+
+.hard-level:selected {
+    -fx-background-color: #fef2f2;
+    -fx-border-color: #ef4444;
+    -fx-text-fill: #dc2626;
+}
+
+.logout-button {
+    -fx-background-color: #dc3545;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-font-size: 12;
+    -fx-background-radius: 8;
+    -fx-padding: 8 16 8 16;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(220,53,69,0.3), 6, 0, 0, 2);
+}
+
+.logout-button:hover {
+    -fx-background-color: #c82333;
+    -fx-effect: dropshadow(gaussian, rgba(220,53,69,0.4), 8, 0, 0, 3);
+}
+
+.logout-button:pressed {
+    -fx-background-color: #bd2130;
+    -fx-effect: dropshadow(gaussian, rgba(220,53,69,0.2), 4, 0, 0, 1);
 }
 
 .form-container {
