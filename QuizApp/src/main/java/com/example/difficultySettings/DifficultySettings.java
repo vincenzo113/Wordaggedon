@@ -11,11 +11,11 @@ public class DifficultySettings {
     public static int getTimeLimit(DifficultyEnum difficolta) {
         switch (difficolta) {
             case EASY:
-                return 30;
+                return 10;
             case MEDIUM:
                 return 20;
             case HARD:
-                return 10;
+                return 30;
             default:
                 return 30; // valore predefinito
         }

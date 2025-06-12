@@ -75,6 +75,10 @@ public class AlertUtils {
                 alert.setTitle("Sessione non caricata");
                 break;
 
+            case PASSWORD_FORMAT_NON_CORRETTO:
+                alert.setTitle("La password deve contenere almeno 6 caratteri con almeno una maiuscola e un numero!");
+                break;
+
             default:
                 alert.setTitle("Alert");
                 break;
