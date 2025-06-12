@@ -26,10 +26,10 @@ public class AlertUtils {
                 alert.setTitle("Login Fallito");
                 break;
             case REGISTER_FAILURE:
-                alert.setTitle("Registration fallita , riprova");
+                alert.setTitle("Registration fallita, riprova");
                 break;
             case FIELDS_EMPTY:
-                alert.setTitle("Errore , campi non compilati");
+                alert.setTitle("Errore, campi non compilati");
                 break;
             case DATABASE_ERROR:
                 alert.setTitle("Errore");
@@ -42,7 +42,7 @@ public class AlertUtils {
                 break;
 
             case  USERNAME_ALREADY_TAKEN:
-                alert.setTitle("Username non disponibiles");
+                alert.setTitle("Username non disponibile");
                 break;
             case  MODIFICA_USERNAME_SUCCESS:
                 alert.setTitle("Modifica a buon fine");
@@ -52,7 +52,7 @@ public class AlertUtils {
                 break;
 
             case USERNAME_FORMAT_NON_CORRETTO:
-                    alert.setTitle("Inserisci correttamente l'username , sono ammessi solo caratteri alfanumerici");
+                    alert.setTitle("Inserisci correttamente l'username, sono ammessi solo caratteri alfanumerici");
                     break;
 
             case PASSWORD_NON_CORRETTA:
@@ -68,7 +68,7 @@ public class AlertUtils {
                 break;
 
             case NON_ABBASTANZA_DOCUMENTI:
-                alert.setTitle("Errore , riprova");
+                alert.setTitle("Errore, riprova");
                 break;
 
             case SESSIONE_NON_CARICATA:

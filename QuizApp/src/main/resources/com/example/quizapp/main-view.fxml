@@ -116,127 +116,108 @@
 
 
     <!-- VBox che contiene la schermata per scegliere la difficoltà del gioco -->
-    <VBox fx:id="difficultyVBox" alignment="CENTER" spacing="20.0" stylesheets="@../css/difficulty-style.css"
-          styleClass="difficulty-view" visible="false" managed="false">
+    <VBox fx:id="difficultyVBox"
+          styleClass="difficulty-view"
+          stylesheets="@../css/difficulty-style.css"
+          alignment="CENTER"
+          spacing="20.0"
+          visible="false"
+          managed="false">
 
         <padding>
             <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
         </padding>
 
-        <!-- Header semplificato -->
-        <HBox alignment="TOP_RIGHT" prefHeight="20.0">
-        </HBox>
+        <HBox alignment="TOP_RIGHT" prefHeight="20.0"/>
 
-        <!-- Container principale della selezione difficoltà -->
-        <VBox fx:id="difficultyContainer" alignment="CENTER" maxWidth="420.0" spacing="25.0" styleClass="form-container">
+        <VBox fx:id="difficultyContainer"
+              styleClass="form-container"
+              alignment="CENTER"
+              maxWidth="420.0"
+              spacing="25.0">
+
             <padding>
                 <Insets bottom="30.0" left="30.0" right="30.0" top="20.0" />
             </padding>
 
-            <!-- Bottoni di controllo in alto nel container -->
-            <HBox alignment="TOP_RIGHT" spacing="10.0" prefWidth="360.0">
+            <HBox styleClass="control-buttons-container"
+                  alignment="TOP_RIGHT"
+                  prefWidth="360.0">
 
-                <Button fx:id="leaderboardButton" text="Leaderboard"
-                        prefWidth="140.0" prefHeight="35.0"
-                        style="-fx-background-color: #8cc184; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5px; -fx-cursor: hand;"
-                        onAction="#goLeaderboard">
-                    <font>
-                        <Font name="System Bold" size="12.0" />
-                    </font>
-                </Button>
+                <Button fx:id="leaderboardButton"
+                        styleClass="leaderboard-button"
+                        text="Leaderboard"
+                        onAction="#goLeaderboard"/>
 
-                <Button fx:id="settingsButton" text="Impostazioni"
-                        prefWidth="140.0" prefHeight="35.0"
-                        style="-fx-background-color: #6c757d; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5px; -fx-cursor: hand;"
-                        onAction="#goSettings">
-                    <font>
-                        <Font name="System Bold" size="12.0" />
-                    </font>
-                </Button>
+                <Button fx:id="settingsButton"
+                        styleClass="settings-button"
+                        text="Impostazioni"
+                        onAction="#goSettings"/>
 
-                <Button fx:id="logoutButton" text="Logout" onAction="#handleLogout"
-                        prefWidth="100.0" prefHeight="35.0"
-                        style="-fx-background-color: #dc3545; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5px; -fx-cursor: hand;"
-                        styleClass="logout-button">
-                    <font>
-                        <Font name="System Bold" size="12.0" />
-                    </font>
-                </Button>
+                <Button fx:id="logoutButton"
+                        styleClass="logout-button"
+                        text="Logout"
+                        onAction="#handleLogout"/>
             </HBox>
 
-            <!-- Header di benvenuto -->
-            <VBox alignment="CENTER" spacing="8.0">
-                <Label fx:id="welcomeHeaderLabel" text="Benvenuto in Wordageddon!" styleClass="title-label">
-                    <font>
-                        <Font name="System Bold" size="24.0" />
-                    </font>
-                </Label>
+            <VBox styleClass="welcome-section"
+                  alignment="CENTER">
 
-                <!-- Nome utente -->
-                <Label fx:id="usernameWelcomeLabel" text="Ciao, [nome_username]!" styleClass="username-welcome">
-                    <font>
-                        <Font name="System" size="16.0" />
-                    </font>
-                </Label>
+                <Label fx:id="welcomeHeaderLabel"
+                       styleClass="title-label"
+                       text="Benvenuto in Wordageddon!"/>
 
-                <!-- Sottotitolo per la selezione -->
-                <Label fx:id="difficultySubtitleLabel" text="Scegli un livello di difficoltà per iniziare"
-                       styleClass="subtitle-label" wrapText="true" textAlignment="CENTER">
-                    <font>
-                        <Font name="System" size="14.0" />
-                    </font>
-                </Label>
+                <Label fx:id="usernameWelcomeLabel"
+                       styleClass="username-welcome"
+                       text="Ciao, [nome_username]!"/>
+
+                <Label fx:id="difficultySubtitleLabel"
+                       styleClass="subtitle-label"
+                       text="Scegli un livello di difficoltà per iniziare"
+                       wrapText="true"
+                       textAlignment="CENTER"/>
             </VBox>
 
-            <!-- Sezione radiobutton per difficoltà -->
-            <VBox spacing="15.0" alignment="CENTER" maxWidth="350.0">
-                <Label text="Livello di Difficoltà:" styleClass="field-label">
-                    <font>
-                        <Font name="System Bold" size="15.0" />
-                    </font>
-                </Label>
+            <VBox alignment="CENTER"
+                  maxWidth="350.0"
+                  spacing="15.0">
 
-                <!-- Container per i radiobutton con miglior spaziatura -->
-                <VBox spacing="12.0" alignment="CENTER_LEFT" prefWidth="320.0">
-                    <RadioButton fx:id="easyRadio" text="★ FACILE - Domande base" styleClass="difficulty-radio easy-level"
-                                 prefWidth="300.0" prefHeight="30.0">
-                        <font>
-                            <Font size="14.0" />
-                        </font>
+                <Label text="Livello di Difficoltà:"
+                       styleClass="field-label"/>
+
+                <VBox styleClass="difficulty-options"
+                      alignment="CENTER_LEFT"
+                      prefWidth="320.0">
+
+                    <RadioButton fx:id="easyRadio"
+                                 styleClass="difficulty-radio, easy-level"
+                                 text="FACILE - ★">
                         <toggleGroup>
-                            <ToggleGroup fx:id="difficultyToggleGroup" />
+                            <ToggleGroup fx:id="difficultyToggleGroup"/>
                         </toggleGroup>
                     </RadioButton>
 
-                    <RadioButton fx:id="mediumRadio" text="★★ MEDIO - Domande intermedie" styleClass="difficulty-radio medium-level"
-                                 toggleGroup="$difficultyToggleGroup" selected="true"
-                                 prefWidth="300.0" prefHeight="30.0">
-                        <font>
-                            <Font size="14.0" />
-                        </font>
-                    </RadioButton>
-
-                    <RadioButton fx:id="hardRadio" text="★★★ DIFFICILE - Domande avanzate" styleClass="difficulty-radio hard-level"
+                    <RadioButton fx:id="mediumRadio"
+                                 styleClass="difficulty-radio, medium-level"
+                                 text="MEDIO - ★★"
                                  toggleGroup="$difficultyToggleGroup"
-                                 prefWidth="300.0" prefHeight="30.0">
-                        <font>
-                            <Font size="14.0" />
-                        </font>
-                    </RadioButton>
+                                 selected="true"/>
+
+                    <RadioButton fx:id="hardRadio"
+                                 styleClass="difficulty-radio, hard-level"
+                                 text="DIFFICILE - ★★★"
+                                 toggleGroup="$difficultyToggleGroup"/>
                 </VBox>
             </VBox>
 
-            <!-- Container per i bottoni principali -->
-            <VBox spacing="15.0" alignment="CENTER">
-                <!-- Bottone Start principale -->
-                <Button fx:id="startGameButton" defaultButton="true"
-                        prefWidth="250.0" prefHeight="45.0"
+            <VBox alignment="CENTER"
+                  spacing="15.0">
+
+                <Button fx:id="startGameButton"
+                        styleClass="primary-button"
                         text="Inizia Gioco"
-                        styleClass="primary-button" onAction="#handleStartGame">
-                    <font>
-                        <Font name="System Bold" size="16.0" />
-                    </font>
-                </Button>
+                        defaultButton="true"
+                        onAction="#handleStartGame"/>
             </VBox>
 
         </VBox>
