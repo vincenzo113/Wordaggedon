@@ -1,0 +1,288 @@
+@startuml
+
+class MainController {
+    ' UI Components
+    + gruppoDomanda1, gruppoDomanda2, gruppoDomanda3, gruppoDomanda4: ToggleGroup
+    + passwordFieldSettings, passwordFieldNewSettings: PasswordField
+    + sezioneDocumenti, documentsList: VBox
+    + timeLabel: Label
+    + timeProgressBar: ProgressBar
+    ' ... altri componenti UI
+
+    ' Private fields
+    - documentoDAOPostgres: DocumentoDAOPostgres
+    - currentQuiz: SessioneQuiz
+    - currentUser: User
+    - documentiAggiunti: Set<Documento>
+    - initialUsernameProperty: StringProperty
+
+    ' Public methods
+    + initialize(): void
+    + handleLogin(actionEvent: ActionEvent): void
+    + handleRegister(actionEvent: ActionEvent): void
+    + handleStartGame(actionEvent: ActionEvent): void
+    + handleLogout(actionEvent: ActionEvent): void
+    + getSessioneCorrente(): SessioneQuiz
+
+    ' Private methods
+    - clearRegisterFields(): void
+    - clearLoginFields(): void
+    - clearQuizFields(): void
+    - setupToggleButtons(): void
+    - updateToggleButtonStyles(): void
+    - aggiornaTableView(sessioni: List<SessioneQuiz>): void
+    - getLoggedUser(): User
+    - getDifficoltaScelta(): DifficultyEnum
+    - hasSessionSuspended(user: User): boolean
+    - addDocumentToUI(documento: Documento): void
+}
+
+class DocumentoDAOPostgres {
+}
+
+class SessioneQuiz {
+}
+
+class User {
+}
+
+class Documento {
+}
+
+enum DifficultyEnum {
+}
+
+MainController --> DocumentoDAOPostgres: usa
+MainController --> SessioneQuiz: gestisce
+MainController --> User: gestisce
+MainController --> Documento: gestisce
+MainController --> DifficultyEnum: usa
+
+note right of MainController
+  Controller principale dell'applicazione
+  che gestisce l'interfaccia grafica
+  e la logica di business
+end note
+
+legend right
+    Modificatori
+    + public
+    - private
+    --> associazione
+end legend
+
+class LoginController {
+    + {static} hasLoginSuccess(user: User): User
+}
+
+interface UserDAO<T> {
+    + login(user: T): T
+}
+
+class UserDAOPostgres {
+}
+
+class User {
+}
+
+UserDAO <|.. UserDAOPostgres
+LoginController ..> UserDAO: usa
+LoginController ..> User: usa
+UserDAOPostgres --> User: gestisce
+
+note right of LoginController
+  Controller che gestisce l'autenticazione
+  degli utenti attraverso il pattern MVC
+end note
+
+note right of UserDAO
+  Interface generica per
+  l'accesso ai dati degli utenti
+end note
+
+legend right
+    Relazioni
+    <|.. : implementazione
+    ..> : dipendenza
+    --> : associazione
+end legend
+
+class QuizController {
+    + conteggio: Map<String, Integer>
+    - {static} sessionDAOPostgres: SessionDAOPostgres
+    - {static} userDAOPostgres: UserDAOPostgres
+
+    + {static} startTimerPerTesto(documenti: List<Documento>, numeroTesto: int, timeLabel: Label, \n    timeProgressBar: ProgressBar, difficolta: DifficultyEnum, displayText: Label, \n    displayTitleText: Label, callback: Runnable): void
+    + {static} setFinalScore(q1Options: RadioButton[], q2Options: RadioButton[], \n    q3Options: RadioButton[], q4Options: RadioButton[], sessioneQuiz: SessioneQuiz): void
+    + {static} updateScoreboard(sessioneQuiz: SessioneQuiz): void
+    + {static} getScoreboard(difficolta: DifficultyEnum): List<SessioneQuiz>
+    + {static} getPersonalScoreboard(user: User, difficolta: DifficultyEnum): List<SessioneQuiz>
+    + {static} getPunteggioMedio(user: User, difficolta: DifficultyEnum): String
+    + {static} getMigliorPunteggio(user: User, difficolta: DifficultyEnum): String
+    + {static} getPartite(user: User): String
+    - {static} setRispostaSelezionataPerGruppo(options: RadioButton[], domanda: Domanda): void
+}
+
+class SessionDAOPostgres {
+    + insertSessione(sessioneQuiz: SessioneQuiz): void
+    + selectSessionsWithTopScores(difficolta: DifficultyEnum): List<SessioneQuiz>
+}
+
+class UserDAOPostgres {
+    + punteggioAvg(user: User, difficolta: DifficultyEnum): double
+    + punteggioBest(user: User, difficolta: DifficultyEnum): int
+    + contPartite(user: User): int
+}
+
+class TimerService {
+}
+
+class SessioneQuiz {
+}
+
+class User {
+}
+
+enum DifficultyEnum {
+}
+
+QuizController --> SessionDAOPostgres: usa
+QuizController --> UserDAOPostgres: usa
+QuizController --> TimerService: crea
+QuizController --> SessioneQuiz: gestisce
+QuizController --> User: gestisce
+QuizController --> DifficultyEnum: usa
+
+note right of QuizController
+  Controller principale per la gestione
+  del quiz, timer e punteggi
+end note
+
+legend right
+    Modificatori
+    + public
+    - private
+    {static} metodo/campo statico
+    --> associazione
+end legend
+
+class RegisterController {
+    + {static} hasRegisterSuccess(user: User): boolean
+}
+
+interface UserDAO<T> {
+    + register(user: T): boolean
+}
+
+class UserDAOPostgres {
+}
+
+class User {
+}
+
+UserDAO <|.. UserDAOPostgres
+RegisterController ..> UserDAO: usa
+RegisterController ..> User: usa
+UserDAOPostgres --> User: gestisce
+
+note right of RegisterController
+  Controller che gestisce la
+  registrazione di nuovi utenti
+  attraverso il pattern MVC
+end note
+
+note right of UserDAO
+  Interface generica per
+  la gestione dei dati utente
+end note
+
+legend right
+    Relazioni
+    <|.. : implementazione
+    ..> : dipendenza
+    --> : associazione
+    {static} : metodo statico
+end legend
+
+class RiepilogoController {
+    + {static} setLabelPerRiepilogo(sessioneQuiz: SessioneQuiz, domanda1: Label, domanda2: Label, \n    domanda3: Label, domanda4: Label, risposta1Utente: Label, risposta2Utente: Label, \n    risposta3Utente: Label, risposta4Utente: Label, risposta1Corretta: Label, \n    risposta2Corretta: Label, risposta3Corretta: Label, risposta4Corretta: Label): void
+    - {static} setRispostaUtente(opzioni: List<Risposta>, rispostaUtenteLabel: Label): void
+    - {static} setRispostaCorretta(opzioni: List<Risposta>, rispostaCorrettaLabel: Label): void
+    - {static} setLabelPerDomanda(domanda: Domanda, labelDomanda: Label): void
+}
+
+class SessioneQuiz {
+    + getDomande(): List<Domanda>
+}
+
+class Domanda {
+    + getTesto(): String
+    + getRisposte(): List<Risposta>
+}
+
+class Risposta {
+    + isSelected(): boolean
+    + isCorretta(): boolean
+    + getTesto(): String
+}
+
+class Label {
+    + setText(text: String): void
+    + setStyle(style: String): void
+}
+
+RiepilogoController ..> SessioneQuiz: usa
+RiepilogoController ..> Domanda: usa
+RiepilogoController ..> Risposta: usa
+RiepilogoController ..> Label: modifica
+
+SessioneQuiz "1" --> "*" Domanda: contiene
+Domanda "1" --> "*" Risposta: contiene
+
+note right of RiepilogoController
+  Controller che gestisce la visualizzazione
+  del riepilogo di una sessione quiz,
+  mostrando domande e risposte
+end note
+
+legend right
+    Modificatori
+    + public
+    - private
+    {static} metodo statico
+    --> associazione
+    ..> dipendenza
+    "1" --> "*" composizione one-to-many
+end legend
+
+class StartGameController {
+    + {static} aggiornaLabel(label: Label, username: String): void
+}
+
+class Label {
+    + getText(): String
+    + setText(text: String): void
+}
+
+StartGameController ..> Label: usa
+
+note right of StartGameController
+  Controller che gestisce la
+  schermata iniziale del gioco
+  e l'aggiornamento delle informazioni
+end note
+
+note right of Label
+  Classe JavaFX per
+  elementi di testo
+  nell'interfaccia utente
+end note
+
+legend right
+    Modificatori
+    + public
+    {static} metodo statico
+    ..> dipendenza
+end legend
+
+@enduml
