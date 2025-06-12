@@ -115,15 +115,20 @@ public class MainController {
     public Label q1, q2, q3, q4;
 
     // Opzioni risposte
+    @FXML
     public RadioButton q1opt1, q1opt2, q1opt3, q1opt4;
+    @FXML
     public RadioButton q2opt1, q2opt2, q2opt3, q2opt4;
+    @FXML
     public RadioButton q3opt1, q3opt2, q3opt3, q3opt4;
+    @FXML
     public RadioButton q4opt1, q4opt2, q4opt3, q4opt4;
 
-    private RadioButton[] q1Options;
-    private RadioButton[] q2Options;
+    private RadioButton[] q1Options ;
+    private RadioButton[] q2Options ;
     private RadioButton[] q3Options;
     private RadioButton[] q4Options;
+
 
     // Scelta difficoltà
     public Label usernameWelcomeLabel;
@@ -174,6 +179,16 @@ public class MainController {
         loginPasswordField.clear();
     }
 
+    @FXML
+    public void initialize(){
+         q1Options = new RadioButton[]{q1opt1,q1opt2 , q1opt3,q1opt4};
+         q2Options = new RadioButton[]{q2opt1,q2opt2 , q2opt3,q2opt4};
+          q3Options = new RadioButton[]{q3opt1,q3opt2,q3opt3,q3opt4};
+          q4Options = new RadioButton[]{q4opt1,q4opt2,q4opt3,q4opt4};
+          setupToggleButtons();
+          initTableView();
+    }
+
     /**
      * Pulisce le selezioni delle risposte del quiz
      */
@@ -210,14 +225,14 @@ public class MainController {
         currentQuiz.generaDomande();
 
         List<Domanda> domande = currentQuiz.getDomande();
-
+        System.out.println("Domande: "+domande);
         List<Label> domandeLabels = Arrays.asList(q1,q2,q3,q4);
         for(int i = 0 ; i < domandeLabels.size() ; i++){
             domandeLabels.get(i).setText(domande.get(i).getTesto());
         }
 
         RadioButton[][] allOptions = { q1Options, q2Options, q3Options, q4Options };
-
+        System.out.println(allOptions);
         for (int i = 0; i < allOptions.length; i++) {
             List<Risposta> risposte = domande.get(i).getRisposte();
             RadioButton[] opzioni = allOptions[i];
@@ -225,6 +240,8 @@ public class MainController {
                 opzioni[j].setText(risposte.get(j).getTesto());
             }
         }
+
+        System.out.println("Domande e risposte: "+domande);
     }
 
     /**
@@ -608,6 +625,7 @@ public class MainController {
      * @param actionEvent l'evento che ha scatenato l'azione
      */
     public void addTesto(ActionEvent actionEvent) {
+        Documento documento = null;
         Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         DocumentoDAO<Documento> documentoDAO = new DocumentoDAOPostgres();
         FileChooser fc = new FileChooser();
@@ -625,7 +643,7 @@ public class MainController {
                         .map(line -> line.replaceAll("[\\s+]", " "))
                         .reduce("", (acc, line) -> acc + " " + line);
 
-                Documento documento = new Documento(selectedFile.getName().split("\\.")[0], content);
+                 documento = new Documento(selectedFile.getName().split("\\.")[0], content);
                 String[] contentClean = content.split("[\\p{Punct}\\s]+");
                 if (contentClean.length < 10) {
                     AlertUtils.showAlert(AlertList.SHORT_TEXT, stage);
@@ -645,6 +663,13 @@ public class MainController {
                 return;
             }
 
+            //Refresho la UI nella sezione dei documenti
+            addDocumentToUI(documento);
+            documentiAggiunti.add(documento);
+            if(noDocumentsPlaceholder.isVisible()) {
+                noDocumentsPlaceholder.setVisible(false);
+                noDocumentsPlaceholder.setManaged(false);
+            }
             AlertUtils.showAlert(AlertList.UPLOAD_SUCCESS, stage);
         }
     }
@@ -846,12 +871,7 @@ public class MainController {
         currentUser = null;
     }
 
-    /**
-     * Cambia i dati utente (metodo vuoto)
-     * @param actionEvent l'evento che ha scatenato l'azione
-     */
-    public void changeDati(ActionEvent actionEvent) {
-    }
+
 
     /**
      * Mostra la sezione documenti
@@ -866,6 +886,7 @@ public class MainController {
         List<Documento> allDocuments = documentoDAOPostgres.getAllDocuments();
         if(allDocuments.isEmpty()) {
             noDocumentsPlaceholder.setVisible(true);
+            noDocumentsPlaceholder.setManaged(true);
             return;
         }
         for(Documento documento : allDocuments) addDocumentToUI(documento);
@@ -874,11 +895,6 @@ public class MainController {
 
 
     private void goToDetailOfDocument(Documento documento ){
-        System.out.println("titoloDocumentoLabel: " + titoloDocumentoLabel);
-        System.out.println("difficoltaDocumentoLabel: " + difficoltaDocumentoLabel);
-        System.out.println("contenutoDocumentoTextArea: " + contenutoDocumentoTextArea);
-        System.out.println("documentoSection: " + documentoSection);
-        System.out.println("Documento: "+documento);
         sezioneDocumenti.setVisible(false);
         sezioneDocumenti.setManaged(false);
         titoloDocumentoLabel.setText(documento.getTitolo());
@@ -895,27 +911,106 @@ public class MainController {
      */
     private void addDocumentToUI(Documento documento) {
         if(documentiAggiunti.contains(documento)) return;
+
+        // Container principale del documento
         HBox documentRow = new HBox(15);
         documentRow.setAlignment(Pos.CENTER_LEFT);
+        documentRow.setPadding(new Insets(16, 20, 16, 20));
 
-        documentRow.setStyle("-fx-background-color: #f9f9f9; -fx-background-radius: 5;");
-        documentRow.setOnMouseClicked(e->{
+        // Stile base del documento
+        String baseStyle = "-fx-background-color: white; " +
+                "-fx-background-radius: 8; " +
+                "-fx-border-color: #E5E7EB; " +
+                "-fx-border-width: 1; " +
+                "-fx-border-radius: 8; " +
+                "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 4, 0, 0, 2); " +
+                "-fx-cursor: hand;";
+
+        String hoverStyle = "-fx-background-color: #F9FAFB; " +
+                "-fx-background-radius: 8; " +
+                "-fx-border-color: #D1D5DB; " +
+                "-fx-border-width: 1; " +
+                "-fx-border-radius: 8; " +
+                "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0, 0, 4); " +
+                "-fx-cursor: hand;";
+
+        documentRow.setStyle(baseStyle);
+
+        // Eventi mouse
+        documentRow.setOnMouseClicked(e -> {
             goToDetailOfDocument(documento);
         });
-        documentRow.setOnMouseEntered(e -> documentRow.setStyle("-fx-background-color: #e0e0e0; -fx-background-radius: 5;"));
-        documentRow.setOnMouseExited(e -> documentRow.setStyle("-fx-background-color: #f9f9f9; -fx-background-radius: 5;"));
 
+        documentRow.setOnMouseEntered(e -> documentRow.setStyle(hoverStyle));
+        documentRow.setOnMouseExited(e -> documentRow.setStyle(baseStyle));
+
+        // Contenitore per icona e info documento
+        HBox documentInfo = new HBox(12);
+        documentInfo.setAlignment(Pos.CENTER_LEFT);
+
+        // Icona del documento
+        Label iconLabel = new Label("📄");
+        iconLabel.setStyle("-fx-font-size: 20; -fx-text-fill: #6B7280;");
+
+        // Contenitore per nome e dettagli
+        VBox textContainer = new VBox(2);
+
+        // Nome del documento
         Label nameLabel = new Label(documento.getTitolo());
-        nameLabel.getStyleClass().add("document-label");
-        nameLabel.setFont(Font.font("Segoe UI", FontWeight.SEMI_BOLD, 14));
+        nameLabel.setStyle("-fx-font-family: 'Segoe UI Semibold', sans-serif; " +
+                "-fx-font-size: 14; " +
+                "-fx-font-weight: 600; " +
+                "-fx-text-fill: #111827;");
 
+        // Dettagli aggiuntivi (opzionale - puoi aggiungere data, dimensione, etc.)
+        Label detailsLabel = new Label("Documento txt • Caricato il ");
+        detailsLabel.setStyle("-fx-font-family: 'Segoe UI', sans-serif; " +
+                "-fx-font-size: 12; " +
+                "-fx-text-fill: #6B7280;");
+
+        textContainer.getChildren().addAll(nameLabel, detailsLabel);
+        documentInfo.getChildren().addAll(iconLabel, textContainer);
+
+        // Spacer per spingere il pulsante a destra
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        // Pulsante elimina migliorato
         Button deleteButton = new Button("Elimina");
-        deleteButton.getStyleClass().add("delete-button");
-        deleteButton.setPrefSize(80, 30);
-        deleteButton.setStyle(
-                "-fx-background-color: #ff4c4c; " +
+        deleteButton.setPrefSize(80, 32);
+        deleteButton.setStyle("-fx-background-color: #EF4444; " +
+                "-fx-text-fill: white; " +
+                "-fx-background-radius: 6; " +
+                "-fx-border-color: transparent; " +
+                "-fx-font-family: 'Segoe UI Semibold', sans-serif; " +
+                "-fx-font-size: 12; " +
+                "-fx-font-weight: 600; " +
+                "-fx-cursor: hand; " +
+                "-fx-effect: dropshadow(gaussian, rgba(239,68,68,0.25), 4, 0, 0, 2);");
+
+        // Effetti hover per il pulsante elimina
+        deleteButton.setOnMouseEntered(e ->
+                deleteButton.setStyle("-fx-background-color: #DC2626; " +
                         "-fx-text-fill: white; " +
-                        "-fx-background-radius: 5;"
+                        "-fx-background-radius: 6; " +
+                        "-fx-border-color: transparent; " +
+                        "-fx-font-family: 'Segoe UI Semibold', sans-serif; " +
+                        "-fx-font-size: 12; " +
+                        "-fx-font-weight: 600; " +
+                        "-fx-cursor: hand; " +
+                        "-fx-effect: dropshadow(gaussian, rgba(239,68,68,0.4), 6, 0, 0, 3);")
+        );
+
+        deleteButton.setOnMouseExited(e ->
+                deleteButton.setStyle("-fx-background-color: #EF4444; " +
+                        "-fx-text-fill: white; " +
+                        "-fx-background-radius: 6; " +
+                        "-fx-border-color: transparent; " +
+                        "-fx-font-family: 'Segoe UI Semibold', sans-serif; " +
+                        "-fx-font-size: 12; " +
+                        "-fx-font-weight: 600; " +
+                        "-fx-cursor: hand; " +
+                        "-fx-effect: dropshadow(gaussian, rgba(239,68,68,0.25), 4, 0, 0, 2);")
         );
 
         deleteButton.setOnAction(event -> {
@@ -925,10 +1020,8 @@ public class MainController {
             checkIfEmpty(documentiAggiunti);
         });
 
-        Region spacer = new Region();
-        HBox.setHgrow(spacer, Priority.ALWAYS);
-
-        documentRow.getChildren().addAll(nameLabel, spacer, deleteButton);
+        // Assemblaggio finale
+        documentRow.getChildren().addAll(documentInfo, spacer, deleteButton);
         documentsList.getChildren().add(documentRow);
         documentiAggiunti.add(documento);
     }
@@ -988,6 +1081,13 @@ public class MainController {
         documentoSection.setManaged(false);
         sezioneDocumenti.setVisible(true);
         sezioneDocumenti.setManaged(true);
+    }
+
+    public void returnToSettingsFromDocumentiSection(ActionEvent actionEvent) {
+        sezioneDocumenti.setVisible(false);
+        sezioneDocumenti.setManaged(false);
+        settingsVBox.setVisible(true);
+        settingsVBox.setManaged(true);
     }
 }
 
