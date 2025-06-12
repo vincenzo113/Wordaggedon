@@ -1,4 +1,3 @@
-/* Variabili colori */
 * {
     -fx-primary-color: #6366f1;
     -fx-secondary-color: #818cf8;
@@ -327,17 +326,4 @@
 
 .scroll-bar:vertical .thumb:hover {
     -fx-opacity: 0.7;
-}
-
-/* Animazioni */
-.difficulty-button, .action-button {
-    -fx-transition: all 0.2s ease;
-}
-
-.stat-value {
-    -fx-transition: all 0.3s ease-in-out;
-}
-
-.personal-scores-checkbox {
-    -fx-transition: all 0.2s ease;
 }
