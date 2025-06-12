@@ -47,7 +47,6 @@ public class GestoreSalvataggioSessione {
         } catch (Exception e) {
             throw new SessioneNonCaricataException("Errore generico durante il caricamento della sessione");
         }
-        System.out.println("Ho trovato la sessione: " + sessioneQuiz);
         return sessioneQuiz;
     }
 

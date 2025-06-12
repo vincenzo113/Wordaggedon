@@ -74,10 +74,7 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
         stmtControl.setString(1, documento.getContenuto());
         ResultSet rsControl = stmtControl.executeQuery();
         if (rsControl.next()) {
-            System.out.println("DEBUG: Documento già presente nel DB. Contenuto trovato: [" + rsControl.getString("contenuto") + "]");
             throw new DatabaseException("Documento già presente nel database.");
-        } else {
-            System.out.println("DEBUG: Nessun documento con contenuto identico trovato nel DB.");
         }
 
 

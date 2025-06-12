@@ -17,7 +17,7 @@
     -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.1), 12, 0, 0, 4);
 }
 
-/* Sezione filtri difficoltà */
+
 .difficulty-container {
     -fx-padding: 16 0;
 }
@@ -70,7 +70,7 @@
     -fx-background-color: #dc2626;
 }
 
-/* Checkbox punteggi personali */
+
 .personal-scores-checkbox {
     -fx-font-family: 'Segoe UI', sans-serif;
     -fx-font-size: 14;
@@ -106,12 +106,12 @@
     -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.5), 2, 0, 0, 1);
 }
 
-/* Container principale */
+
 .main-container {
     -fx-max-width: 1000;
 }
 
-/* Pannello statistiche */
+
 .stats-panel {
     -fx-background-color: rgba(99, 102, 241, 0.05);
     -fx-background-radius: 12;
@@ -156,9 +156,9 @@
     -fx-text-fill: -fx-secondary-color;
 }
 
-/* Pannello classifica */
 
-/* Stili base TableView */
+
+
 .leaderboard-table {
     -fx-background-color: white;
     -fx-background-radius: 8;
@@ -167,7 +167,7 @@
     -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.05), 10, 0, 0, 1);
 }
 
-/* Stili celle */
+
 .leaderboard-table .table-cell {
     -fx-padding: 12 16;
     -fx-text-fill: #1F2937;
@@ -176,7 +176,7 @@
     -fx-font-family: 'Segoe UI', system-ui, sans-serif;
 }
 
-/* Stili righe */
+
 .leaderboard-table .table-row-cell {
     -fx-background-color: white;
     -fx-table-cell-border-color: #F3F4F6;
@@ -187,13 +187,13 @@
     -fx-background-color: rgba(99, 102, 241, 0.02);
 }
 
-/* Effetto Hover sulle righe */
+
 .leaderboard-table .table-row-cell:hover {
     -fx-background-color: rgba(99, 102, 241, 0.08);
     -fx-cursor: hand;
 }
 
-/* Riga selezionata */
+
 .leaderboard-table .table-row-cell:selected {
     -fx-background-color: rgba(99, 102, 241, 0.15);
 }
@@ -203,7 +203,7 @@
     -fx-font-weight: bold;
 }
 
-/* Intestazioni colonne */
+
 .leaderboard-table .column-header {
     -fx-background-color: rgba(99, 102, 241, 0.05);
     -fx-text-fill: -fx-primary-color;
@@ -217,14 +217,14 @@
     -fx-background-color: rgba(99, 102, 241, 0.05);
 }
 
-/* Stile per la colonna del punteggio */
+
 .leaderboard-table .table-column#scoreColumn .table-cell {
     -fx-alignment: center-right;
     -fx-font-weight: bold;
     -fx-text-fill: -fx-primary-color;
 }
 
-/* Stile per lo scroll */
+
 .leaderboard-table .scroll-bar:vertical {
     -fx-background-color: rgba(99, 102, 241, 0.05);
     -fx-pref-width: 12;
@@ -240,20 +240,20 @@
     -fx-opacity: 0.8;
 }
 
-/* Rimozione bordo focus */
+
 .leaderboard-table:focused {
     -fx-background-insets: 0;
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
 }
 
-/* Placeholder quando la tabella è vuota */
+
 .leaderboard-table .placeholder .label {
     -fx-text-fill: -fx-secondary-color;
     -fx-font-size: 14px;
 }
 
-/* Bottoni di navigazione */
+
 .navigation-buttons {
     -fx-padding: 24 0 0 0;
     -fx-alignment: center;
@@ -308,12 +308,12 @@
     -fx-scale-x: 0.98;
 }
 
-/* Effetti hover e focus */
+
 .stats-panel:hover, .leaderboard-panel:hover {
     -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.08), 8, 0, 0, 2);
 }
 
-/* ScrollBar styling */
+
 .scroll-bar:vertical {
     -fx-background-color: transparent;
     -fx-pref-width: 12;

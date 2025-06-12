@@ -228,14 +228,12 @@ public class MainController {
         currentQuiz.generaDomande();
 
         List<Domanda> domande = currentQuiz.getDomande();
-        System.out.println("Domande: "+domande);
         List<Label> domandeLabels = Arrays.asList(q1,q2,q3,q4);
         for(int i = 0 ; i < domandeLabels.size() ; i++){
             domandeLabels.get(i).setText(domande.get(i).getTesto());
         }
 
         RadioButton[][] allOptions = { q1Options, q2Options, q3Options, q4Options };
-        System.out.println(allOptions);
         for (int i = 0; i < allOptions.length; i++) {
             List<Risposta> risposte = domande.get(i).getRisposte();
             RadioButton[] opzioni = allOptions[i];
@@ -244,7 +242,6 @@ public class MainController {
             }
         }
 
-        System.out.println("Domande e risposte: "+domande);
     }
 
     /**
@@ -569,11 +566,9 @@ public class MainController {
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.isPresent() && result.get() == ButtonType.YES) {
-                System.out.println("Current user: " + currentUser);
                 try {
                     SessioneQuiz sessioneRecuperata = GestoreSalvataggioSessione.loadSessione(currentUser.getUsername());
                     sessioneRecuperata.setDomandeDAOPostgres(new DomandeDAOPostgres());
-                    System.out.println("Sessione recuperata: " + sessioneRecuperata);
                     currentQuiz = sessioneRecuperata;
                     QuizController.startTimerPerTesto(currentQuiz.getDocumenti(), 0, timeLabel, timeProgressBar, currentQuiz.getDifficolta(), displayTextLabel, titleQuiz, () -> showQuestionsAndAnswers());
                     GestoreSalvataggioSessione.eliminaSessione(currentUser.getUsername());
@@ -587,7 +582,6 @@ public class MainController {
                 try {
                     testiDaMostrare = documentoDAOPostgres.getDocumentiPerDifficolta(diff);
                 }catch (NotEnoughDocuments ex){
-                    System.out.println("[DEBUG] Non abbastanza documenti per difficoltà " + diff);
                     AlertUtils.showAlert(AlertList.NON_ABBASTANZA_DOCUMENTI,stage);
                     return;
                 }
@@ -607,15 +601,12 @@ public class MainController {
         try {
             testiDaMostrare = documentoDAOPostgres.getDocumentiPerDifficolta(diff);
         } catch (NotEnoughDocuments e) {
-            System.out.println("[DEBUG] Non abbastanza documenti per difficoltà " + diff);
             AlertUtils.showAlert(AlertList.NON_ABBASTANZA_DOCUMENTI , stage);
-            System.out.println("Eccezione "+e.getMessage()+" lanciata");
             return;
         }
         SessioneQuiz sessioneQuiz = new SessioneQuiz(testiDaMostrare, diff, currentUser);
         sessioneQuiz.setDomandeDAOPostgres(new DomandeDAOPostgres());
         currentQuiz = sessioneQuiz;
-        System.out.println("Eccezione non lanciata");
         QuizController.startTimerPerTesto(testiDaMostrare, 0, timeLabel, timeProgressBar, diff, displayTextLabel, titleQuiz, () -> showQuestionsAndAnswers());
         difficultyVBox.setVisible(false);
         difficultyVBox.setManaged(false);
@@ -661,7 +652,6 @@ public class MainController {
 
                 documentoDAO.insertDocumento(documento);
             } catch (DatabaseException e) {
-                System.out.println("Documento già presente nel db");
                 AlertUtils.showAlert(AlertList.TEXT_ALREADY_EXISTS, stage);
                 return;
             } catch (IOException e) {
