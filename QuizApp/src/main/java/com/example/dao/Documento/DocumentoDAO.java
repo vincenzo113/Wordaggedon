@@ -3,6 +3,7 @@ package com.example.dao.Documento;
 import com.example.dao.ConnectionConfig;
 import com.example.difficultySettings.DifficultyEnum;
 import com.example.exceptions.DatabaseException;
+import com.example.exceptions.DocumentoDuplicatoException;
 import com.example.exceptions.NotEnoughDocuments;
 import com.example.models.Documento;
 
@@ -43,7 +44,7 @@ public interface DocumentoDAO<T> extends ConnectionConfig {
      * @throws DatabaseException in caso di errori durante l'inserimento o la connessione
      * @throws IllegalArgumentException se il documento è null o contiene dati non validi
      */
-    void insertDocumento(Documento documento) throws DatabaseException;
+    void insertDocumento(Documento documento) throws DatabaseException, DocumentoDuplicatoException;
 
     /**
      * Recupera tutti i documenti presenti nel database.
