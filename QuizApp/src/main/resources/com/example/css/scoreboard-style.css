@@ -1,0 +1,276 @@
+
+/* Container principale */
+.scoreboard-container {
+    -fx-background-color: white;
+    -fx-background-radius: 16;
+    -fx-border-color: #E5E7EB;
+    -fx-border-width: 1;
+    -fx-border-radius: 16;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 12, 0, 0, 4);
+}
+
+/* Sezione filtri difficoltà */
+.difficulty-container {
+    -fx-padding: 16 0;
+}
+
+.filter-label {
+    -fx-font-family: 'Segoe UI Semibold', sans-serif;
+    -fx-font-size: 14;
+    -fx-text-fill: #374151;
+}
+
+.difficulty-button {
+    -fx-font-family: 'Segoe UI Semibold', sans-serif;
+    -fx-font-size: 12;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 8 16;
+    -fx-cursor: hand;
+    -fx-border-width: 0;
+}
+
+.difficulty-button:selected {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0, 0, 2);
+}
+
+.easy-button {
+    -fx-background-color: #34D399;
+    -fx-text-fill: white;
+}
+
+.easy-button:hover {
+    -fx-background-color: #10B981;
+}
+
+.medium-button {
+    -fx-background-color: #FBBF24;
+    -fx-text-fill: white;
+}
+
+.medium-button:hover {
+    -fx-background-color: #F59E0B;
+}
+
+.hard-button {
+    -fx-background-color: #EF4444;
+    -fx-text-fill: white;
+}
+
+.hard-button:hover {
+    -fx-background-color: #DC2626;
+}
+
+/* Checkbox punteggi personali */
+.personal-scores-checkbox {
+    -fx-font-family: 'Segoe UI', sans-serif;
+    -fx-font-size: 14;
+    -fx-text-fill: #374151;
+}
+
+/* Container principale */
+.main-container {
+    -fx-max-width: 1000;
+}
+
+/* Pannello statistiche */
+.stats-panel {
+    -fx-background-color: #F9FAFB;
+    -fx-background-radius: 12;
+    -fx-border-color: #E5E7EB;
+    -fx-border-radius: 12;
+    -fx-padding: 24;
+    -fx-min-width: 250;
+}
+
+.panel-title {
+    -fx-font-family: 'Segoe UI Semibold', sans-serif;
+    -fx-font-size: 16;
+    -fx-font-weight: bold;
+    -fx-text-fill: #111827;
+}
+
+.stat-container {
+    -fx-padding: 12 0;
+}
+
+.stat-label {
+    -fx-font-family: 'Segoe UI', sans-serif;
+    -fx-font-size: 14;
+    -fx-text-fill: #6B7280;
+}
+
+.stat-value {
+    -fx-font-family: 'Segoe UI Semibold', sans-serif;
+    -fx-font-size: 24;
+    -fx-font-weight: bold;
+}
+
+.average-score {
+    -fx-text-fill: #2563EB;
+}
+
+.best-score {
+    -fx-text-fill: #059669;
+}
+
+.games-count {
+    -fx-text-fill: #6B7280;
+}
+
+/* Pannello classifica */
+
+/* Stili base TableView */
+.leaderboard-table {
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-border-color: #E5E7EB;
+    -fx-border-radius: 8;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 1);
+}
+
+/* Stili celle */
+.leaderboard-table .table-cell {
+    -fx-padding: 12 16;
+    -fx-text-fill: #1F2937;
+    -fx-alignment: center-left;
+    -fx-font-size: 14px;  /* Aumentato da 13px a 14px */
+    -fx-font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+/* Stili righe */
+.leaderboard-table .table-row-cell {
+    -fx-background-color: white;
+    -fx-table-cell-border-color: #F3F4F6;
+    -fx-cell-size: 48px;  /* Aumentato leggermente per accomodare il testo più grande */
+}
+
+.leaderboard-table .table-row-cell:odd {
+    -fx-background-color: #F9FAFB;
+}
+
+/* Effetto Hover sulle righe */
+.leaderboard-table .table-row-cell:hover {
+    -fx-background-color: #EFF6FF;
+    -fx-cursor: hand;
+}
+
+/* Riga selezionata */
+.leaderboard-table .table-row-cell:selected {
+    -fx-background-color: #DBEAFE;
+}
+
+.leaderboard-table .table-row-cell:selected .table-cell {
+    -fx-text-fill: #1E40AF;
+    -fx-font-weight: bold;
+}
+
+/* Intestazioni colonne */
+.leaderboard-table .column-header {
+    -fx-background-color: #F8FAFC;
+    -fx-text-fill: #64748B;
+    -fx-font-weight: bold;
+    -fx-font-size: 15px;  /* Aumentato da 12px a 15px */
+    -fx-padding: 16;
+    -fx-border-color: transparent transparent #E2E8F0 transparent;
+}
+
+.leaderboard-table .column-header-background {
+    -fx-background-color: #F8FAFC;
+}
+
+/* Stile per la colonna del punteggio */
+.leaderboard-table .table-column#scoreColumn .table-cell {
+    -fx-alignment: center-right;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2563EB;
+}
+
+/* Stile per lo scroll */
+.leaderboard-table .scroll-bar:vertical {
+    -fx-background-color: #F8FAFC;
+    -fx-pref-width: 12;
+}
+
+.leaderboard-table .scroll-bar:vertical .thumb {
+    -fx-background-color: #CBD5E1;
+    -fx-background-radius: 6;
+}
+
+/* Rimozione bordo focus */
+.leaderboard-table:focused {
+    -fx-background-insets: 0;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+/* Placeholder quando la tabella è vuota */
+.leaderboard-table .placeholder .label {
+    -fx-text-fill: #94A3B8;
+    -fx-font-size: 14px;
+}
+
+
+/* Bottoni di navigazione */
+.navigation-buttons {
+    -fx-padding: 24 0 0 0;
+}
+
+.action-button {
+    -fx-font-family: 'Segoe UI Semibold', sans-serif;
+    -fx-font-size: 14;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-pref-width: 200;
+    -fx-pref-height: 48;
+}
+
+.restart-button {
+    -fx-background-color: #2563EB;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(gaussian, rgba(37,99,235,0.25), 4, 0, 0, 2);
+}
+
+.restart-button:hover {
+    -fx-background-color: #1D4ED8;
+}
+
+.back-button {
+    -fx-background-color: #6B7280;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(gaussian, rgba(107,114,128,0.25), 4, 0, 0, 2);
+}
+
+.back-button:hover {
+    -fx-background-color: #4B5563;
+}
+
+/* Effetti hover e focus */
+.stats-panel:hover, .leaderboard-panel:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 8, 0, 0, 2);
+}
+
+/* ScrollBar styling */
+.scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-pref-width: 12;
+}
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #D1D5DB;
+    -fx-background-radius: 6;
+}
+
+.scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #9CA3AF;
+}
+
+/* Animazioni */
+.difficulty-button, .action-button {
+    -fx-transition: background-color 0.2s ease-in-out;
+}
+
+.stat-value {
+    -fx-transition: all 0.3s ease-in-out;
+}

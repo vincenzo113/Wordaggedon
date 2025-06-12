@@ -459,59 +459,58 @@
 
 
 
-    <VBox spacing="15" alignment="CENTER" fx:id="scoreboardVBox" visible="false" managed="false"
-          stylesheets="@../css/login-style.css">
+    <VBox fx:id="scoreboardVBox"
+          spacing="15"
+          alignment="CENTER"
+          visible="false"
+          managed="false"
+          stylesheets="@../css/scoreboard-style.css"
+          styleClass="scoreboard-container">
 
         <padding>
-            <Insets top="20" right="20" bottom="20" left="20"/>
+            <Insets top="32" right="32" bottom="32" left="32"/>
         </padding>
 
-        <!-- Selettori di difficoltà in alto -->
-        <HBox spacing="10" alignment="CENTER">
-            <Label text="Filtra per difficoltà:" style="-fx-font-weight: bold;"/>
-            <ToggleButton fx:id="facileButton" text="FACILE"
-                          style="-fx-background-color: #8BC34A; -fx-text-fill: white;"/>
-            <ToggleButton fx:id="medioButton" text="MEDIO"
-                          style="-fx-background-color: #FF9800; -fx-text-fill: white;"/>
-            <ToggleButton fx:id="difficileButton" text="DIFFICILE"
-                          style="-fx-background-color: #F44336; -fx-text-fill: white;"/>
+        <!-- Selettori di difficoltà -->
+        <HBox spacing="10" alignment="CENTER" styleClass="difficulty-container">
+            <Label text="Filtra per difficoltà:" styleClass="filter-label"/>
+            <ToggleButton fx:id="facileButton" text="FACILE" styleClass="difficulty-button, easy-button"/>
+            <ToggleButton fx:id="medioButton" text="MEDIO" styleClass="difficulty-button, medium-button"/>
+            <ToggleButton fx:id="difficileButton" text="DIFFICILE" styleClass="difficulty-button, hard-button"/>
         </HBox>
 
         <!-- CheckBox per punteggi personali -->
-        <CheckBox fx:id="punteggiPersonaliCheckBox" text="Punteggi Personali"/>
+        <CheckBox fx:id="punteggiPersonaliCheckBox"
+                  text="Punteggi Personali"
+                  styleClass="personal-scores-checkbox"/>
 
+        <!-- Layout principale -->
+        <HBox spacing="20" VBox.vgrow="ALWAYS" styleClass="main-container">
+            <!-- Pannello statistiche -->
+            <VBox spacing="15" styleClass="stats-panel">
+                <Label text="STATISTICHE" styleClass="panel-title"/>
 
-        <!-- Layout principale con statistiche a sinistra e tabella a destra -->
-        <HBox spacing="20" VBox.vgrow="ALWAYS" maxWidth="800">
-
-            <!-- Pannello sinistro - Statistiche -->
-            <VBox spacing="15" minWidth="200" style="-fx-border-color: #E0E0E0; -fx-border-radius: 5; -fx-padding: 15;">
-                <Label text="STATISTICHE" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
-
-                <VBox spacing="8">
-                    <Label text="Punteggio Medio:" style="-fx-font-weight: bold;"/>
-                    <Label fx:id="punteggioMedioLabel" text="0.0"
-                           style="-fx-font-size: 18px; -fx-text-fill: #2196F3;"/>
+                <VBox spacing="8" styleClass="stat-container">
+                    <Label text="Punteggio Medio:" styleClass="stat-label"/>
+                    <Label fx:id="punteggioMedioLabel" text="0.0" styleClass="stat-value, average-score"/>
                 </VBox>
 
-                <VBox spacing="8">
-                    <Label text="Miglior Punteggio:" style="-fx-font-weight: bold;"/>
-                    <Label fx:id="migliorPunteggioLabel" text="0"
-                           style="-fx-font-size: 18px; -fx-text-fill: #4CAF50;"/>
+                <VBox spacing="8" styleClass="stat-container">
+                    <Label text="Miglior Punteggio:" styleClass="stat-label"/>
+                    <Label fx:id="migliorPunteggioLabel" text="0" styleClass="stat-value, best-score"/>
                 </VBox>
 
-                <VBox spacing="8">
-                    <Label text="Numero Partite:" style="-fx-font-weight: bold;"/>
-                    <Label fx:id="numeroPartiteLabel" text="0"
-                           style="-fx-font-size: 16px; -fx-text-fill: #666666;"/>
+                <VBox spacing="8" styleClass="stat-container">
+                    <Label text="Numero Partite:" styleClass="stat-label"/>
+                    <Label fx:id="numeroPartiteLabel" text="0" styleClass="stat-value, games-count"/>
                 </VBox>
             </VBox>
 
-            <!-- Pannello destro - Tabella score totali -->
-            <VBox spacing="10" HBox.hgrow="ALWAYS">
-                <Label text="CLASSIFICA GENERALE" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+            <!-- Pannello classifica -->
+            <VBox spacing="10" HBox.hgrow="ALWAYS" styleClass="leaderboard-panel">
+                <Label text="CLASSIFICA GENERALE" styleClass="panel-title"/>
 
-                <TableView fx:id="tableView" VBox.vgrow="ALWAYS">
+                <TableView fx:id="tableView" VBox.vgrow="ALWAYS" styleClass="leaderboard-table">
                     <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
                     </columnResizePolicy>
@@ -521,18 +520,23 @@
                     </columns>
                 </TableView>
             </VBox>
-
         </HBox>
 
-        <!-- Bottone in basso -->
-        <Button fx:id="restartGameButton" alignment="BOTTOM_CENTER" defaultButton="true" prefWidth="150.0" prefHeight="50.0" text="Ricomincia Gioco"
-                 styleClass="primary-button" onAction="#restartGame" />
+        <!-- Bottoni di navigazione -->
+        <VBox spacing="10" styleClass="navigation-buttons">
+            <Button fx:id="restartGameButton"
+                    text="Ricomincia Gioco"
+                    onAction="#restartGame"
+                    styleClass="action-button, restart-button"/>
 
-        <Button fx:id="goBackButton" alignment="BOTTOM_CENTER" defaultButton="true" prefWidth="150.0" prefHeight="50.0" text="Indietro"
-                 styleClass="primary-button" managed="false" visible="false" onAction="#goBack2" />
-
+            <Button fx:id="goBackButton"
+                    text="Indietro"
+                    onAction="#goBack2"
+                    managed="false"
+                    visible="false"
+                    styleClass="action-button, back-button"/>
+        </VBox>
     </VBox>
-
 
     <VBox fx:id="settingsVBox"
           spacing="0"
