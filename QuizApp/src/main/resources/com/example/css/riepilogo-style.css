@@ -100,7 +100,6 @@
     -fx-padding: 2 0;
     -fx-background-color: rgba(16, 185, 129, 0.1);
     -fx-background-radius: 6;
-    -fx-padding: 8 12;
 }
 
 
@@ -148,40 +147,6 @@
     -fx-border-color: rgba(239, 68, 68, 0.3);
     -fx-background-color: rgba(239, 68, 68, 0.02);
 }
-
-/* Responsive per schermi più piccoli */
-@media (max-width: 900px) {
-    #riepilogoVBox {
-        -fx-min-width: 600;
-        -fx-pref-width: 600;
-        -fx-max-width: 600;
-        -fx-padding: 20;
-    }
-
-    .summary-title {
-        -fx-font-size: 20px;
-    }
-
-    .question-block {
-        -fx-padding: 15;
-    }
-
-    .question-text {
-        -fx-font-size: 15px;
-    }
-
-    .user-answer-correct,
-    .user-answer-wrong,
-    .correct-answer {
-        -fx-font-size: 14px;
-    }
-
-    .primary-button {
-        -fx-min-width: 180;
-        -fx-padding: 12 30;
-    }
-}
-
 
 .primary-button:focused {
     -fx-border-color: -fx-primary-color;

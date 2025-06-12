@@ -256,6 +256,7 @@
 
 .navigation-buttons {
     -fx-padding: 24 0 0 0;
+    -fx-alignment: center;
 }
 
 .action-button {

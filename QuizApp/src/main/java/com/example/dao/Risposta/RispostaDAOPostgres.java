@@ -27,7 +27,7 @@ public class RispostaDAOPostgres implements RispostaDAO{
     @Override
     public Risposta selectRispostaCorrettaRipetizioneParolaDocumento(Documento documento, String parola) 
             throws DatabaseException {
-        String query = "SELECT conteggio FROM parola WHERE documento = ? AND LOWER(valore) = LOWER(?)";
+        String query = "SELECT conteggio FROM mappa WHERE documento = ? AND LOWER(valore) = LOWER(?)";
         
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -53,7 +53,7 @@ public class RispostaDAOPostgres implements RispostaDAO{
     public Risposta selectRispostaCorrettaNonPresente(List<Documento> documenti)
             throws DatabaseException {
         String query = "SELECT stringa FROM vocabolario " +
-                      "WHERE LOWER(stringa) NOT IN (SELECT LOWER(valore) FROM parola) " +
+                      "WHERE LOWER(stringa) NOT IN (SELECT LOWER(valore) FROM mappa) " +
                       "ORDER BY RANDOM() LIMIT 1";
 
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
@@ -86,7 +86,7 @@ public class RispostaDAOPostgres implements RispostaDAO{
 
         String placeholders = String.join(",", Collections.nCopies(documenti.size(), "?"));
         String query = "SELECT valore " +
-                      "FROM parola " +
+                      "FROM mappa " +
                       "WHERE documento IN (" + placeholders + ") " +
                       "AND LOWER(valore) NOT IN (" + stopWordsList + ") " +
                       "GROUP BY valore " +
@@ -126,9 +126,9 @@ public class RispostaDAOPostgres implements RispostaDAO{
             .reduce((a, b) -> a + ", " + b)
             .orElse("''");
 
-        String query = "SELECT valore FROM parola p WHERE documento = ? " +
+        String query = "SELECT valore FROM mappa p WHERE documento = ? " +
                       "AND p.conteggio = (" +
-                          "SELECT MAX(p1.conteggio) FROM parola p1 WHERE p1.documento = ? " +
+                          "SELECT MAX(p1.conteggio) FROM mappa p1 WHERE p1.documento = ? " +
                           "AND LOWER(p1.valore) NOT IN (" + stopWordsList + ")" +
                       ") AND LOWER(p.valore) NOT IN (" + stopWordsList + ") " +
                       "LIMIT 1";
@@ -168,7 +168,7 @@ public class RispostaDAOPostgres implements RispostaDAO{
     List<Risposta> risposteFake = new ArrayList<>();
     try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
         // Ottieni conteggio della parolaCorretta
-        String countQuery = "SELECT conteggio FROM parola WHERE documento = ? " +
+        String countQuery = "SELECT conteggio FROM mappa WHERE documento = ? " +
                           "AND LOWER(valore) = LOWER(?) LIMIT 1";
                           
         try (PreparedStatement pstmtCount = conn.prepareStatement(countQuery)) {
@@ -183,7 +183,7 @@ public class RispostaDAOPostgres implements RispostaDAO{
             }
 
             // Seleziona parole diverse per conteggio
-            String query = "SELECT valore FROM parola WHERE documento = ? " +
+            String query = "SELECT valore FROM mappa WHERE documento = ? " +
                          "AND LOWER(valore) <> LOWER(?) " +
                          "AND LOWER(valore) NOT IN (" + stopWordsList + ") " +
                          "AND conteggio <> ? " +
@@ -208,7 +208,7 @@ public class RispostaDAOPostgres implements RispostaDAO{
                                 "FROM vocabolario v " +
                                 "LEFT JOIN (" +
                                 "   SELECT LOWER(valore) AS valore, COUNT(*) AS conteggio " +
-                                "   FROM parola WHERE documento = ? " +
+                                "   FROM mappa WHERE documento = ? " +
                                 "   GROUP BY LOWER(valore)" +
                                 ") p ON LOWER(v.stringa) = p.valore " +
                                 "WHERE LOWER(v.stringa) <> LOWER(?) " +
@@ -259,7 +259,7 @@ public class RispostaDAOPostgres implements RispostaDAO{
 
     try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
         // Conteggio della parola corretta
-        String countQuery = "SELECT conteggio FROM parola WHERE LOWER(valore) = LOWER(?) LIMIT 1";
+        String countQuery = "SELECT conteggio FROM mappa WHERE LOWER(valore) = LOWER(?) LIMIT 1";
         
         try (PreparedStatement pstmtCount = conn.prepareStatement(countQuery)) {
             pstmtCount.setString(1, parolaCorretta);
@@ -272,7 +272,7 @@ public class RispostaDAOPostgres implements RispostaDAO{
             }
 
             // Query principale
-            String query = "SELECT valore FROM parola WHERE documento IN (" + placeholders + ") " +
+            String query = "SELECT valore FROM mappa WHERE documento IN (" + placeholders + ") " +
                          "AND LOWER(valore) <> LOWER(?) " +
                          "AND LOWER(valore) NOT IN (" + stopWordsList + ") " +
                          "AND conteggio < ? " +
@@ -299,7 +299,7 @@ public class RispostaDAOPostgres implements RispostaDAO{
                                 "FROM vocabolario v " +
                                 "LEFT JOIN (" +
                                 "   SELECT LOWER(valore) AS valore, COUNT(*) AS conteggio " +
-                                "   FROM parola WHERE documento IN (" + placeholders + ") " +
+                                "   FROM mappa WHERE documento IN (" + placeholders + ") " +
                                 "   GROUP BY LOWER(valore)" +
                                 ") p ON LOWER(v.stringa) = p.valore " +
                                 "WHERE LOWER(v.stringa) <> LOWER(?) " +
@@ -349,7 +349,7 @@ public class RispostaDAOPostgres implements RispostaDAO{
         String placeholders = String.join(",", Collections.nCopies(docs.size(), "?"));
         List<Risposta> risposte = new ArrayList<>();
 
-        String query = "SELECT valore FROM parola WHERE documento IN (" + placeholders + ") " +
+        String query = "SELECT valore FROM mappa WHERE documento IN (" + placeholders + ") " +
                 "AND LOWER(valore) NOT IN (" + stopWordsList + ") " +
                 "ORDER BY RANDOM() LIMIT 3";
 

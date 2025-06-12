@@ -39,7 +39,7 @@
     -fx-font-size: 12;
     -fx-font-weight: 600;
     -fx-text-fill: #6B7280;
-    -fx-letter-spacing: 0.5px;
+    -fx-letter-spacing: 0.5;
 }
 
 /* Separatore */
@@ -96,10 +96,10 @@
     -fx-font-size: 14;
     -fx-font-weight: 600;
     -fx-text-fill: #1F2937;
-    -fx-letter-spacing: 0.3px;
+    -fx-letter-spacing: 0.3;
 }
 
-/* Area contenuto documento con spacing interno */
+/* Area contenuto documento */
 .documento-content-area {
     -fx-background-color: #FEFEFE;
     -fx-background-radius: 12;
@@ -110,7 +110,7 @@
     -fx-spacing: 6;
 }
 
-/* ScrollPane personalizzato */
+/* ScrollPane */
 .documento-scroll-pane {
     -fx-background-color: transparent;
     -fx-background: transparent;
@@ -142,7 +142,6 @@
     -fx-background-radius: 2;
 }
 
-/* Footer metadata */
 .footer-text {
     -fx-font-family: 'Segoe UI', sans-serif;
     -fx-font-size: 11;
@@ -161,24 +160,20 @@
     -fx-spacing: 12;
 }
 
-/* Container header */
 .header-container {
     -fx-padding: 0 0 8 0;
 }
 
-/* Sezione container generale */
 .section-container {
     -fx-padding: 0 0 20 0;
     -fx-spacing: 12;
 }
 
-/* Footer container */
 .footer-container {
     -fx-padding: 24 0 0 0;
     -fx-spacing: 12;
 }
 
-/* Container scroll */
 .scroll-container {
     -fx-padding: 8 0 12 0;
 }

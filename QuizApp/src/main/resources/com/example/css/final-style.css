@@ -16,13 +16,13 @@
     -fx-font-family: 'Segoe UI', system-ui, -apple-system;
 }
 
-/* Contenitore principale del punteggio finale con sfondo violaceo */
+/* Contenitore principale */
 #finalScoreVBox {
     -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #667eea 0%, #764ba2 100%);
     -fx-alignment: center;
 }
 
-/* Container interno per il contenuto del punteggio - blocco con temi viola */
+/* Container interno */
 .final-score-container {
     -fx-background-color: rgba(255, 255, 255, 0.95);
     -fx-background-radius: 16;
@@ -53,29 +53,6 @@
     -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.15), 15, 0, 0, 3);
 }
 
-/* Varianti per diversi punteggi con colori primari viola */
-.score-excellent {
-    -fx-text-fill: -fx-success-color;
-    -fx-background-color: rgba(16, 185, 129, 0.08);
-    -fx-border-color: rgba(16, 185, 129, 0.3);
-    -fx-effect: dropshadow(gaussian, rgba(16, 185, 129, 0.2), 15, 0, 0, 3);
-}
-
-.score-good {
-    -fx-text-fill: -fx-secondary-color;
-    -fx-background-color: rgba(129, 140, 248, 0.08);
-    -fx-border-color: rgba(129, 140, 248, 0.3);
-    -fx-effect: dropshadow(gaussian, rgba(129, 140, 248, 0.2), 15, 0, 0, 3);
-}
-
-.score-poor {
-    -fx-text-fill: #ef4444;
-    -fx-background-color: rgba(239, 68, 68, 0.08);
-    -fx-border-color: rgba(239, 68, 68, 0.3);
-    -fx-effect: dropshadow(gaussian, rgba(239, 68, 68, 0.2), 15, 0, 0, 3);
-}
-
-/* Messaggio di congratulazioni o incoraggiamento */
 .score-message {
     -fx-font-family: 'Segoe UI', system-ui, -apple-system;
     -fx-font-size: 18px;
@@ -96,7 +73,7 @@
     -fx-padding: 20 0 0 0;
 }
 
-/* Bottone principale con stile identico a domanda-style.css */
+/* Bottone principale */
 .primary-button {
     -fx-font-family: 'Segoe UI', system-ui, -apple-system;
     -fx-font-size: 16px;
@@ -150,7 +127,6 @@
     -fx-background-radius: 6;
 }
 
-/* Stati di focus per accessibilità */
 .primary-button:focused {
     -fx-border-color: -fx-primary-color;
     -fx-border-width: 2;
@@ -166,47 +142,4 @@
     -fx-alignment: center;
     -fx-padding: 10;
     -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.2), 8, 0, 0, 2);
-}
-
-/* Responsive per schermi più piccoli */
-@media (max-width: 800px) {
-    #finalScoreVBox {
-        -fx-min-width: 500;
-        -fx-pref-width: 500;
-        -fx-max-width: 500;
-        -fx-min-height: 350;
-        -fx-pref-height: 350;
-        -fx-padding: 25;
-    }
-    
-    .final-score-container {
-        -fx-padding: 40;
-        -fx-max-width: 450;
-        -fx-spacing: 25;
-    }
-    
-    .final-score-label {
-        -fx-font-size: 28px;
-        -fx-min-width: 350;
-        -fx-padding: 20;
-    }
-    
-    .score-message {
-        -fx-font-size: 16px;
-        -fx-max-width: 350;
-    }
-    
-    .primary-button {
-        -fx-font-size: 15px;
-        -fx-min-width: 120;
-        -fx-padding: 12 30;
-    }
-    
-    .celebration-icon {
-        -fx-font-size: 30px;
-    }
-    
-    .final-score-title {
-        -fx-font-size: 20px;
-    }
 }
