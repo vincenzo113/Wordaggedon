@@ -13,7 +13,7 @@
 <StackPane fx:controller="com.example.controller.MainController" xmlns:fx="http://javafx.com/fxml">
     <VBox
             fx:id="registerVBox"
-            stylesheets="@../css/login-style.css"
+            stylesheets="@../css/register-style.css"
             alignment="CENTER" spacing="20.0" styleClass="register-view"
             visible="false" managed="false"
     >
@@ -60,9 +60,6 @@
                                styleClass="input-field" />
             </VBox>
 
-            <!-- Progress indicator per operazioni async -->
-            <ProgressIndicator fx:id="progressIndicator" visible="false" prefWidth="30.0" prefHeight="30.0" />
-
             <!-- Bottone Registrazione -->
             <Button fx:id="registerButton" defaultButton="true" prefWidth="290.0" text="Registrati"
                     styleClass="primary-button" onAction="#handleRegister" />
@@ -71,11 +68,9 @@
             <Separator prefWidth="200.0" styleClass="form-separator" />
 
             <!-- Link per tornare al login -->
-            <HBox alignment="CENTER" spacing="5.0">
-                <Label text="Hai già un account?" styleClass="secondary-text" />
-                <Button fx:id="backToLoginButton" text="Accedi qui"
-                        styleClass="link-button" onAction="#backToLogin" />
-            </HBox>
+            <Button fx:id="backToLoginButton" text="Hai già un account? Accedi qui"
+                    styleClass="link-button" onAction="#backToLogin" />
+
 
         </VBox>
     </VBox>
@@ -105,17 +100,12 @@
             <!-- Campo Password -->
             <PasswordField fx:id="loginPasswordField" prefWidth="250.0" promptText="Password" styleClass="input-field" />
 
-            <!-- Campo Email (nascosto inizialmente) -->
-            <TextField fx:id="loginEmailField" prefWidth="250.0" promptText="Email" styleClass="input-field"
-                       visible="false" managed="false" />
-
             <!-- Bottone Login -->
             <Button fx:id="loginButton" defaultButton="true" prefWidth="250.0" text="Accedi"
                     styleClass="primary-button" onAction="#handleLogin" />
 
-            <!-- Bottone Registrazione (nascosto inizialmente) -->
-            <Button fx:id="toRegisterButton" prefWidth="250.0" text="Registrati"
-                    styleClass="primary-button" visible="false" managed="false" onAction="#handleRegister" />
+            <!-- Separatore -->
+            <Separator prefWidth="200.0" styleClass="form-separator" />
 
             <!-- Bottone per switch modalità -->
             <Button fx:id="switchModeButton" text="Non hai un account? Registrati"
@@ -126,7 +116,7 @@
 
 
     <!-- VBox che contiene la schermata per scegliere la difficoltà del gioco -->
-    <VBox fx:id="difficultyVBox" alignment="CENTER" spacing="20.0" stylesheets="@../css/login-style.css"
+    <VBox fx:id="difficultyVBox" alignment="CENTER" spacing="20.0" stylesheets="@../css/difficulty-style.css"
           styleClass="difficulty-view" visible="false" managed="false">
 
         <padding>
