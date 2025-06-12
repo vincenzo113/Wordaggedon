@@ -7,6 +7,7 @@ import com.example.models.Documento;
 import com.example.models.User;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -64,7 +65,7 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
     @Override
     public void insertDocumento(Documento documento) throws DatabaseException {
     String controlQuery = "SELECT contenuto FROM documento WHERE contenuto = ?";
-    String sql = "INSERT INTO documento(titolo, contenuto,difficolta) VALUES (?, ? , ?) RETURNING id";
+    String sql = "INSERT INTO documento(titolo, contenuto,difficolta , data_caricamento) VALUES (?, ? , ? , ?) RETURNING id";
 
     try (Connection c = DriverManager.getConnection(URL, USER, PASS);
          PreparedStatement stmtControl = c.prepareStatement(controlQuery);
@@ -73,12 +74,17 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
         stmtControl.setString(1, documento.getContenuto());
         ResultSet rsControl = stmtControl.executeQuery();
         if (rsControl.next()) {
+            System.out.println("DEBUG: Documento già presente nel DB. Contenuto trovato: [" + rsControl.getString("contenuto") + "]");
             throw new DatabaseException("Documento già presente nel database.");
+        } else {
+            System.out.println("DEBUG: Nessun documento con contenuto identico trovato nel DB.");
         }
+
 
         stmt.setString(1, documento.getTitolo());
         stmt.setString(2, documento.getContenuto());
         stmt.setString(3, documento.getDifficolta().toString());
+        stmt.setDate(4,Date.valueOf(documento.getDataCaricamento()));
         ResultSet rs = stmt.executeQuery();
 
         if (rs.next()) {
@@ -89,7 +95,7 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
         insertMappaturaDocumento(documento);
 
     } catch (SQLException e) {
-        throw new DatabaseException("Errore durante l'inserimento del documento nel database", e);
+        e.printStackTrace();
     }
 }
 
@@ -139,7 +145,8 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
                     break;
 
                 }
-                allDocuments.add(new Documento(rs.getInt("id"),rs.getString("titolo") ,  rs.getString("contenuto") , diffUtilToInstance));
+                LocalDate dataCaricamento = rs.getDate("data_caricamento").toLocalDate();
+                allDocuments.add(new Documento(rs.getInt("id"),rs.getString("titolo") ,  rs.getString("contenuto") , diffUtilToInstance, dataCaricamento));
             }
 
         }catch(SQLException ex){
