@@ -189,6 +189,7 @@ public class MainController {
           q4Options = new RadioButton[]{q4opt1,q4opt2,q4opt3,q4opt4};
           setupToggleButtons();
           initTableView();
+          initBindings();
     }
 
     /**
