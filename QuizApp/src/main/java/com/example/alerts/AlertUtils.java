@@ -26,7 +26,7 @@ public class AlertUtils {
                 alert.setTitle("Login Fallito");
                 break;
             case REGISTER_FAILURE:
-                alert.setTitle("Registration fallita, riprova");
+                alert.setTitle("Registrazione fallita, riprova");
                 break;
             case FIELDS_EMPTY:
                 alert.setTitle("Errore, campi non compilati");
@@ -73,6 +73,10 @@ public class AlertUtils {
 
             case SESSIONE_NON_CARICATA:
                 alert.setTitle("Sessione non caricata");
+                break;
+
+            case PASSWORD_FORMAT_NON_CORRETTO:
+                alert.setTitle("La password deve contenere almeno 6 caratteri con almeno una maiuscola e un numero!");
                 break;
 
             default:

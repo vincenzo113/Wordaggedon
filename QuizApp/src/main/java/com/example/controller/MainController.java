@@ -369,16 +369,21 @@ public class MainController {
             throw new CampiNonCompilatiException("");
         }
 
-        if (!registerPasswordField.getText().equals(confirmRegisterPasswordField.getText())) {
-            throw new PasswordDiverseException("");
-        }
-
         if (!registerUsernameField.getText().matches("^[A-Za-z0-9_]+$")) {
             throw new UsernameFormatException("Formato dell'username non valido");
         }
 
-        String username = registerUsernameField.getText();
         String password = registerPasswordField.getText();
+        if (password.length() < 6 || !password.matches(".*[A-Z].*") || !password.matches(".*[a-z].*") || !password.matches(".*[0-9].*")) {
+            throw new PasswordFormatException("La password deve contenere almeno 6 caratteri con almeno una maiuscola e un numero");
+        }
+
+
+        if (!password.equals(confirmRegisterPasswordField.getText())) {
+            throw new PasswordDiverseException("");
+        }
+
+        String username = registerUsernameField.getText();
         return new User(username.trim(), password.trim(), false);
     }
 
@@ -489,6 +494,9 @@ public class MainController {
             return;
         } catch (UsernameFormatException ufx) {
             AlertUtils.showAlert(AlertList.USERNAME_FORMAT_NON_CORRETTO, stage);
+            return;
+        } catch (PasswordFormatException pfx) {
+            AlertUtils.showAlert(AlertList.PASSWORD_FORMAT_NON_CORRETTO, stage);
             return;
         }
 
