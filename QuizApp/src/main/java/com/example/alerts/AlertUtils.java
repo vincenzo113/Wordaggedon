@@ -26,7 +26,7 @@ public class AlertUtils {
                 alert.setTitle("Login Fallito");
                 break;
             case REGISTER_FAILURE:
-                alert.setTitle("Registration fallita, riprova");
+                alert.setTitle("Registrazione fallita, riprova");
                 break;
             case FIELDS_EMPTY:
                 alert.setTitle("Errore, campi non compilati");
