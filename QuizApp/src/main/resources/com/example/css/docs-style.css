@@ -1,0 +1,143 @@
+
+/* Contenitore principale */
+.sezione-documenti {
+    -fx-background-color: white;
+    -fx-background-radius: 16;
+    -fx-border-color: #E5E7EB;
+    -fx-border-width: 1;
+    -fx-border-radius: 16;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 12, 0, 0, 4);
+}
+
+/* Header principale */
+.header-container {
+    -fx-padding: 0 0 28 0;
+}
+
+.header-top {
+    -fx-padding: 0 0 12 0;
+}
+
+/* Bottone torna indietro */
+.btn-torna-indietro {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+    -fx-padding: 8;
+}
+
+.btn-torna-indietro .label {
+    -fx-font-size: 18;
+    -fx-text-fill: #6B7280;
+    -fx-font-weight: bold;
+}
+
+.header-divider {
+    -fx-background-color: #059669;
+    -fx-pref-width: 4;
+    -fx-pref-height: 24;
+    -fx-background-radius: 2;
+}
+
+.header-title {
+    -fx-font-family: 'Segoe UI Semibold', sans-serif;
+    -fx-font-size: 12;
+    -fx-font-weight: 600;
+    -fx-text-fill: #6B7280;
+    -fx-letter-spacing: 0.5px;
+}
+
+/* Bottone aggiungi documento */
+.btn-aggiungi-documento {
+    -fx-background-color: #059669;
+    -fx-background-radius: 8;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+    -fx-padding: 8 12;
+    -fx-effect: dropshadow(gaussian, rgba(5,150,105,0.25), 4, 0, 0, 2);
+}
+
+.btn-aggiungi-documento .label {
+    -fx-font-size: 16;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.btn-aggiungi-documento .text {
+    -fx-font-family: 'Segoe UI Semibold', sans-serif;
+    -fx-font-size: 12;
+    -fx-font-weight: 600;
+    -fx-text-fill: white;
+}
+
+.header-separator {
+    -fx-background-color: #F3F4F6;
+    -fx-pref-height: 1;
+}
+
+/* Sezione principale */
+.main-title {
+    -fx-font-size: 20;
+    -fx-font-family: 'Segoe UI Emoji';
+}
+
+.main-header-title {
+    -fx-font-family: 'Segoe UI Semibold', sans-serif;
+    -fx-font-size: 20;
+    -fx-font-weight: 600;
+    -fx-text-fill: #111827;
+}
+
+.main-description {
+    -fx-font-family: 'Segoe UI', sans-serif;
+    -fx-font-size: 14;
+    -fx-text-fill: #6B7280;
+}
+
+/* Lista documenti */
+.documents-container {
+    -fx-background-color: #FEFEFE;
+    -fx-background-radius: 12;
+    -fx-border-color: #E5E7EB;
+    -fx-border-width: 1;
+    -fx-border-radius: 12;
+}
+
+.list-header {
+    -fx-padding: 16 20 8 20;
+}
+
+.list-header-text {
+    -fx-font-family: 'Segoe UI', sans-serif;
+    -fx-font-size: 12;
+    -fx-text-fill: #9CA3AF;
+    -fx-font-style: italic;
+}
+
+.documents-scroll {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+    -fx-background-radius: 12;
+}
+
+.documents-list {
+    -fx-padding: 12;
+}
+
+/* Placeholder quando non ci sono documenti */
+.no-documents-placeholder {
+    -fx-padding: 48 24;
+}
+
+.placeholder-title {
+    -fx-font-family: 'Segoe UI Semibold', sans-serif;
+    -fx-font-size: 18;
+    -fx-font-weight: 600;
+    -fx-text-fill: #6B7280;
+}
+
+.placeholder-description {
+    -fx-font-family: 'Segoe UI', sans-serif;
+    -fx-font-size: 14;
+    -fx-text-fill: #9CA3AF;
+}
