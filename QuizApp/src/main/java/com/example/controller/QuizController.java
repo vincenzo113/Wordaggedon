@@ -46,7 +46,7 @@ public class QuizController {
             ProgressBar timeProgressBar, DifficultyEnum difficolta, Label displayText, 
             Label displayTitleText, Runnable callback) {
         int timeLimit = DifficultySettings.getTimeLimit(difficolta);
-        int maxTesti = DifficultySettings.getNumeroTesti(difficolta);
+        int maxTesti  = 3 ;
         
         displayText.setText(documenti.get(numeroTesto).getContenuto());
         displayTitleText.setText(documenti.get(numeroTesto).getTitolo());
