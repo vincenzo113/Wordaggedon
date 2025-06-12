@@ -103,17 +103,3 @@
 .link-button:pressed {
     -fx-text-fill: #1d4ed8;
 }
-
-.progress-indicator {
-    -fx-progress-color: #3b82f6;
-}
-
-.input-field.error {
-    -fx-border-color: #ef4444;
-    -fx-background-color: #fef2f2;
-}
-
-.input-field.success {
-    -fx-border-color: #10b981;
-    -fx-background-color: #f0fdf4;
-}
