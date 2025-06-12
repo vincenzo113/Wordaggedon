@@ -224,7 +224,7 @@
     </VBox>
 
     <!-- VBox originale per la visualizzazione del testo durante il gioco -->
-    <VBox fx:id="testoVBox" alignment="CENTER" prefHeight="400.0" prefWidth="500.0" spacing="20.0" xmlns="http://javafx.com/javafx/8" visible="false" managed="false" >
+    <VBox fx:id="testoVBox" alignment="CENTER" prefHeight="400.0" prefWidth="500.0" spacing="20.0" xmlns="http://javafx.com/javafx/8" stylesheets="@../css/testo-style.css" visible="false" managed="false" >
         <children>
             <!-- Titolo principale -->
             <Label fx:id="titleQuiz" text="Titolo">
@@ -241,7 +241,7 @@
                             <Font name="Courier New Bold" size="20.0" />
                         </font>
                     </Label>
-                    <ProgressBar fx:id="timeProgressBar" prefHeight="20.0" prefWidth="300.0" progress="0.0" style="-fx-accent: #2196F3;" />
+                    <ProgressBar fx:id="timeProgressBar" prefHeight="20.0" prefWidth="300.0" progress="0.0" />
 
                 </children>
             </VBox>
@@ -251,7 +251,6 @@
                 <content>
                     <Label fx:id="displayTextLabel"
                            alignment="CENTER"
-                           style="-fx-background-color: #f0f0f0; -fx-border-color: #cccccc; -fx-border-width: 1px; -fx-padding: 10px;"
                            text="Il testo apparirà qui..."
                            textAlignment="CENTER"
                            wrapText="true">
@@ -262,13 +261,7 @@
                 </content>
             </ScrollPane>
 
-
-            <!-- Label per informazioni aggiuntive -->
-
         </children>
-        <padding>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-        </padding>
     </VBox>
 
     <VBox fx:id="domandaRispostaVBox" stylesheets="@../css/login-style.css" alignment="TOP_CENTER" prefHeight="600.0" prefWidth="700.0" spacing="20.0" visible="false" managed="false">

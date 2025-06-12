@@ -1,0 +1,167 @@
+/* Variabili colori */
+* {
+    -fx-primary-color: #6366f1;
+    -fx-background-color: #ffffff;
+    -fx-text-color: #1f2937;
+    -fx-secondary-color: #818cf8;
+    -fx-accent-color: #4f46e5;
+}
+
+/* Stile principale VBox */
+.root {
+    -fx-background-color: linear-gradient(to bottom right, #f8faff, #eef2ff);
+    -fx-padding: 20;
+}
+
+/* Titolo principale */
+#titleQuiz {
+    -fx-font-family: 'Segoe UI', system-ui, -apple-system;
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-primary-color;
+    -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.2), 10, 0, 0, 4);
+    -fx-padding: 15 30;
+    -fx-background-color: rgba(255, 255, 255, 0.8);
+    -fx-background-radius: 12;
+    -fx-min-width: 600;
+    -fx-alignment: center;
+    -fx-border-color: rgba(99, 102, 241, 0.1);
+    -fx-border-radius: 12;
+    -fx-border-width: 1;
+}
+
+/* Timer label */
+#timeLabel {
+    -fx-font-family: 'Consolas', 'Monaco', monospace;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-accent-color;
+    -fx-padding: 5 15;
+    -fx-background-radius: 8;
+    -fx-background-color: rgba(99, 102, 241, 0.1);
+}
+
+/* Progress Bar personalizzata */
+.progress-bar {
+    -fx-pref-height: 8;
+    -fx-background-radius: 4;
+    -fx-min-width: 500;
+}
+
+.progress-bar > .track {
+    -fx-background-color: #e2e8f0;
+    -fx-background-radius: 4;
+}
+
+.progress-bar > .bar {
+    -fx-background-color: linear-gradient(to right, -fx-primary-color, -fx-secondary-color);
+    -fx-background-radius: 4;
+    -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.3), 8, 0, 0, 2);
+}
+
+/* ScrollPane personalizzato */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 15;
+    -fx-fit-to-width: true;
+    -fx-min-width: 1000;
+    -fx-pref-width: 1000;
+    -fx-max-width: 1000;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 20, 0, 0, 4);
+}
+
+.scroll-pane > .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-padding: 0 0 0 5;
+}
+
+.scroll-pane > .scroll-bar:vertical > .thumb {
+    -fx-background-color: -fx-primary-color;
+    -fx-background-radius: 3;
+    -fx-opacity: 0.6;
+}
+
+.scroll-pane > .scroll-bar:vertical > .track {
+    -fx-background-color: transparent;
+}
+
+/* Label del testo principale */
+#displayTextLabel {
+    -fx-font-family: 'Segoe UI', system-ui, -apple-system;
+    -fx-font-size: 20px;
+    -fx-text-fill: -fx-text-color;
+    -fx-line-spacing: 1.6;
+    -fx-padding: 25;
+    -fx-wrap-text: true;
+    -fx-letter-spacing: 0.2px;
+    -fx-min-width: 950;
+    -fx-pref-width: 950;
+}
+
+/* Animazioni hover */
+.scroll-pane:hover > .scroll-bar:vertical > .thumb {
+    -fx-opacity: 0.8;
+}
+
+/* Stile per il contenitore del timer */
+VBox > VBox {
+    -fx-spacing: 8;
+    -fx-padding: 15 0;
+    -fx-min-width: 600;
+    -fx-alignment: center;
+}
+
+/* Box principale */
+#testoVBox {
+    -fx-padding: 20;
+    -fx-spacing: 25;
+    -fx-min-width: 1100;
+    -fx-pref-width: 1100;
+    -fx-max-width: 1100;
+    -fx-alignment: center;
+}
+
+/* Media Queries per schermi più piccoli */
+@media (max-width: 1200px) {
+    #titleQuiz {
+        -fx-font-size: 28px;
+        -fx-min-width: 400;
+    }
+    
+    #timeLabel {
+        -fx-font-size: 20px;
+    }
+    
+    #displayTextLabel {
+        -fx-font-size: 18px;
+        -fx-min-width: 650;
+        -fx-pref-width: 650;
+    }
+    
+    .scroll-pane {
+        -fx-min-width: 700;
+        -fx-pref-width: 700;
+        -fx-max-width: 700;
+    }
+    
+    VBox > VBox {
+        -fx-min-width: 400;
+    }
+    
+    #testoVBox {
+        -fx-min-width: 800;
+        -fx-pref-width: 800;
+        -fx-max-width: 800;
+    }
+    
+    .progress-bar {
+        -fx-min-width: 350;
+    }
+}
