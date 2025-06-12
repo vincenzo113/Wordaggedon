@@ -1,0 +1,244 @@
+@startuml
+
+class Documento {
+    - serialVersionUID: long {static}
+    - id: int
+    - titolo: String
+    - contenuto: String
+    - mappaQuiz: Map<String, Integer>
+    - difficolta: DifficultyEnum
+    - dataCaricamento: LocalDate
+
+    + Documento(id: int, titolo: String, contenuto: String)
+    + Documento(titolo: String, contenuto: String)
+    + Documento(id: int, titolo: String, contenuto: String, difficolta: DifficultyEnum, dataCaricamento: LocalDate)
+
+    + getId(): int
+    + getTitolo(): String
+    + getContenuto(): String
+    + getDifficolta(): DifficultyEnum
+    + getDataCaricamento(): LocalDate
+    + getMappaQuiz(): Map<String, Integer>
+
+    + setId(id: int): void
+    + setTitolo(titolo: String): void
+    + setContenuto(contenuto: String): void
+    + setDifficolta(difficolta: DifficultyEnum): void
+    + setDataCaricamento(dataCaricamento: LocalDate): void
+    + setMappaturaQuiz(): Map<String, Integer>
+
+    + toString(): String
+    + equals(obj: Object): boolean
+    + hashCode(): int
+}
+
+enum DifficultyEnum {
+}
+
+interface Serializable {
+}
+
+Documento ..|> Serializable
+Documento --> DifficultyEnum
+
+class Domanda {
+    - testo: String
+    - risposte: List<Risposta>
+    - generatoreRisposte: GeneratoreRisposte
+
+    + Domanda(testo: String, risposte: List<Risposta>)
+    + getTesto(): String
+    + setTesto(testo: String): void
+    + getRisposte(): List<Risposta>
+    + setRisposteQuanteVolteSiPresentaInUnTesto(documento: Documento, parola: String): void
+    + setRispostePiuFrequenteNelTesto(documento: Documento): void
+    + setRispostePiuFrequenteInTutti(docs: List<Documento>): void
+    + setRisposteMaiPresente(docs: List<Documento>): void
+    + toString(): String
+}
+
+class Risposta {
+}
+
+class GeneratoreRisposte {
+}
+
+class Documento {
+}
+
+interface Serializable {
+}
+
+Domanda ..|> Serializable
+Domanda "1" *--> "*" Risposta : contiene
+Domanda "1" --> "1" GeneratoreRisposte : usa
+Domanda ..> Documento : usa
+
+note right of Domanda
+  Il campo generatoreRisposte è marcato
+  come transient per la serializzazione
+end note
+
+class GeneratoreRisposte {
+    - rispostaDAOPostgres: RispostaDAOPostgres
+
+    + RipetizioneParolaDocumento(documento: Documento, parola: String): List<Risposta>
+    + PiuFrequenteDocumento(documento: Documento): List<Risposta>
+    + PiuFrequenteInTutti(documenti: List<Documento>): List<Risposta>
+    + NonPresente(documenti: List<Documento>): List<Risposta>
+}
+
+class RispostaDAOPostgres {
+    + selectRispostaCorrettaRipetizioneParolaDocumento(documento: Documento, parola: String): Risposta
+    + selectRispostaCorrettaPiuFrequenteDocumento(documento: Documento): Risposta
+    + selectRispostaCorrettaPiuFrequenteInTutti(documenti: List<Documento>): Risposta
+    + selectRispostaCorrettaNonPresente(documenti: List<Documento>): Risposta
+    + selectParoleNonPiuFrequenti(documento: Documento, testo: String): List<Risposta>
+    + selectParoleNonPiuFrequentiInTutti(documenti: List<Documento>, testo: String): List<Risposta>
+    + selectParolePresentiInAlmenoUnDocumento(documenti: List<Documento>): List<Risposta>
+}
+
+class Documento {
+}
+
+class Risposta {
+}
+
+GeneratoreRisposte "1" --> "1" RispostaDAOPostgres : usa
+GeneratoreRisposte ..> Documento : usa
+GeneratoreRisposte ..> Risposta : crea
+
+note left of GeneratoreRisposte
+  Questa classe si occupa di generare
+  risposte per diverse tipologie di domande
+  basate sui documenti
+end note
+
+class Risposta {
+    - testo: String
+    - corretta: boolean
+    - selected: boolean
+
+    + Risposta(testo: String, corretta: boolean)
+    + getTesto(): String
+    + isCorretta(): boolean
+    + isSelected(): boolean
+    + setSelected(selected: boolean): void
+    + toString(): String
+}
+
+interface Serializable {
+}
+
+Risposta ..|> Serializable
+
+note right of Risposta
+    Questa classe rappresenta una singola risposta
+    in un quiz, con informazioni sul testo,
+    la correttezza e lo stato di selezione
+end note
+
+legend right
+    Modificatori
+    + public
+    - private
+end legend
+
+class SessioneQuiz {
+    - serialVersionUID: long {static}
+    - documenti: List<Documento>
+    - domande: List<Domanda>
+    - difficolta: DifficultyEnum
+    - user: User
+    - score: int
+    - domandeDAOPostgres: DomandeDAOPostgres
+    - isCompleta: boolean
+
+    + SessioneQuiz(documenti: List<Documento>, difficolta: DifficultyEnum, user: User)
+    + SessioneQuiz(user: User, difficolta: DifficultyEnum, score: int)
+    + getDocumenti(): List<Documento>
+    + getDomande(): List<Domanda>
+    + getDifficolta(): DifficultyEnum
+    + getUser(): User
+    + getScore(): int
+    + setScore(score: int): void
+    + generaDomande(): void
+    + toString(): String
+    + setDomandeDAOPostgres(daoPostgres: DomandeDAOPostgres): void
+    + setIsCompleta(value: Boolean): void
+    + isCompleta(): boolean
+}
+
+class Documento {
+}
+
+class Domanda {
+}
+
+class User {
+}
+
+class DomandeDAOPostgres {
+}
+
+enum DifficultyEnum {
+}
+
+interface Serializable {
+}
+
+SessioneQuiz ..|> Serializable
+SessioneQuiz "1" o--> "*" Documento : contiene
+SessioneQuiz "1" o--> "*" Domanda : contiene
+SessioneQuiz "1" --> "1" User : appartiene a
+SessioneQuiz "1" --> "1" DifficultyEnum : ha
+SessioneQuiz "1" --> "1" DomandeDAOPostgres : usa
+
+note right of SessioneQuiz
+  Il campo domandeDAOPostgres è marcato
+  come transient per la serializzazione
+end note
+
+legend right
+    Relazioni
+    --|> : implementazione
+    o--> : composizione
+    --> : associazione
+end legend
+
+class User {
+    - username: String
+    - password: String
+    - admin: boolean
+
+    + User(username: String, password: String, admin: boolean)
+    + User(username: String)
+    + getUsername(): String
+    + setUsername(username: String): void
+    + getPassword(): String
+    + setPassword(password: String): void
+    + isAdmin(): boolean
+    + setAdmin(admin: boolean): void
+    + toString(): String
+}
+
+interface Serializable {
+}
+
+User ..|> Serializable
+
+note right of User
+  Questa classe rappresenta un utente
+  del sistema con le sue credenziali
+  e i privilegi di amministrazione
+end note
+
+legend right
+    Modificatori
+    + public
+    - private
+    --|> implementazione
+end legend
+
+@enduml
+
