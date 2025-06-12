@@ -25,7 +25,6 @@ public class GeneratoreRisposte {
     public  List<Risposta> RipetizioneParolaDocumento(Documento documento, String parola) {
 
         Risposta rispostaCorretta = rispostaDAOPostgres.selectRispostaCorrettaRipetizioneParolaDocumento(documento, parola);
-        //System.out.println("Risposta corretta: "+rispostaCorretta);
         int corretta = Integer.parseInt(rispostaCorretta.getTesto());
         Random rand = new Random();
         Set<Integer> alternative = new HashSet<>();
@@ -88,7 +87,6 @@ public class GeneratoreRisposte {
         Risposta rispostaCorretta = rispostaDAOPostgres.selectRispostaCorrettaNonPresente(documenti);
         List<Risposta> fakes = rispostaDAOPostgres.selectParolePresentiInAlmenoUnDocumento(documenti);
         fakes.add(rispostaCorretta);
-       // System.out.println("Contenuto finale di fakes: " + fakes);
         return fakes;
     }
 }
