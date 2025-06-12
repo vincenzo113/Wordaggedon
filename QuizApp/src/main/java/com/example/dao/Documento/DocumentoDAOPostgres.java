@@ -2,6 +2,7 @@ package com.example.dao.Documento;
 
 import com.example.difficultySettings.DifficultyEnum;
 import com.example.exceptions.DatabaseException;
+import com.example.exceptions.DocumentoDuplicatoException;
 import com.example.exceptions.NotEnoughDocuments;
 import com.example.models.Documento;
 import com.example.models.User;
@@ -25,7 +26,7 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
 
     /** {@inheritDoc} */
     @Override
-    public List<Documento> getDocumentiPerDifficolta(DifficultyEnum difficolta) throws NotEnoughDocuments {
+    public List<Documento> getDocumentiPerDifficolta(DifficultyEnum difficolta) throws NotEnoughDocuments, DatabaseException {
         List<Documento> documenti = new ArrayList<>();
         int limiteNumeroDocumenti = 3 ;
 
@@ -48,12 +49,10 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
 
             }
 
-
-
              if(documenti.size() < limiteNumeroDocumenti) throw new NotEnoughDocuments("Non hai caricato abbastanza documenti per la difficoltà: "+difficolta);
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DatabaseException("Errore durante il recupero dei documenti dal database");
         }
 
         return documenti;
@@ -63,7 +62,7 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
 
     /** {@inheritDoc} */
     @Override
-    public void insertDocumento(Documento documento) throws DatabaseException {
+    public void insertDocumento(Documento documento) throws DatabaseException, DocumentoDuplicatoException {
     String controlQuery = "SELECT contenuto FROM documento WHERE contenuto = ?";
     String sql = "INSERT INTO documento(titolo, contenuto,difficolta , data_caricamento) VALUES (?, ? , ? , ?) RETURNING id";
 
@@ -74,7 +73,7 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
         stmtControl.setString(1, documento.getContenuto());
         ResultSet rsControl = stmtControl.executeQuery();
         if (rsControl.next()) {
-            throw new DatabaseException("Documento già presente nel database.");
+            throw new DocumentoDuplicatoException("Documento già presente nel database.");
         }
 
 
@@ -92,12 +91,12 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
         insertMappaturaDocumento(documento);
 
     } catch (SQLException e) {
-        e.printStackTrace();
+        throw new DatabaseException("Errore durante l'inserimento del documento nel database");
     }
 }
 
     /** {@inheritDoc} */
-    public void insertMappaturaDocumento(Documento documento) {
+    public void insertMappaturaDocumento(Documento documento) throws DatabaseException {
         Map<String,Integer> mappatura = documento.getMappaQuiz();
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
              Statement stmt = conn.createStatement()) {
@@ -112,13 +111,13 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
                 stmt.executeUpdate(query);
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException("Errore durante l'inserimento della mappatura nel database");
         }
     }
 
     /** {@inheritDoc} */
     @Override
-    public List<Documento> getAllDocuments(){
+    public List<Documento> getAllDocuments() throws DatabaseException {
         List<Documento> allDocuments = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
              Statement stmt = conn.createStatement()){
@@ -147,22 +146,22 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
             }
 
         }catch(SQLException ex){
-
+            throw new DatabaseException("Errore durante il recupero di tutti i documenti dal database");
         }
         return allDocuments;
     }
 
 
     /** {@inheritDoc} */
-    public void eliminaDocumento(int idDocumento){
+    public void eliminaDocumento(int idDocumento) throws DatabaseException {
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
              Statement stmt = conn.createStatement()){
 
             String query = "delete from documento where id="+idDocumento;
             stmt.executeUpdate(query);
 
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new DatabaseException("Errore durante l'eliminazione del documento dal database");
         }
 
     }

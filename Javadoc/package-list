@@ -1,0 +1,15 @@
+com.example.alerts
+com.example.controller
+com.example.dao
+com.example.dao.Documento
+com.example.dao.Domande
+com.example.dao.Risposta
+com.example.dao.SessionQuiz
+com.example.dao.User
+com.example.dao.stopWordsDAO
+com.example.difficultySettings
+com.example.exceptions
+com.example.models
+com.example.quizapp
+com.example.timerService
+com.example.utils

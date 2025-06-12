@@ -660,10 +660,13 @@ public class MainController {
 
                 documentoDAO.insertDocumento(documento);
             } catch (DatabaseException e) {
-                AlertUtils.showAlert(AlertList.TEXT_ALREADY_EXISTS, stage);
+                AlertUtils.showAlert(AlertList.DATABASE_ERROR, stage);
                 return;
             } catch (IOException e) {
                 AlertUtils.showAlert(AlertList.UPLOAD_FAILURE, stage);
+                return;
+            } catch (DocumentoDuplicatoException e) {
+                AlertUtils.showAlert(AlertList.TEXT_ALREADY_EXISTS, stage);
                 return;
             }
 

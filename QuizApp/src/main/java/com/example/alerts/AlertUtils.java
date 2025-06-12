@@ -40,7 +40,6 @@ public class AlertUtils {
             case PASSWORD_MISMATCH:
                 alert.setTitle("Password non corrispondono");
                 break;
-
             case  USERNAME_ALREADY_TAKEN:
                 alert.setTitle("Username non disponibile");
                 break;
