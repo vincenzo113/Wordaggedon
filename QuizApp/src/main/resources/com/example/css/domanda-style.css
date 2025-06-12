@@ -180,19 +180,6 @@
     -fx-scale-x: 0.98;
 }
 
-/* Animazioni */
-.question-box {
-    -fx-transition: all 0.3s ease;
-}
-
-.radio-button {
-    -fx-transition: all 0.2s ease;
-}
-
-#nextButton {
-    -fx-transition: all 0.2s ease;
-}
-
 /* Responsive per schermi più piccoli */
 @media (max-width: 900px) {
     #domandaRispostaVBox {

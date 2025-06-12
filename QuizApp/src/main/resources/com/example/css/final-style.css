@@ -13,23 +13,24 @@
 /* Stile principale */
 .root {
     -fx-background-color: linear-gradient(to bottom right, #f8faff, #eef2ff);
-    -fx-padding: 20;
     -fx-font-family: 'Segoe UI', system-ui, -apple-system;
 }
 
-/* Contenitore principale del punteggio finale */
+/* Contenitore principale del punteggio finale con sfondo violaceo */
 #finalScoreVBox {
-    -fx-spacing: 15;
-    -fx-padding: 25;
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #667eea 0%, #764ba2 100%);
     -fx-alignment: center;
-    -fx-min-width: 450;
-    -fx-pref-width: 450;
-    -fx-max-width: 450;
-    -fx-min-height: 250;
-    -fx-pref-height: 250;
+}
+
+/* Container interno per il contenuto del punteggio - blocco con temi viola */
+.final-score-container {
     -fx-background-color: rgba(255, 255, 255, 0.95);
     -fx-background-radius: 16;
-    -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.15), 20, 0, 0, 4);
+    -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.2), 20, 0, 0, 8);
+    -fx-padding: 50;
+    -fx-spacing: 30;
+    -fx-alignment: center;
+    -fx-max-width: 600;
     -fx-border-color: -fx-border-light;
     -fx-border-radius: 16;
     -fx-border-width: 1;
@@ -38,61 +39,64 @@
 /* Label del punteggio finale */
 .final-score-label {
     -fx-font-family: 'Segoe UI', system-ui, -apple-system;
-    -fx-font-size: 24px;
+    -fx-font-size: 32px;
     -fx-font-weight: bold;
     -fx-text-fill: -fx-primary-color;
     -fx-alignment: center;
-    -fx-padding: 15;
+    -fx-padding: 25;
     -fx-background-color: rgba(99, 102, 241, 0.08);
     -fx-background-radius: 12;
-    -fx-border-color: rgba(99, 102, 241, 0.2);
+    -fx-border-color: -fx-border-light;
     -fx-border-radius: 12;
-    -fx-border-width: 2;
-    -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.2), 10, 0, 0, 3);
-    -fx-min-width: 350;
+    -fx-border-width: 1;
+    -fx-min-width: 450;
+    -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.15), 15, 0, 0, 3);
 }
 
-/* Varianti per diversi punteggi */
+/* Varianti per diversi punteggi con colori primari viola */
 .score-excellent {
     -fx-text-fill: -fx-success-color;
     -fx-background-color: rgba(16, 185, 129, 0.08);
     -fx-border-color: rgba(16, 185, 129, 0.3);
-    -fx-effect: dropshadow(gaussian, rgba(16, 185, 129, 0.2), 10, 0, 0, 3);
+    -fx-effect: dropshadow(gaussian, rgba(16, 185, 129, 0.2), 15, 0, 0, 3);
 }
 
 .score-good {
-    -fx-text-fill: -fx-gold-color;
-    -fx-background-color: rgba(245, 158, 11, 0.08);
-    -fx-border-color: rgba(245, 158, 11, 0.3);
-    -fx-effect: dropshadow(gaussian, rgba(245, 158, 11, 0.2), 10, 0, 0, 3);
+    -fx-text-fill: -fx-secondary-color;
+    -fx-background-color: rgba(129, 140, 248, 0.08);
+    -fx-border-color: rgba(129, 140, 248, 0.3);
+    -fx-effect: dropshadow(gaussian, rgba(129, 140, 248, 0.2), 15, 0, 0, 3);
 }
 
 .score-poor {
     -fx-text-fill: #ef4444;
     -fx-background-color: rgba(239, 68, 68, 0.08);
     -fx-border-color: rgba(239, 68, 68, 0.3);
-    -fx-effect: dropshadow(gaussian, rgba(239, 68, 68, 0.2), 10, 0, 0, 3);
+    -fx-effect: dropshadow(gaussian, rgba(239, 68, 68, 0.2), 15, 0, 0, 3);
 }
 
 /* Messaggio di congratulazioni o incoraggiamento */
 .score-message {
     -fx-font-family: 'Segoe UI', system-ui, -apple-system;
-    -fx-font-size: 16px;
+    -fx-font-size: 18px;
     -fx-font-weight: 500;
-    -fx-text-fill: #374151;
+    -fx-text-fill: -fx-text-color;
     -fx-alignment: center;
     -fx-wrap-text: true;
-    -fx-padding: 10;
-    -fx-max-width: 350;
+    -fx-padding: 15;
+    -fx-max-width: 450;
+    -fx-background-color: rgba(255, 255, 255, 0.5);
+    -fx-background-radius: 8;
 }
 
 /* Contenitore del bottone */
 .button-container {
+    -fx-spacing: 15;
     -fx-alignment: center;
-    -fx-padding: 10 0 0 0;
+    -fx-padding: 20 0 0 0;
 }
 
-/* Bottone primario */
+/* Bottone principale con stile identico a domanda-style.css */
 .primary-button {
     -fx-font-family: 'Segoe UI', system-ui, -apple-system;
     -fx-font-size: 16px;
@@ -100,54 +104,50 @@
     -fx-text-fill: white;
     -fx-background-color: -fx-primary-color;
     -fx-background-radius: 25;
-    -fx-padding: 12 35;
+    -fx-padding: 12 30;
     -fx-cursor: hand;
-    -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.3), 12, 0, 0, 4);
-    -fx-min-width: 200;
-    -fx-alignment: center;
+    -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.3), 10, 0, 0, 3);
+    -fx-min-width: 120;
 }
 
 .primary-button:hover {
     -fx-background-color: -fx-accent-color;
-    -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.4), 15, 0, 0, 5);
+    -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.4), 15, 0, 0, 4);
     -fx-scale-y: 1.02;
     -fx-scale-x: 1.02;
 }
 
 .primary-button:pressed {
     -fx-background-color: #3730a3;
-    -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.2), 6, 0, 0, 2);
+    -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.2), 5, 0, 0, 1);
     -fx-scale-y: 0.98;
     -fx-scale-x: 0.98;
 }
 
+.primary-button:disabled {
+    -fx-background-color: #d1d5db;
+    -fx-text-fill: #9ca3af;
+    -fx-effect: none;
+    -fx-opacity: 0.6;
+}
+
 /* Decorazioni aggiuntive */
 .celebration-icon {
-    -fx-font-size: 30px;
-    -fx-text-fill: -fx-gold-color;
+    -fx-font-size: 36px;
+    -fx-text-fill: -fx-primary-color;
     -fx-alignment: center;
-    -fx-padding: 5;
+    -fx-padding: 10;
+    -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.3), 8, 0, 0, 2);
 }
 
 .score-details {
     -fx-font-family: 'Segoe UI', system-ui, -apple-system;
-    -fx-font-size: 12px;
-    -fx-text-fill: #6b7280;
+    -fx-font-size: 14px;
+    -fx-text-fill: -fx-secondary-color;
     -fx-alignment: center;
-    -fx-padding: 5;
-}
-
-/* Animazioni */
-.final-score-label {
-    -fx-transition: all 0.3s ease;
-}
-
-.primary-button {
-    -fx-transition: all 0.2s ease;
-}
-
-#finalScoreVBox {
-    -fx-transition: all 0.3s ease;
+    -fx-padding: 8;
+    -fx-background-color: rgba(129, 140, 248, 0.05);
+    -fx-background-radius: 6;
 }
 
 /* Stati di focus per accessibilità */
@@ -157,49 +157,56 @@
     -fx-border-radius: 25;
 }
 
+/* Titolo aggiuntivo per il punteggio finale */
+.final-score-title {
+    -fx-font-family: 'Segoe UI', system-ui, -apple-system;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-primary-color;
+    -fx-alignment: center;
+    -fx-padding: 10;
+    -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.2), 8, 0, 0, 2);
+}
+
 /* Responsive per schermi più piccoli */
-@media (max-width: 600px) {
+@media (max-width: 800px) {
     #finalScoreVBox {
-        -fx-min-width: 350;
-        -fx-pref-width: 350;
-        -fx-max-width: 350;
-        -fx-min-height: 200;
-        -fx-pref-height: 200;
-        -fx-padding: 20;
+        -fx-min-width: 500;
+        -fx-pref-width: 500;
+        -fx-max-width: 500;
+        -fx-min-height: 350;
+        -fx-pref-height: 350;
+        -fx-padding: 25;
+    }
+    
+    .final-score-container {
+        -fx-padding: 40;
+        -fx-max-width: 450;
+        -fx-spacing: 25;
     }
     
     .final-score-label {
-        -fx-font-size: 20px;
-        -fx-min-width: 280;
-        -fx-padding: 12;
+        -fx-font-size: 28px;
+        -fx-min-width: 350;
+        -fx-padding: 20;
     }
     
     .score-message {
-        -fx-font-size: 14px;
-        -fx-max-width: 280;
+        -fx-font-size: 16px;
+        -fx-max-width: 350;
     }
     
     .primary-button {
-        -fx-font-size: 14px;
-        -fx-min-width: 150;
-        -fx-padding: 10 25;
+        -fx-font-size: 15px;
+        -fx-min-width: 120;
+        -fx-padding: 12 30;
     }
     
     .celebration-icon {
-        -fx-font-size: 24px;
+        -fx-font-size: 30px;
     }
-}
-
-/* Stile per HBox del bottone */
-HBox {
-    -fx-alignment: center;
-    -fx-padding: 10 0 0 0;
-}
-
-/* Effetti speciali per punteggi alti */
-.score-perfect {
-    -fx-text-fill: -fx-gold-color;
-    -fx-background-color: linear-gradient(to right, rgba(245, 158, 11, 0.1), rgba(16, 185, 129, 0.1));
-    -fx-border-color: -fx-gold-color;
-    -fx-effect: dropshadow(gaussian, rgba(245, 158, 11, 0.3), 15, 0, 0, 4);
+    
+    .final-score-title {
+        -fx-font-size: 20px;
+    }
 }

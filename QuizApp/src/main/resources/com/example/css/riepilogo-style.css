@@ -138,28 +138,6 @@
     -fx-scale-x: 0.98;
 }
 
-/* Icone per le risposte (se vuoi aggiungere simboli) */
-.correct-icon::before {
-    content: "✓ ";
-    -fx-text-fill: -fx-correct-color;
-    -fx-font-weight: bold;
-}
-
-.wrong-icon::before {
-    content: "✗ ";
-    -fx-text-fill: -fx-wrong-color;
-    -fx-font-weight: bold;
-}
-
-/* Animazioni */
-.question-block {
-    -fx-transition: all 0.3s ease;
-}
-
-.primary-button {
-    -fx-transition: all 0.2s ease;
-}
-
 /* Varianti per diversi stati */
 .question-block.correct-answer-block {
     -fx-border-color: rgba(16, 185, 129, 0.3);

@@ -1,12 +1,21 @@
+/* Variabili colori */
+* {
+    -fx-primary-color: #6366f1;
+    -fx-secondary-color: #818cf8;
+    -fx-accent-color: #4f46e5;
+    -fx-success-color: #10b981;
+    -fx-gold-color: #f59e0b;
+    -fx-border-light: rgba(99, 102, 241, 0.1);
+}
 
 /* Container principale */
 .scoreboard-container {
     -fx-background-color: white;
     -fx-background-radius: 16;
-    -fx-border-color: #E5E7EB;
+    -fx-border-color: -fx-border-light;
     -fx-border-width: 1;
     -fx-border-radius: 16;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 12, 0, 0, 4);
+    -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.1), 12, 0, 0, 4);
 }
 
 /* Sezione filtri difficoltà */
@@ -17,7 +26,8 @@
 .filter-label {
     -fx-font-family: 'Segoe UI Semibold', sans-serif;
     -fx-font-size: 14;
-    -fx-text-fill: #374151;
+    -fx-text-fill: -fx-primary-color;
+    -fx-font-weight: bold;
 }
 
 .difficulty-button {
@@ -35,30 +45,30 @@
 }
 
 .easy-button {
-    -fx-background-color: #34D399;
+    -fx-background-color: -fx-success-color;
     -fx-text-fill: white;
 }
 
 .easy-button:hover {
-    -fx-background-color: #10B981;
+    -fx-background-color: #059669;
 }
 
 .medium-button {
-    -fx-background-color: #FBBF24;
+    -fx-background-color: -fx-gold-color;
     -fx-text-fill: white;
 }
 
 .medium-button:hover {
-    -fx-background-color: #F59E0B;
+    -fx-background-color: #d97706;
 }
 
 .hard-button {
-    -fx-background-color: #EF4444;
+    -fx-background-color: #ef4444;
     -fx-text-fill: white;
 }
 
 .hard-button:hover {
-    -fx-background-color: #DC2626;
+    -fx-background-color: #dc2626;
 }
 
 /* Checkbox punteggi personali */
@@ -68,6 +78,35 @@
     -fx-text-fill: #374151;
 }
 
+.personal-scores-checkbox > .box {
+    -fx-background-color: transparent;
+    -fx-border-color: -fx-primary-color;
+    -fx-border-width: 2;
+    -fx-border-radius: 4;
+    -fx-padding: 6;
+    -fx-min-width: 20;
+    -fx-min-height: 20;
+    -fx-max-width: 20;
+    -fx-max-height: 20;
+}
+
+.personal-scores-checkbox:hover > .box {
+    -fx-border-color: -fx-secondary-color;
+    -fx-background-color: rgba(99, 102, 241, 0.05);
+}
+
+.personal-scores-checkbox:selected > .box {
+    -fx-background-color: -fx-primary-color;
+    -fx-border-color: -fx-primary-color;
+}
+
+.personal-scores-checkbox:selected > .box > .mark {
+    -fx-background-color: white;
+    -fx-shape: "M 0 3 L 3 6 L 8 1 L 9 2 L 3 8 L -1 4 Z";
+    -fx-scale-shape: true;
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.5), 2, 0, 0, 1);
+}
+
 /* Container principale */
 .main-container {
     -fx-max-width: 1000;
@@ -75,9 +114,9 @@
 
 /* Pannello statistiche */
 .stats-panel {
-    -fx-background-color: #F9FAFB;
+    -fx-background-color: rgba(99, 102, 241, 0.05);
     -fx-background-radius: 12;
-    -fx-border-color: #E5E7EB;
+    -fx-border-color: -fx-border-light;
     -fx-border-radius: 12;
     -fx-padding: 24;
     -fx-min-width: 250;
@@ -87,7 +126,7 @@
     -fx-font-family: 'Segoe UI Semibold', sans-serif;
     -fx-font-size: 16;
     -fx-font-weight: bold;
-    -fx-text-fill: #111827;
+    -fx-text-fill: -fx-primary-color;
 }
 
 .stat-container {
@@ -97,7 +136,7 @@
 .stat-label {
     -fx-font-family: 'Segoe UI', sans-serif;
     -fx-font-size: 14;
-    -fx-text-fill: #6B7280;
+    -fx-text-fill: -fx-secondary-color;
 }
 
 .stat-value {
@@ -107,15 +146,15 @@
 }
 
 .average-score {
-    -fx-text-fill: #2563EB;
+    -fx-text-fill: -fx-primary-color;
 }
 
 .best-score {
-    -fx-text-fill: #059669;
+    -fx-text-fill: -fx-success-color;
 }
 
 .games-count {
-    -fx-text-fill: #6B7280;
+    -fx-text-fill: -fx-secondary-color;
 }
 
 /* Pannello classifica */
@@ -124,9 +163,9 @@
 .leaderboard-table {
     -fx-background-color: white;
     -fx-background-radius: 8;
-    -fx-border-color: #E5E7EB;
+    -fx-border-color: -fx-border-light;
     -fx-border-radius: 8;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 1);
+    -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.05), 10, 0, 0, 1);
 }
 
 /* Stili celle */
@@ -134,7 +173,7 @@
     -fx-padding: 12 16;
     -fx-text-fill: #1F2937;
     -fx-alignment: center-left;
-    -fx-font-size: 14px;  /* Aumentato da 13px a 14px */
+    -fx-font-size: 14px;
     -fx-font-family: 'Segoe UI', system-ui, sans-serif;
 }
 
@@ -142,59 +181,64 @@
 .leaderboard-table .table-row-cell {
     -fx-background-color: white;
     -fx-table-cell-border-color: #F3F4F6;
-    -fx-cell-size: 48px;  /* Aumentato leggermente per accomodare il testo più grande */
+    -fx-cell-size: 48px;
 }
 
 .leaderboard-table .table-row-cell:odd {
-    -fx-background-color: #F9FAFB;
+    -fx-background-color: rgba(99, 102, 241, 0.02);
 }
 
 /* Effetto Hover sulle righe */
 .leaderboard-table .table-row-cell:hover {
-    -fx-background-color: #EFF6FF;
+    -fx-background-color: rgba(99, 102, 241, 0.08);
     -fx-cursor: hand;
 }
 
 /* Riga selezionata */
 .leaderboard-table .table-row-cell:selected {
-    -fx-background-color: #DBEAFE;
+    -fx-background-color: rgba(99, 102, 241, 0.15);
 }
 
 .leaderboard-table .table-row-cell:selected .table-cell {
-    -fx-text-fill: #1E40AF;
+    -fx-text-fill: -fx-primary-color;
     -fx-font-weight: bold;
 }
 
 /* Intestazioni colonne */
 .leaderboard-table .column-header {
-    -fx-background-color: #F8FAFC;
-    -fx-text-fill: #64748B;
+    -fx-background-color: rgba(99, 102, 241, 0.05);
+    -fx-text-fill: -fx-primary-color;
     -fx-font-weight: bold;
-    -fx-font-size: 15px;  /* Aumentato da 12px a 15px */
+    -fx-font-size: 15px;
     -fx-padding: 16;
-    -fx-border-color: transparent transparent #E2E8F0 transparent;
+    -fx-border-color: transparent transparent -fx-border-light transparent;
 }
 
 .leaderboard-table .column-header-background {
-    -fx-background-color: #F8FAFC;
+    -fx-background-color: rgba(99, 102, 241, 0.05);
 }
 
 /* Stile per la colonna del punteggio */
 .leaderboard-table .table-column#scoreColumn .table-cell {
     -fx-alignment: center-right;
     -fx-font-weight: bold;
-    -fx-text-fill: #2563EB;
+    -fx-text-fill: -fx-primary-color;
 }
 
 /* Stile per lo scroll */
 .leaderboard-table .scroll-bar:vertical {
-    -fx-background-color: #F8FAFC;
+    -fx-background-color: rgba(99, 102, 241, 0.05);
     -fx-pref-width: 12;
 }
 
 .leaderboard-table .scroll-bar:vertical .thumb {
-    -fx-background-color: #CBD5E1;
+    -fx-background-color: -fx-secondary-color;
     -fx-background-radius: 6;
+    -fx-opacity: 0.6;
+}
+
+.leaderboard-table .scroll-bar:vertical .thumb:hover {
+    -fx-opacity: 0.8;
 }
 
 /* Rimozione bordo focus */
@@ -206,10 +250,9 @@
 
 /* Placeholder quando la tabella è vuota */
 .leaderboard-table .placeholder .label {
-    -fx-text-fill: #94A3B8;
+    -fx-text-fill: -fx-secondary-color;
     -fx-font-size: 14px;
 }
-
 
 /* Bottoni di navigazione */
 .navigation-buttons {
@@ -217,38 +260,57 @@
 }
 
 .action-button {
-    -fx-font-family: 'Segoe UI Semibold', sans-serif;
-    -fx-font-size: 14;
+    -fx-font-family: 'Segoe UI', system-ui, -apple-system;
+    -fx-font-size: 16px;
     -fx-font-weight: bold;
-    -fx-background-radius: 8;
+    -fx-text-fill: white;
+    -fx-background-radius: 25;
+    -fx-padding: 12 30;
     -fx-cursor: hand;
-    -fx-pref-width: 200;
-    -fx-pref-height: 48;
+    -fx-min-width: 120;
 }
 
 .restart-button {
-    -fx-background-color: #2563EB;
-    -fx-text-fill: white;
-    -fx-effect: dropshadow(gaussian, rgba(37,99,235,0.25), 4, 0, 0, 2);
+    -fx-background-color: -fx-primary-color;
+    -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.3), 10, 0, 0, 3);
 }
 
 .restart-button:hover {
-    -fx-background-color: #1D4ED8;
+    -fx-background-color: -fx-accent-color;
+    -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.4), 15, 0, 0, 4);
+    -fx-scale-y: 1.02;
+    -fx-scale-x: 1.02;
+}
+
+.restart-button:pressed {
+    -fx-background-color: #3730a3;
+    -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.2), 5, 0, 0, 1);
+    -fx-scale-y: 0.98;
+    -fx-scale-x: 0.98;
 }
 
 .back-button {
-    -fx-background-color: #6B7280;
-    -fx-text-fill: white;
-    -fx-effect: dropshadow(gaussian, rgba(107,114,128,0.25), 4, 0, 0, 2);
+    -fx-background-color: -fx-secondary-color;
+    -fx-effect: dropshadow(gaussian, rgba(129, 140, 248, 0.3), 10, 0, 0, 3);
 }
 
 .back-button:hover {
-    -fx-background-color: #4B5563;
+    -fx-background-color: -fx-primary-color;
+    -fx-effect: dropshadow(gaussian, rgba(129, 140, 248, 0.4), 15, 0, 0, 4);
+    -fx-scale-y: 1.02;
+    -fx-scale-x: 1.02;
+}
+
+.back-button:pressed {
+    -fx-background-color: -fx-accent-color;
+    -fx-effect: dropshadow(gaussian, rgba(129, 140, 248, 0.2), 5, 0, 0, 1);
+    -fx-scale-y: 0.98;
+    -fx-scale-x: 0.98;
 }
 
 /* Effetti hover e focus */
 .stats-panel:hover, .leaderboard-panel:hover {
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 8, 0, 0, 2);
+    -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.08), 8, 0, 0, 2);
 }
 
 /* ScrollBar styling */
@@ -258,19 +320,24 @@
 }
 
 .scroll-bar:vertical .thumb {
-    -fx-background-color: #D1D5DB;
+    -fx-background-color: -fx-secondary-color;
     -fx-background-radius: 6;
+    -fx-opacity: 0.4;
 }
 
 .scroll-bar:vertical .thumb:hover {
-    -fx-background-color: #9CA3AF;
+    -fx-opacity: 0.7;
 }
 
 /* Animazioni */
 .difficulty-button, .action-button {
-    -fx-transition: background-color 0.2s ease-in-out;
+    -fx-transition: all 0.2s ease;
 }
 
 .stat-value {
     -fx-transition: all 0.3s ease-in-out;
+}
+
+.personal-scores-checkbox {
+    -fx-transition: all 0.2s ease;
 }

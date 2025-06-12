@@ -387,14 +387,29 @@
     <VBox fx:id="finalScoreVBox" stylesheets="@../css/final-style.css"
           alignment="CENTER" visible="false" managed="false">
 
-        <Label fx:id="scoreLabel"
-               text="Punteggio finale: 0"
-               styleClass="final-score-label" />
+        <padding>
+            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+        </padding>
 
-        <HBox styleClass="button-container">
+        <!-- Container principale per il punteggio finale -->
+        <VBox fx:id="finalScoreContainer"
+              styleClass="final-score-container"
+              alignment="CENTER"
+              maxWidth="400.0"
+              spacing="20.0">
+
+            <padding>
+                <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+            </padding>
+
+            <Label fx:id="scoreLabel"
+                   text="Punteggio finale: 0"
+                   styleClass="final-score-label" />
+
             <Button alignment="BOTTOM_CENTER" defaultButton="true" text="Avanti"
                     styleClass="primary-button" onAction="#goToScoreboard" />
-        </HBox>
+
+        </VBox>
 
     </VBox>
 
