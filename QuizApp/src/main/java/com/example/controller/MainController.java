@@ -34,6 +34,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.*;
 import java.io.BufferedReader;
 import java.io.File;
@@ -59,6 +60,7 @@ public class MainController {
     public VBox noDocumentsPlaceholder;
     private StringProperty initialUsernameProperty = new SimpleStringProperty();
     private Set<Documento> documentiAggiunti = new HashSet<>();
+    private Set<Documento> documentiDaAggiungereAllaUI = new HashSet<>();
     public ToggleButton facileButton, medioButton, difficileButton;
 
     // Sezione riepilogo
@@ -187,6 +189,7 @@ public class MainController {
           q4Options = new RadioButton[]{q4opt1,q4opt2,q4opt3,q4opt4};
           setupToggleButtons();
           initTableView();
+          initBindings();
     }
 
     /**
@@ -653,9 +656,12 @@ public class MainController {
                 else if (contentClean.length > 50) documento.setDifficolta(DifficultyEnum.MEDIUM);
                 else documento.setDifficolta(DifficultyEnum.EASY);
 
+                //Setto la data di caricamento del documento :
+                documento.setDataCaricamento(LocalDate.now());
+
                 documentoDAO.insertDocumento(documento);
             } catch (DatabaseException e) {
-                System.out.println("Eccezione lanciata");
+                System.out.println("Documento già presente nel db");
                 AlertUtils.showAlert(AlertList.TEXT_ALREADY_EXISTS, stage);
                 return;
             } catch (IOException e) {
@@ -884,12 +890,17 @@ public class MainController {
         sezioneDocumenti.setVisible(true);
         sezioneDocumenti.setManaged(true);
         List<Documento> allDocuments = documentoDAOPostgres.getAllDocuments();
-        if(allDocuments.isEmpty()) {
+        //Aggiungo ai "documenti da aggiungere alla UI" , solo quelli che non sono già da aggiungere
+        allDocuments.stream().filter(documento -> !documentiDaAggiungereAllaUI.contains(documento)).forEach(docu->documentiDaAggiungereAllaUI.add(docu));
+        //Se i documenti già aggiunti alla UI sono vuoti , allora mostra il placeholder
+        if(documentiAggiunti.isEmpty() && documentiDaAggiungereAllaUI.isEmpty()) {
             noDocumentsPlaceholder.setVisible(true);
             noDocumentsPlaceholder.setManaged(true);
             return;
         }
-        for(Documento documento : allDocuments) addDocumentToUI(documento);
+        for(Documento documento : documentiDaAggiungereAllaUI) addDocumentToUI(documento);
+        //Pulisco tutti i documenti da aggiungere alla UI , altrimenti non potremo mai avere la condizione isEmpty()
+        documentiDaAggiungereAllaUI.clear(); //I documenti da aggiungere alla UI sono sempre quelli presi nel momeento in cui si preme il bottone , non si deve mantenere alcuno stato
     }
 
 
@@ -963,7 +974,7 @@ public class MainController {
                 "-fx-text-fill: #111827;");
 
         // Dettagli aggiuntivi (opzionale - puoi aggiungere data, dimensione, etc.)
-        Label detailsLabel = new Label("Documento txt • Caricato il ");
+        Label detailsLabel = new Label("Documento txt • Caricato il " +documento.getDataCaricamento());
         detailsLabel.setStyle("-fx-font-family: 'Segoe UI', sans-serif; " +
                 "-fx-font-size: 12; " +
                 "-fx-text-fill: #6B7280;");
@@ -1017,7 +1028,7 @@ public class MainController {
             documentsList.getChildren().remove(documentRow);
             documentoDAOPostgres.eliminaDocumento(documento.getId());
             documentiAggiunti.remove(documento);
-            checkIfEmpty(documentiAggiunti);
+            checkIfEmpty(documentiAggiunti); // Dopo aver rimosso un documento , controlliamo sempre se mettere il placeholder
         });
 
         // Assemblaggio finale

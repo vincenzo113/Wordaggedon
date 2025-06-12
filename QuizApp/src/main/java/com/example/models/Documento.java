@@ -4,6 +4,7 @@ package com.example.models;
 import com.example.difficultySettings.DifficultyEnum;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -22,7 +23,7 @@ public class  Documento implements Serializable {
     private String contenuto;
     private Map<String, Integer> mappaQuiz;
     private DifficultyEnum difficolta;
-
+    private LocalDate dataCaricamento ;
 
     /**
      * Costruttore della classe Documento.
@@ -52,11 +53,12 @@ public class  Documento implements Serializable {
     }
 
 
-    public Documento(int id , String titolo , String contenuto , DifficultyEnum difficolta){
+    public Documento(int id , String titolo , String contenuto , DifficultyEnum difficolta, LocalDate dataCaricamento){
         this.id=id;
         this.titolo = titolo;
         this.contenuto = contenuto;
         this.difficolta = difficolta;
+        this.dataCaricamento = dataCaricamento;
     }
 
     // Getter e setter
@@ -87,6 +89,14 @@ public class  Documento implements Serializable {
      * @return la difficoltà del documento
      */
     public DifficultyEnum getDifficolta() { return difficolta; }
+
+    public LocalDate getDataCaricamento() {
+        return dataCaricamento;
+    }
+
+    public void setDataCaricamento(LocalDate dataCaricamento) {
+        this.dataCaricamento = dataCaricamento;
+    }
 
     /**
      * Imposta l'id del documento.
