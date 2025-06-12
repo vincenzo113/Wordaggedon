@@ -12,14 +12,14 @@
     -fx-wrong-color: #dc2626;
 }
 
-/* Stile principale */
+
 .root {
     -fx-background-color: linear-gradient(to bottom right, #f8faff, #eef2ff);
     -fx-padding: 20;
     -fx-font-family: 'Segoe UI', system-ui, -apple-system;
 }
 
-/* Contenitore principale del riepilogo */
+
 #riepilogoVBox {
     -fx-spacing: 20;
     -fx-padding: 25;
@@ -35,7 +35,7 @@
     -fx-border-width: 1;
 }
 
-/* Titolo del riepilogo */
+
 .summary-title {
     -fx-font-family: 'Segoe UI', system-ui, -apple-system;
     -fx-font-size: 24px;
@@ -44,7 +44,7 @@
     -fx-padding: 0 0 15 0;
 }
 
-/* Blocco singola domanda */
+
 .question-block {
     -fx-spacing: 10;
     -fx-border-color: rgba(99, 102, 241, 0.15);
@@ -60,7 +60,7 @@
     -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.1), 12, 0, 0, 3);
 }
 
-/* Label della domanda */
+
 .question-text {
     -fx-font-family: 'Segoe UI', system-ui, -apple-system;
     -fx-font-size: 16px;
@@ -70,7 +70,7 @@
     -fx-padding: 0 0 5 0;
 }
 
-/* Risposta dell'utente - corretta */
+
 .user-answer-correct {
     -fx-font-family: 'Segoe UI', system-ui, -apple-system;
     -fx-font-size: 15px;
@@ -80,7 +80,7 @@
     -fx-padding: 2 0;
 }
 
-/* Risposta dell'utente - sbagliata */
+
 .user-answer-wrong {
     -fx-font-family: 'Segoe UI', system-ui, -apple-system;
     -fx-font-size: 15px;
@@ -90,7 +90,7 @@
     -fx-padding: 2 0;
 }
 
-/* Risposta corretta */
+
 .correct-answer {
     -fx-font-family: 'Segoe UI', system-ui, -apple-system;
     -fx-font-size: 15px;
@@ -102,13 +102,13 @@
     -fx-background-radius: 6;
 }
 
-/* Contenitore del bottone */
+
 .button-container {
     -fx-alignment: center;
     -fx-padding: 20 0 0 0;
 }
 
-/* Bottone primario */
+
 .primary-button {
     -fx-font-family: 'Segoe UI', system-ui, -apple-system;
     -fx-font-size: 16px;
@@ -137,7 +137,7 @@
     -fx-scale-x: 0.98;
 }
 
-/* Varianti per diversi stati */
+
 .question-block.correct-answer-block {
     -fx-border-color: rgba(16, 185, 129, 0.3);
     -fx-background-color: rgba(16, 185, 129, 0.02);
@@ -148,14 +148,51 @@
     -fx-background-color: rgba(239, 68, 68, 0.02);
 }
 
+<<<<<<< HEAD
 /* Stati di focus per accessibilità */
+=======
+/* Responsive per schermi più piccoli */
+@media (max-width: 900px) {
+    #riepilogoVBox {
+        -fx-min-width: 600;
+        -fx-pref-width: 600;
+        -fx-max-width: 600;
+        -fx-padding: 20;
+    }
+
+    .summary-title {
+        -fx-font-size: 20px;
+    }
+
+    .question-block {
+        -fx-padding: 15;
+    }
+
+    .question-text {
+        -fx-font-size: 15px;
+    }
+
+    .user-answer-correct,
+    .user-answer-wrong,
+    .correct-answer {
+        -fx-font-size: 14px;
+    }
+
+    .primary-button {
+        -fx-min-width: 180;
+        -fx-padding: 12 30;
+    }
+}
+
+
+>>>>>>> f24de5c85bc9c0a02505a739f650b28e12d36976
 .primary-button:focused {
     -fx-border-color: -fx-primary-color;
     -fx-border-width: 2;
     -fx-border-radius: 25;
 }
 
-/* Stile per HBox del bottone */
+
 HBox {
     -fx-alignment: center;
     -fx-padding: 20 0 0 0;
