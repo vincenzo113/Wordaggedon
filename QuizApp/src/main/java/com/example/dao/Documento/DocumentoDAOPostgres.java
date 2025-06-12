@@ -107,7 +107,7 @@ public class DocumentoDAOPostgres implements DocumentoDAO<Documento>{
                 int conteggio = entry.getValue();
 
                 String query = String.format(
-                        "INSERT INTO parola (documento, valore, conteggio) VALUES ('%s', '%s', %d)",
+                        "INSERT INTO mappa (documento, valore, conteggio) VALUES ('%s', '%s', %d)",
                         documento.getId(), parola, conteggio);
                 stmt.executeUpdate(query);
             }

@@ -55,7 +55,7 @@ public class DomandeDAOPostgres implements DomandeDAO {
             throw new IllegalArgumentException("Documento non valido o ID non impostato");
         }
 
-        String query = "SELECT valore FROM parola " +
+        String query = "SELECT valore FROM mappa " +
                       "WHERE documento = ? " +
                       "AND valore NOT IN (SELECT parola FROM stopwords) " +
                       "ORDER BY RANDOM() LIMIT 1";
