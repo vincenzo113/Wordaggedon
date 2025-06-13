@@ -864,6 +864,7 @@ public class MainController {
             return;
         } catch (PasswordFormatException ex) {
             AlertUtils.showAlert(AlertList.PASSWORD_FORMAT_NON_CORRETTO, stage);
+            return;
         }
 
         AlertUtils.showAlert(AlertList.CAMBIO_PASSWORD_SUCCESS, stage);
