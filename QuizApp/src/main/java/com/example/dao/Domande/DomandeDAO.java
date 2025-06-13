@@ -26,7 +26,7 @@ public interface DomandeDAO extends ConnectionConfig {
      * Questo metodo esegue una query per ottenere l'elenco completo
      * delle domande memorizzate, inclusi tutti i loro attributi.
      *
-     * @return List<Domanda> una lista contenente tutte le domande disponibili
+     * @return List&lt;Domanda&gt; una lista contenente tutte le domande disponibili
      * @throws DatabaseException se si verificano errori durante l'accesso al database
      * @see Domanda
      */

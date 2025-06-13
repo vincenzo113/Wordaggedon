@@ -122,6 +122,12 @@ public class QuizController {
 
     /**
      * Registra le risposte selezionate dall'utente per tutte le domande.
+     *
+     * @param q1Options array di RadioButton per la prima domanda
+     * @param q2Options array di RadioButton per la seconda domanda
+     * @param q3Options array di RadioButton per la terza domanda
+     * @param q4Options array di RadioButton per la quarta domanda
+     * @param currentQuiz oggetto SessioneQuiz contenente le domande attuali
      */
     public static void setRisposteSelezionate(RadioButton[] q1Options, RadioButton[] q2Options, 
             RadioButton[] q3Options, RadioButton[] q4Options, SessioneQuiz currentQuiz) {

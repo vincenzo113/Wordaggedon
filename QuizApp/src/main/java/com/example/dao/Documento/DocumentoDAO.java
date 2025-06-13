@@ -27,7 +27,7 @@ public interface DocumentoDAO<T> extends ConnectionConfig {
      * al livello di difficoltà specificato.
      *
      * @param difficolta il livello di difficoltà desiderato per i documenti
-     * @return List<T> una lista di documenti del tipo specificato
+     * @return List&lt;T&gt; una lista di documenti del tipo specificato
      * @throws NotEnoughDocuments se non ci sono sufficienti documenti per il livello richiesto
      * @throws DatabaseException in caso di errori di connessione o query al database
      * @see DifficultyEnum
@@ -42,7 +42,7 @@ public interface DocumentoDAO<T> extends ConnectionConfig {
      *
      * @param documento l'oggetto Documento da inserire nel database
      * @throws DatabaseException in caso di errori durante l'inserimento o la connessione
-     * @throws IllegalArgumentException se il documento è null o contiene dati non validi
+     * @throws DocumentoDuplicatoException se il documento è già presente nel database
      */
     void insertDocumento(Documento documento) throws DatabaseException, DocumentoDuplicatoException;
 
@@ -51,7 +51,7 @@ public interface DocumentoDAO<T> extends ConnectionConfig {
      * Il metodo esegue una query per ottenere l'elenco completo
      * dei documenti senza applicare alcun filtro.
      *
-     * @return List<Documento> lista contenente tutti i documenti nel database
+     * @return List&lt;Documento&gt; lista contenente tutti i documenti nel database
      * @throws DatabaseException in caso di errori durante il recupero dei dati
      */
     List<Documento> getAllDocuments() throws DatabaseException;
