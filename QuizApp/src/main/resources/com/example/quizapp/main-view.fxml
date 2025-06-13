@@ -749,14 +749,13 @@
             </HBox>
 
             <VBox VBox.vgrow="ALWAYS" spacing="0" styleClass="documento-content-area">
-                <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
-                            styleClass="documento-scroll-pane">
+
                     <TextArea fx:id="contenutoDocumentoTextArea"
                               wrapText="true"
                               editable="false"
                               prefRowCount="14"
                               styleClass="documento-text-area"/>
-                </ScrollPane>
+
 
                 <!-- Indicatore di scroll -->
                 <HBox alignment="CENTER" styleClass="scroll-container">

@@ -74,7 +74,7 @@ public class  Documento implements Serializable {
      *
      * @return il titolo del documento formattato
      */
-    public String getTitolo() { return "'"+titolo+"'"; }
+    public String getTitolo() { return titolo; }
 
     /**
      * Restituisce il contenuto del documento.
