@@ -850,14 +850,20 @@ public class MainController {
     public void savePassword(ActionEvent actionEvent) {
         UserDAOPostgres userDAOPostgres = new UserDAOPostgres();
         Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+        String newPassword = passwordFieldNewSettings.getText();
         try {
-            userDAOPostgres.modificaPassword(currentUser, passwordFieldSettings.getText(), passwordFieldNewSettings.getText());
+            if (newPassword.length() < 6 || !newPassword.matches(".*[A-Z].*") || !newPassword.matches(".*[a-z].*") || !newPassword.matches(".*[0-9].*")) {
+                throw new PasswordFormatException("La password deve contenere almeno 6 caratteri con almeno una maiuscola e un numero");
+            }
+            userDAOPostgres.modificaPassword(currentUser, passwordFieldSettings.getText(), newPassword);
         } catch (PasswordNonCorrettaException ex) {
             AlertUtils.showAlert(AlertList.PASSWORD_NON_CORRETTA, stage);
             return;
         } catch (NessunaModificaException ex) {
             AlertUtils.showAlert(AlertList.NESSUNA_MODIFICA_DI_PASSWORD, stage);
             return;
+        } catch (PasswordFormatException ex) {
+            AlertUtils.showAlert(AlertList.PASSWORD_FORMAT_NON_CORRETTO, stage);
         }
 
         AlertUtils.showAlert(AlertList.CAMBIO_PASSWORD_SUCCESS, stage);
