@@ -133,7 +133,7 @@ public class  Documento implements Serializable {
      * @return una mappa contenente le parole come chiavi e il numero di occorrenze come valori
      */
     public Map<String, Integer> setMappaturaQuiz(){
-        Stream<String> parole = Arrays.stream(contenuto.toLowerCase().split("[\\p{Punct}\\s]+")).filter(s->!s.isEmpty()); //Splitta il contenuto anche per punteggiatura
+        Stream<String> parole = Arrays.stream(contenuto.toLowerCase().split("[\\p{Punct}’\\s]+")).filter(s->!s.isEmpty()); //Splitta il contenuto anche per punteggiatura
         return parole.collect(Collectors.groupingBy(String::toString,
                 Collectors.summingInt(p->1)));
     }

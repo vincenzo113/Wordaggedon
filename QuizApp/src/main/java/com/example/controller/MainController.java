@@ -506,7 +506,7 @@ public class MainController {
             loginVBox.setVisible(true);
             loginVBox.setManaged(true);
         } else {
-            AlertUtils.showAlert(AlertList.REGISTER_FAILURE, stage);
+            AlertUtils.showAlert(AlertList.USERNAME_ALREADY_TAKEN, stage);
             return;
         }
     }
