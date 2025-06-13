@@ -28,7 +28,7 @@ public enum AlertList {
     NESSUNA_MODIFICA_DI_PASSWORD("Devi cambiare la password per poter rendere effettivo l'update"),
     NON_ABBASTANZA_DOCUMENTI("Non hai abbastanza documenti per la difficoltà scelta , ricaricane altri e riprova"),
     SESSIONE_NON_CARICATA("La sessione precedente non è stata salvata, ricomincia il gioco"),
-    PASSWORD_FORMAT_NON_CORRETTO("Password troppo semplice, ritentare!");
+    PASSWORD_FORMAT_NON_CORRETTO("La password deve contenere almeno 6 caratteri con almeno una maiuscola e un numero!");
     private final String message;
 
     AlertList(String message) {
