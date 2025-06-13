@@ -975,7 +975,7 @@ public class MainController {
                 "-fx-text-fill: #111827;");
 
         // Dettagli aggiuntivi (opzionale - puoi aggiungere data, dimensione, etc.)
-        Label detailsLabel = new Label("Documento txt • Caricato il " +documento.getDataCaricamento());
+        Label detailsLabel = new Label("Documento txt • Caricato il " +documento.getDataCaricamento() +"• Difficoltà: "+documento.getDifficolta().toString());
         detailsLabel.setStyle("-fx-font-family: 'Segoe UI', sans-serif; " +
                 "-fx-font-size: 12; " +
                 "-fx-text-fill: #6B7280;");
